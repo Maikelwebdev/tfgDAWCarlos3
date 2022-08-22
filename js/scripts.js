@@ -79,3 +79,23 @@ function mostrarCoin(data) {
         nav2Coins.append(divCoin);
     }
 }
+
+
+//--------------------------------------------CONECTAR WALLET---------------
+document.getElementById('connect-button').addEventListener('click', event => {
+    let account;
+    let divBalance = document.createElement('div');
+    let button = event.target;
+    ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+        account = accounts[0];
+        button.textContent = "Billetera conectada: " + account;
+
+        //escribir balance de ETHs de la cartera 
+        ethereum.request({ method: 'eth_getBalance', params: [account, 'latest'] }).then(result => {
+            let wei = parseInt(result, 16);
+            let balance = wei / (10 ** 18);
+            divBalance.textContent = "Usted tiene " + balance + " ETH en su billetera de Metamask";
+            button.after(divBalance);
+        });
+    });
+})

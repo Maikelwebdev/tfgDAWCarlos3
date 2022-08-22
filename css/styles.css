@@ -10333,3 +10333,9 @@ form .row:first-child .floating-label-form-group {
     width: 100px;
     height: 100px;
 }
+
+#connect-button {
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+}
