@@ -1,7 +1,8 @@
 //Declaraciones y llamadas
 let nav2Coins = document.querySelector('#nav2Coins');
 let selectCoins = document.querySelector('#selectCoins');
-const url = "https://api.nomics.com/v1/currencies/ticker?key=fb5b5c9e8fcfcff6f3f853406e6d5d0006e3f10a";
+const api_key_nomics = config.apikey;
+const url = "https://api.nomics.com/v1/currencies/ticker?key=" + api_key_nomics;
 var coinId;
 // &ids=BTC,ETH,IOT
 
@@ -86,16 +87,20 @@ document.getElementById('connect-button').addEventListener('click', event => {
     let account;
     let divBalance = document.createElement('div');
     let button = event.target;
-    ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
-        account = accounts[0];
-        button.textContent = "Billetera conectada: " + account;
+    ethereum
+        .request({ method: 'eth_requestAccounts' })
+        .then(accounts => {
+            account = accounts[0];
+            button.textContent = "Billetera conectada: " + account;
 
-        //escribir balance de ETHs de la cartera 
-        ethereum.request({ method: 'eth_getBalance', params: [account, 'latest'] }).then(result => {
-            let wei = parseInt(result, 16);
-            let balance = wei / (10 ** 18);
-            divBalance.textContent = "Usted tiene " + balance + " ETH en su billetera de Metamask";
-            button.after(divBalance);
+            //escribir balance de ETHs de la cartera 
+            ethereum
+                .request({ method: 'eth_getBalance', params: [account, 'latest'] })
+                .then(result => {
+                    let wei = parseInt(result, 16);
+                    let balance = wei / (10 ** 18);
+                    divBalance.textContent = "Usted tiene " + balance + " ETH en su billetera de Metamask";
+                    button.after(divBalance);
+                });
         });
-    });
 })
