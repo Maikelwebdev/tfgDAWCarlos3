@@ -1,7 +1,7 @@
 //Declaraciones y llamadas
 let nav2Coins = document.querySelector('#nav2Coins');
 let selectCoins = document.querySelector('#selectCoins');
-const api_key_nomics = config.apikey;
+import nomics_api_key from "./apikey.js";
 const url = "https://api.nomics.com/v1/currencies/ticker?key=" + api_key_nomics;
 var coinId;
 // &ids=BTC,ETH,IOT
