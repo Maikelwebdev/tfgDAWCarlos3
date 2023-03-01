@@ -92,7 +92,11 @@ document.getElementById('connect-button').addEventListener('click', event => {
         .then(accounts => {
             account = accounts[0];
             button.textContent = "Billetera conectada: " + account;
-
+            // Agrega mensaje de conexión exitosa
+            let successMsg = document.createElement('p');
+            successMsg.textContent = "¡Ha conectado su billetera de Metamask correctamente!";
+            successMsg.style.color = "green";
+            button.after(successMsg);
             //escribir balance de ETHs de la cartera 
             ethereum
                 .request({ method: 'eth_getBalance', params: [account, 'latest'] })
