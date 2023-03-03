@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@metamask/detect-provider"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Su wallet de Metamask está conectada</h1>
+    <p id="status"></p>
+  
+    <script>
+      window.addEventListener('DOMContentLoaded', async () => {
+        // Verificar la conexión de la billetera
+        const provider = await detectEthereumProvider();
+        if (provider) {
+          console.log('Metamask está instalado!');
+          const accounts = await ethereum.request({ method: 'eth_accounts' });
+          if (accounts.length > 0) {
+            document.getElementById('status').innerText = 'La billetera está conectada';
+          } else {
+            document.getElementById('status').innerText = 'La billetera está instalada pero no está conectada';
+          }
+        } else {
+          document.getElementById('status').innerText = 'Por favor instale Metamask';
+        }
+      });
+    </script>
+  </body>
+</html>

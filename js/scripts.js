@@ -97,6 +97,13 @@ document.getElementById('connect-button').addEventListener('click', event => {
             successMsg.textContent = "¡Ha conectado su billetera de Metamask correctamente!";
             successMsg.style.color = "green";
             button.after(successMsg);
+            // La billetera está conectada, habilita el botón de redireccionamiento
+            const button = document.getElementById('redirect-button');
+            button.style.display = 'block';
+            button.addEventListener('click', () => {
+                // Redirige a la página "second.html"
+                window.location.href = 'second.html';
+            });
             //escribir balance de ETHs de la cartera 
             ethereum
                 .request({ method: 'eth_getBalance', params: [account, 'latest'] })
@@ -108,3 +115,5 @@ document.getElementById('connect-button').addEventListener('click', event => {
                 });
         });
 })
+
+
