@@ -100,7 +100,7 @@ document.getElementById('connect-button').addEventListener('click', event => {
             button.after(successMsg);
             // La billetera está conectada, habilita el botón de redireccionamiento
             successMsg.after(redirectButton);
-            redirectButton.style.display = 'block';
+            redirectButton.textContent = "Continuar"
             redirectButton.addEventListener('click', () => {
                 // Redirige a la página "second.html"
                 window.location.href = 'second.html';
