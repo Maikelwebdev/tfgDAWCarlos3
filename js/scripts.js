@@ -86,6 +86,7 @@ function mostrarCoin(data) {
 document.getElementById('connect-button').addEventListener('click', event => {
     let account;
     let divBalance = document.createElement('div');
+    let redirectButton = document.createElement('button');
     let button = event.target;
     ethereum
         .request({ method: 'eth_requestAccounts' })
@@ -98,9 +99,9 @@ document.getElementById('connect-button').addEventListener('click', event => {
             successMsg.style.color = "green";
             button.after(successMsg);
             // La billetera está conectada, habilita el botón de redireccionamiento
-            const button = document.getElementById('redirect-button');
-            button.style.display = 'block';
-            button.addEventListener('click', () => {
+            successMsg.after(redirectButton);
+            redirectButton.style.display = 'block';
+            redirectButton.addEventListener('click', () => {
                 // Redirige a la página "second.html"
                 window.location.href = 'second.html';
             });
