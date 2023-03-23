@@ -83,7 +83,8 @@ function mostrarCoin(data) {
 
 
 //--------------------------------------------CONECTAR WALLET---------------
-document.getElementById('connect-button').addEventListener('click', event => {
+document.getElementById('menuConnectWallet').addEventListener('click', event => {
+    console.log('prueba');
     let account;
     let divBalance = document.createElement('div');
     let redirectButton = document.createElement('button');
