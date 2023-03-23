@@ -10318,6 +10318,7 @@ form .row:first-child .floating-label-form-group {
 
 #mainNav #menuConnectWallet:hover {
     color: var(--orange) !important;
+    cursor: pointer;
 }
 
 
