@@ -1,6 +1,7 @@
 //Declaraciones y llamadas
 let nav2Coins = document.querySelector('#nav2Coins');
 let selectCoins = document.querySelector('#selectCoins');
+let menuConnectWallet = document.querySelector('#menuConnectWallet');
 const api_key_nomics = config.apikey;
 const url = "https://api.nomics.com/v1/currencies/ticker?key=" + api_key_nomics;
 var coinId;
@@ -84,7 +85,6 @@ function mostrarCoin(data) {
 
 //--------------------------------------------CONECTAR WALLET---------------
 document.getElementById('menuConnectWallet').addEventListener('click', event => {
-    console.log('prueba');
     let account;
     let divBalance = document.createElement('div');
     let redirectButton = document.createElement('button');
@@ -94,28 +94,31 @@ document.getElementById('menuConnectWallet').addEventListener('click', event => 
         .then(accounts => {
             account = accounts[0];
             button.textContent = "Billetera conectada: " + account;
-            // Agrega mensaje de conexión exitosa
-            let successMsg = document.createElement('p');
-            successMsg.textContent = "¡Ha conectado su billetera de Metamask correctamente!";
-            successMsg.style.color = "green";
-            button.after(successMsg);
-            // La billetera está conectada, habilita el botón de redireccionamiento
-            successMsg.after(redirectButton);
-            redirectButton.textContent = "Continuar"
-            redirectButton.addEventListener('click', () => {
-                // Redirige a la página "second.html"
-                window.location.href = 'second.html';
-            });
-            //escribir balance de ETHs de la cartera 
-            ethereum
-                .request({ method: 'eth_getBalance', params: [account, 'latest'] })
-                .then(result => {
-                    let wei = parseInt(result, 16);
-                    let balance = wei / (10 ** 18);
-                    divBalance.textContent = "Usted tiene " + balance + " ETH en su billetera de Metamask";
-                    button.after(divBalance);
-                });
         });
 })
 
+//------------Mostrar opciones afterWalletConnected
 
+// Agrega mensaje de conexión exitosa
+let successMsg = document.createElement('p');
+successMsg.textContent = "¡Ha conectado su billetera de Metamask correctamente!";
+successMsg.style.color = "green";
+divCoin.after(successMsg);
+
+// La billetera está conectada, habilita el botón de redireccionamiento
+successMsg.after(redirectButton);
+redirectButton.textContent = "Continuar"
+redirectButton.addEventListener('click', () => {
+    // Redirige a la página "second.html"
+    window.location.href = 'second.html';
+});
+
+//escribir balance de ETHs de la cartera 
+ethereum
+    .request({ method: 'eth_getBalance', params: [account, 'latest'] })
+    .then(result => {
+        let wei = parseInt(result, 16);
+        let balance = wei / (10 ** 18);
+        divBalance.textContent = "Usted tiene " + balance + " ETH en su billetera de Metamask";
+        button.after(divBalance);
+    });
