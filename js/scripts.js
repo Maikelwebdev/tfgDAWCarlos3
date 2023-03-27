@@ -90,13 +90,15 @@ document.getElementById('menuConnectWallet').addEventListener('click', event => 
     let account;
     let divBalance = document.createElement('div');
     let redirectButton = document.createElement('button');
+    let iconWallet = document.createElement('iconWallet');
     let button = event.target;
     ethereum
         .request({ method: 'eth_requestAccounts' })
         .then(accounts => {
             account = accounts[0];
             isActive.style.color = "green";
-            button.textContent = "Billetera conectada: " + account;
+            button.textContent = "CONNECTED WALLET";
+            // button.textContent = "Billetera conectada: " + account;
         });
 })
 
