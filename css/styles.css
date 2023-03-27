@@ -10351,3 +10351,9 @@ form .row:first-child .floating-label-form-group {
     color: white;
     font-weight: bold;
 }
+
+/* Esta conectada? */
+
+#isActive {
+    padding-top:1.1rem;
+}

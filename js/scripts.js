@@ -2,6 +2,8 @@
 let nav2Coins = document.querySelector('#nav2Coins');
 let selectCoins = document.querySelector('#selectCoins');
 let menuConnectWallet = document.querySelector('#menuConnectWallet');
+let isActive = document.querySelector('#isActive');
+isActive.style.color="red";
 const api_key_nomics = config.apikey;
 const url = "https://api.nomics.com/v1/currencies/ticker?key=" + api_key_nomics;
 var coinId;
@@ -93,6 +95,7 @@ document.getElementById('menuConnectWallet').addEventListener('click', event => 
         .request({ method: 'eth_requestAccounts' })
         .then(accounts => {
             account = accounts[0];
+            isActive.style.color = "green";
             button.textContent = "Billetera conectada: " + account;
         });
 })
