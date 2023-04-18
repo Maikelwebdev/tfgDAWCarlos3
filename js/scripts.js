@@ -7,6 +7,12 @@ isActive.style.color="red";
 const api_key_nomics = config.apikey;
 const url = "https://api.nomics.com/v1/currencies/ticker?key=" + api_key_nomics;
 var coinId;
+//Crear div de la moneda
+let divCoin = document.createElement('div');
+divCoin.classList.add("divCoin");
+let divBalance = document.createElement('div');
+let redirectButton = document.createElement('button');
+let iconWallet = document.createElement('iconWallet');
 // &ids=BTC,ETH,IOT
 
 //rellenamos el select con las coins
@@ -59,9 +65,7 @@ function llamarCoin(coinId) {
 function mostrarCoin(data) {
     nav2Coins.textContent = "";
     for (const criptocoin of data) {
-        //Crear div de la moneda
-        let divCoin = document.createElement('div');
-        divCoin.classList.add("divCoin");
+        
         //name,precioEnDolares, numeroCoinsConUnDolar, logoCoin
         let nameCripto = document.createElement('div');
         nameCripto.textContent = criptocoin.name;
@@ -88,9 +92,6 @@ function mostrarCoin(data) {
 //--------------------------------------------CONECTAR WALLET---------------
 document.getElementById('menuConnectWallet').addEventListener('click', event => {
     let account;
-    let divBalance = document.createElement('div');
-    let redirectButton = document.createElement('button');
-    let iconWallet = document.createElement('iconWallet');
     let button = event.target;
     ethereum
         .request({ method: 'eth_requestAccounts' })
