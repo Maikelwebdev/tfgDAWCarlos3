@@ -10357,3 +10357,12 @@ form .row:first-child .floating-label-form-group {
 #isActive {
     padding-top:1.1rem;
 }
+
+.esOculto {
+    display: none;
+}
+
+.esVisible {
+    display: block;
+}
+

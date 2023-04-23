@@ -5,7 +5,7 @@ let menuConnectWallet = document.querySelector('#menuConnectWallet');
 let isActive = document.querySelector('#isActive');
 isActive.style.color="red";
 const api_key_nomics = config.apikey;
-const url = "https://api.nomics.com/v1/currencies/ticker?key=" + api_key_nomics;
+const url = "https://api.nomics.com/v1/currencies/ticker?key=" + fb5b5c9e8fcfcff6f3f853406e6d5d0006e3f10a;
 var coinId;
 //Crear div de la moneda
 let divCoin = document.createElement('div');
