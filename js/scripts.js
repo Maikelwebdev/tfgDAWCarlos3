@@ -1,50 +1,59 @@
 //Declaraciones y llamadas
-let nav2Coins = document.querySelector('#nav2Coins');
-let selectCoins = document.querySelector('#selectCoins');
-let menuConnectWallet = document.querySelector('#menuConnectWallet');
+let nav2Coins = document.querySelector('#nav2Coins'); //mostrar coins API
+let selectCoins = document.querySelector('#selectCoins'); //select top 100 coins
+//------opcion conectar wallet
+let menuConnectWallet = document.querySelector('#menuConnectWallet'); //menu opcion
 let isActive = document.querySelector('#isActive');
 isActive.style.color="red";
+let iconWallet = document.createElement('iconWallet');
+let redirectButton = document.createElement('button');
+//---datos API
 const api_key_nomics = config.apikey;
 const url = "https://api.nomics.com/v1/currencies/ticker?key=" + fb5b5c9e8fcfcff6f3f853406e6d5d0006e3f10a;
-var coinId;
-//Crear div de la moneda
+//--- div de las monedas
 let divCoin = document.createElement('div');
 divCoin.classList.add("divCoin");
+var coinId;
 let divBalance = document.createElement('div');
-let redirectButton = document.createElement('button');
-let iconWallet = document.createElement('iconWallet');
-// &ids=BTC,ETH,IOT
+//--- opciones AFTER WALLET CONNECTED
+let menuOpcionExtra = document.querySelector('#menuOpcionExtra'); //menu opcion
+let botonDonacion = document.querySelector('#bDonacion');
+botonDonacion.addEventListener('click', enviarDonacion);
+
+
+// -------------------------------------API + COINS--------------------------------------------------
 
 //rellenamos el select con las coins
 fetch(url)
     .then(response => response.json())
     .then(data => rellenarSelect(data));
 
-
 //Funcion rellenar Select donde se crea el evento de onchange
 function rellenarSelect(data) {
     //rellenamos el select con una coin en cada option
-    for (const coin of data) {
+    for (const coin of data) 
+    {
         let opcionCoin = document.createElement('option');
         opcionCoin.textContent = coin.id;
         selectCoins.append(opcionCoin);
     }
-
     //Settimeout para cargar la primera coin
-    setTimeout(() => {
+    setTimeout(() => 
+    {
         [{ id: coinId }] = data; //deestructuring para sacar la id de la primera coin
         llamarCoin(coinId);
     }, 1000);
-
     //añadimos el evento para que llame a la coin
-    selectCoins.addEventListener('change', (e) => {
+    selectCoins.addEventListener('change', (e) => 
+    {
         coinId = e.target.value;
         llamarCoin(coinId)
     })
     setInterval(getCoinById, 2000);
 }
 
-function getCoinById() {
+function getCoinById() 
+{
     if (!coinId) {
         return;
     }
@@ -62,10 +71,11 @@ function llamarCoin(coinId) {
 
 
 //Funcion llamada desde el fetch donde se muestra la coin elegida
-function mostrarCoin(data) {
+function mostrarCoin(data) 
+{
     nav2Coins.textContent = "";
-    for (const criptocoin of data) {
-        
+    for (const criptocoin of data) 
+    {
         //name,precioEnDolares, numeroCoinsConUnDolar, logoCoin
         let nameCripto = document.createElement('div');
         nameCripto.textContent = criptocoin.name;
@@ -90,7 +100,8 @@ function mostrarCoin(data) {
 
 
 //--------------------------------------------CONECTAR WALLET---------------
-document.getElementById('menuConnectWallet').addEventListener('click', event => {
+document.menuConnectWallet.addEventListener('click', event => 
+{
     let account;
     let button = event.target;
     ethereum
@@ -99,6 +110,8 @@ document.getElementById('menuConnectWallet').addEventListener('click', event => 
             account = accounts[0];
             isActive.style.color = "green";
             button.textContent = "CONNECTED WALLET";
+            menuOpcionExtra.classList.remove("esOculto");
+            menuOpcionExtra.classList.add("esVisible");
             // button.textContent = "Billetera conectada: " + account;
         });
 })
@@ -128,3 +141,65 @@ ethereum
         divBalance.textContent = "Usted tiene " + balance + " ETH en su billetera de Metamask";
         button.after(divBalance);
     });
+
+
+async function enviarDonacion() 
+{
+  const address = 'aquí va la dirección de tu billetera'; // dirección de billetera a la que se enviará la donación
+  const value = '10000000000000'; // cantidad en wei que se enviará (0.00001 ETH en wei)
+  const provider = await detectarProveedor(); // detectar proveedor de Ethereum (por ejemplo, MetaMask)
+  const cuenta = await obtenerCuenta(provider); // obtener cuenta de MetaMask
+  const gasPrice = await obtenerPrecioGas(provider); // obtener precio actual del gas
+  const transaction = 
+  {
+    to: address,
+    value: value,
+    gasPrice: gasPrice
+  };
+  try 
+  {
+    const txHash = await cuenta.sendTransaction(transaction); // enviar transacción
+    console.log('Transacción enviada:', txHash);
+    const blockNumber = await provider.getBlockNumber(); // obtener número de bloque actual
+    const block = await provider.getBlock(blockNumber); // obtener información del bloque actual
+    console.log('Bloque de transacción:', block);
+    // mostrar información del bloque en la página HTML (por ejemplo, usando DOM)
+    document.getElementById('bloqueTransaccion').innerHTML = JSON.stringify(block);
+  } catch (error) 
+  {
+    console.error('Error al enviar transacción:', error);
+  }
+}
+
+async function detectarProveedor() 
+{
+  if (window.ethereum) 
+  {
+    return window.ethereum;
+  } 
+  else if (window.web3) 
+  {
+    return window.web3.currentProvider;
+  } 
+  else 
+  {
+    throw new Error('No se pudo detectar proveedor de Ethereum');
+  }
+}
+
+async function obtenerCuenta(provider) {
+
+  const cuentas = await provider.request({ method: 'eth_requestAccounts' });
+  if (cuentas.length === 0) 
+  {
+    throw new Error('No se encontró cuenta de MetaMask');
+  }
+  return provider.getSigner(cuentas[0]);
+}
+
+async function obtenerPrecioGas(provider) 
+{
+  const response = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=:myapp');
+  const data = await response.json();
+  return provider.utils.parseUnits(String(data.data.rapid), 'gwei');
+}

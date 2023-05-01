@@ -10,12 +10,15 @@
 <body>
     <h1>Su wallet de Metamask está conectada</h1>
     <p id="status"></p>
-  
+    <button id="bDonacion">Donar</button>
+
     <script>
-      window.addEventListener('DOMContentLoaded', async () => {
+      window.addEventListener('DOMContentLoaded', async () => 
+      {
         // Verificar la conexión de la billetera
         const provider = await detectEthereumProvider();
-        if (provider) {
+        if (provider) 
+        {
           console.log('Metamask está instalado!');
           const accounts = await ethereum.request({ method: 'eth_accounts' });
           if (accounts.length > 0) {
@@ -28,5 +31,6 @@
         }
       });
     </script>
+    <script src="/js/scripts.js"></script>
   </body>
 </html>
