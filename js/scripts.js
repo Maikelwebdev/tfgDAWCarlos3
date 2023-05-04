@@ -100,7 +100,7 @@ function mostrarCoin(data)
 
 
 //--------------------------------------------CONECTAR WALLET---------------
-document.menuConnectWallet.addEventListener('click', event => 
+menuConnectWallet.addEventListener('click', event => 
 {
     let account;
     let button = event.target;
@@ -112,7 +112,6 @@ document.menuConnectWallet.addEventListener('click', event =>
             button.textContent = "CONNECTED WALLET";
             menuOpcionExtra.classList.remove("esOculto");
             menuOpcionExtra.classList.add("esVisible");
-            // button.textContent = "Billetera conectada: " + account;
         });
 })
 
