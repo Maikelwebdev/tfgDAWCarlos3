@@ -100,7 +100,11 @@ function mostrarCoin(data)
 
 
 //--------------------------------------------CONECTAR WALLET---------------
-menuConnectWallet.addEventListener('click', event => 
+document.addEventListener("click", function(event) {
+  conectarWallet(event);
+});
+
+function conectarWallet(event)
 {
     let account;
     let button = event.target;
@@ -113,9 +117,25 @@ menuConnectWallet.addEventListener('click', event =>
             menuOpcionExtra.classList.remove("esOculto");
             menuOpcionExtra.classList.add("esVisible");
         });
-})
+}
 
 //------------Mostrar opciones afterWalletConnected
+async function comprobarConexionMetamask() {
+  if (typeof window.ethereum !== 'undefined') 
+  {
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    console.log('Metamask conectado correctamente.');
+    return true;
+  } 
+  else 
+  {
+    console.log('Por favor, instale y conecte Metamask para utilizar esta función.');
+    const linkDescargaMetamask = 'https://metamask.io/download.html';
+    window.open(linkDescargaMetamask, '_blank');
+    return false;
+  }
+}
+
 
 // Agrega mensaje de conexión exitosa
 let successMsg = document.createElement('p');
@@ -126,20 +146,24 @@ divCoin.after(successMsg);
 // La billetera está conectada, habilita el botón de redireccionamiento
 successMsg.after(redirectButton);
 redirectButton.textContent = "Continuar"
-redirectButton.addEventListener('click', () => {
+redirectButton.addEventListener('click', () => 
+{
     // Redirige a la página "second.html"
     window.location.href = 'second.html';
 });
 
 //escribir balance de ETHs de la cartera 
-ethereum
+function getBalanceETH() {
+  ethereum
     .request({ method: 'eth_getBalance', params: [account, 'latest'] })
-    .then(result => {
+    .then(result => 
+      {
         let wei = parseInt(result, 16);
         let balance = wei / (10 ** 18);
         divBalance.textContent = "Usted tiene " + balance + " ETH en su billetera de Metamask";
         button.after(divBalance);
-    });
+      });
+}
 
 
 async function enviarDonacion() 
@@ -164,7 +188,8 @@ async function enviarDonacion()
     console.log('Bloque de transacción:', block);
     // mostrar información del bloque en la página HTML (por ejemplo, usando DOM)
     document.getElementById('bloqueTransaccion').innerHTML = JSON.stringify(block);
-  } catch (error) 
+  } 
+  catch (error) 
   {
     console.error('Error al enviar transacción:', error);
   }
