@@ -19,6 +19,7 @@ let divBalance = document.createElement('div');
 let menuOpcionExtra = document.querySelector('#menuOpcionExtra'); //menu opcion
 let botonDonacion = document.querySelector('#bDonacion');
 botonDonacion.addEventListener('click', enviarDonacion);
+//divQueSeOfrece //divOculto
 
 
 // -------------------------------------API + COINS--------------------------------------------------
