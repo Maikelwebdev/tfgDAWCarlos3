@@ -15,12 +15,6 @@ let divCoin = document.createElement('div');
 divCoin.classList.add("divCoin");
 var coinId;
 let divBalance = document.createElement('div');
-//--- opciones AFTER WALLET CONNECTED
-let menuOpcionExtra = document.querySelector('#menuOpcionExtra'); //menu opcion
-let botonDonacion = document.querySelector('#bDonacion');
-botonDonacion.addEventListener('click', enviarDonacion);
-//divQueSeOfrece //divOculto
-
 
 // -------------------------------------API + COINS--------------------------------------------------
 
@@ -99,9 +93,10 @@ botonDonacion.addEventListener('click', enviarDonacion);
 //     }
 // }
 
+//
 
 //--------------------------------------------CONECTAR WALLET---------------
-document.addEventListener("click", function(event) {
+document.addEventListener("click", function(event) { //CONECTAR WALLET
   conectarWallet(event);
 });
 
@@ -115,13 +110,15 @@ function conectarWallet(event)
             account = accounts[0];
             isActive.style.color = "green";
             button.textContent = "CONNECTED WALLET";
-            menuOpcionExtra.classList.remove("esOculto");
-            menuOpcionExtra.classList.add("esVisible");
+            console.log("Wallet conectada");
+            // menuOpcionExtra.classList.remove("esOculto");
+            // menuOpcionExtra.classList.add("esVisible");
         });
 }
 
 //------------Mostrar opciones afterWalletConnected
-async function comprobarConexionMetamask() {
+async function comprobarConexionMetamask() 
+{
   if (typeof window.ethereum !== 'undefined') 
   {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -144,14 +141,17 @@ successMsg.textContent = "¡Ha conectado su billetera de Metamask correctamente!
 successMsg.style.color = "green";
 divCoin.after(successMsg);
 
-// La billetera está conectada, habilita el botón de redireccionamiento
-successMsg.after(redirectButton);
-redirectButton.textContent = "Continuar"
-redirectButton.addEventListener('click', () => 
-{
-    // Redirige a la página "second.html"
-    window.location.href = 'second.html';
-});
+//--- opciones AFTER WALLET CONNECTED
+// if(cuentaConectada){
+//   let menuOpcionExtra = document.querySelector('#menuOpcionExtra'); //menu opcion
+//   let botonDonacion = document.querySelector('#bDonacion');
+//   botonDonacion.addEventListener('click', enviarDonacion);
+  //divQueSeOfrece //divOculto
+  // La billetera está conectada, habilita el botón de redireccionamiento
+  // Redirige a la página "second.html"
+  //window.location.href = 'second.html';
+// }
+
 
 //escribir balance de ETHs de la cartera 
 function getBalanceETH() {
