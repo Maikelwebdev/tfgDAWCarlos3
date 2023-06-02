@@ -3,12 +3,13 @@ let nav2Coins = document.querySelector('#nav2Coins'); //mostrar coins API
 let selectCoins = document.querySelector('#selectCoins'); //select top 100 coins
 //------opcion conectar wallet
 let menuConnectWallet = document.querySelector('#menuConnectWallet'); //menu opcion
+let isConnectedWallet = false;
 let isActive = document.querySelector('#isActive');
 isActive.style.color="red";
 let iconWallet = document.createElement('iconWallet');
 let redirectButton = document.createElement('button');
 //---datos API
-// const api_key_nomics = config.apikey;
+const api_key_cmc = process.env.API_KEY_CMC;
 // const url = "https://api.nomics.com/v1/currencies/ticker?key=" + fb5b5c9e8fcfcff6f3f853406e6d5d0006e3f10a;
 //--- div de las monedas
 let divCoin = document.createElement('div');
@@ -17,6 +18,18 @@ var coinId;
 let divBalance = document.createElement('div');
 
 // -------------------------------------API + COINS--------------------------------------------------
+
+fetch('https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=100&sortBy=market_cap&sortType=desc')
+  .then(response => response.json())
+  .then(data => {
+    // La respuesta de la API estará en el objeto 'data'
+    console.log(data);
+    // Aquí puedes realizar el procesamiento adicional de los datos obtenidos
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
+
 
 // //rellenamos el select con las coins
 // fetch(url)
@@ -96,7 +109,7 @@ let divBalance = document.createElement('div');
 //
 
 //--------------------------------------------CONECTAR WALLET---------------
-document.addEventListener("click", function(event) { //CONECTAR WALLET
+menuConnectWallet.addEventListener("click", function(event) { //CONECTAR WALLET
   conectarWallet(event);
 });
 
@@ -110,9 +123,8 @@ function conectarWallet(event)
             account = accounts[0];
             isActive.style.color = "green";
             button.textContent = "CONNECTED WALLET";
-            console.log("Wallet conectada");
-            // menuOpcionExtra.classList.remove("esOculto");
-            // menuOpcionExtra.classList.add("esVisible");
+            isConnectedWallet = true;
+            console.log("Esta conectada la wallet? : "+ isConnectedWallet);
         });
 }
 
