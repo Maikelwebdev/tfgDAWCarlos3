@@ -31,11 +31,6 @@ fetch(url + 'listing?start=1&limit=100&sortBy=market_cap&sortType=desc')
     console.log('Error:', error);
   });
 
-const selectCoins = document.getElementById('selectCoins');
-const nav2Coins = document.getElementById('nav2Coins');
-
-let coinId = null;
-
 function rellenarSelect(data) {
   for (const coin of data) {
     let opcionCoin = document.createElement('option');
