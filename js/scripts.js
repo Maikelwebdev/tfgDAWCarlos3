@@ -34,7 +34,7 @@ fetch(url + 'listing?start=1&limit=100&sortBy=market_cap&sortType=desc')
 function rellenarSelect(data) {
   for (const coin of data) {
     let opcionCoin = document.createElement('option');
-    opcionCoin.textContent = coin.id;
+    opcionCoin.textContent = coin.name;
     selectCoins.append(opcionCoin);
   }
   
