@@ -24,6 +24,7 @@ fetch('https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&
   .then(data => {
     // La respuesta de la API estará en el objeto 'data'
     console.log(data);
+    console.log("api cmc");
     // Aquí puedes realizar el procesamiento adicional de los datos obtenidos
   })
   .catch(error => {
