@@ -48,7 +48,7 @@ function rellenarSelect(data) {
     llamarCoin(coinId);
   });
   
-  setInterval(getCoinById, 2000);
+  setInterval(getCoinById, 10000);
 }
 
 function getCoinById() {
