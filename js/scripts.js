@@ -9,7 +9,7 @@ isActive.style.color="red";
 let iconWallet = document.createElement('iconWallet');
 let redirectButton = document.createElement('button');
 //---datos API
-const api_key_cmc = process.env.API_KEY_CMC;
+const api_key_cmc = config.apikey;
 // const url = "https://api.nomics.com/v1/currencies/ticker?key=" + fb5b5c9e8fcfcff6f3f853406e6d5d0006e3f10a;
 //--- div de las monedas
 let divCoin = document.createElement('div');
