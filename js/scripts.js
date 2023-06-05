@@ -62,7 +62,7 @@ function mostrarCoin(coinId) {
   console.log(dataCoins);
   console.log(coinId);
 
-  for (const coin in dataCoins) {
+  for (const coin of dataCoins) {
     console.log(coin);
     if (coin.id == coinId) {
       console.log("Coinciden");
