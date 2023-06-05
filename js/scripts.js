@@ -60,7 +60,7 @@ function llamarCoin(coinId) {
   .then(response => response.json())
   .then(data => {
     console.log("Funcion llamarCoin: " + coinId);
-    mostrarCoin(data.data);
+    mostrarCoin(data);
   })
   .catch(error => {
     console.log('Error:', error);
