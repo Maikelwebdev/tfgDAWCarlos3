@@ -17,9 +17,9 @@ var coinId;
 let divBalance = document.createElement('div');
 
 // -------------------------------------API + COINS--------------------------------------------------
-// const url = 'https://api.coinmarketcap.com/data-api//v1/cryptocurrency/listings/latest?start=1&limit=5000&convert=USD&CMC_PRO_API_KEY='+config.apikey;
+// const url = 'https://api.coinmarketcap.com/data-api/v1/cryptocurrency/listings/latest?start=1&limit=5000&convert=USD&CMC_PRO_API_KEY='+config.apikey;
 
-fetch('https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
+fetch('https://api.coinmarketcap.com/data-api//v1/cryptocurrency/listings/latest?limit=100', {
   headers: {
     'X-CMC_PRO_API_KEY': config.apikey
   }
