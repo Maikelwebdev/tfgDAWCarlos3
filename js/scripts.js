@@ -81,7 +81,7 @@ function mostrarCoin(data) {
   precioCriptoEnDolares.textContent =  data.statistics.price.toFixed(2)+ " $/" + data.symbol;
   
   let precioDolaresCripto = document.createElement('div');
-  precioDolaresCripto.textContent = (1 / data.quotes.USD.price).toFixed(10) + " " + data.symbol + "/$";
+  precioDolaresCripto.textContent = (1 / data.statistics.price).toFixed(10) + " " + data.symbol + "/$";
   
   // let divImgCripto = document.createElement('div');
   // divImgCripto.classList.add("divImgCripto");
