@@ -23,7 +23,7 @@ fetch(url)
   .then(response => response.json())
   .then(dataPF => {
     console.log(dataPF);
-    rellenarSelectCoins(data.data.cryptoCurrencyList);
+    rellenarSelectCoins(dataPF.data.cryptoCurrencyList);
   })
   .catch(error => {
     console.log('Error:', error);
