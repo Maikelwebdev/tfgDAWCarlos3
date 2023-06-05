@@ -89,7 +89,7 @@ function mostrarCoin(data) {
   // imgCripto.src = data.logo;
   // divImgCripto.append(imgCripto);
   
-  divCoin.append(nameCripto, precioCriptoEnDolares,); // precioDolaresCripto, divImgCripto
+  divCoin.append(nameCripto, precioCriptoEnDolares,precioDolaresCripto); // , divImgCripto
   nav2Coins.append(divCoin);
 }
 
