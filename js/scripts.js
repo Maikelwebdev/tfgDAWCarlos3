@@ -10,7 +10,6 @@ let iconWallet = document.createElement('iconWallet');
 let redirectButton = document.createElement('button');
 //---datos API
 const api_key_cmc = config.apikey;
-// const url = "https://api.nomics.com/v1/currencies/ticker?key=" + fb5b5c9e8fcfcff6f3f853406e6d5d0006e3f10a;
 //--- div de las monedas
 let divCoin = document.createElement('div');
 divCoin.classList.add("divCoin");
@@ -24,14 +23,15 @@ fetch(url + 'listing?start=1&limit=100&sortBy=market_cap&sortType=desc')
   .then(response => response.json())
   .then(data => {
     console.log(data);
+    console.log(data.data.cryptoCurrencyList);
     console.log("API de CoinMarketCap");
-    rellenarSelect(data.data.cryptoCurrencyList);
+    rellenarSelectCoins(data.data.cryptoCurrencyList);
   })
   .catch(error => {
     console.log('Error:', error);
   });
 
-function rellenarSelect(data) {
+function rellenarSelectCoins(data) {
   for (const coin of data) {
     let opcionCoin = document.createElement('option');
     opcionCoin.textContent = coin.name;
@@ -59,12 +59,16 @@ function getCoinById() {
 }
 
 function llamarCoin(coinId) {
-  let filtro = "&ids=" + coinId;
-  fetch(url + 'info?id=' + coinId + filtro)
-    .then(response => response.json())
-    .then(data => mostrarCoin(data.data.coin));
-  
-  console.log("Haciendo fetch de: " + coinId);
+  fetch(`https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail?id=${coinId}`)
+  .then(response => response.json())
+  .then(data => {
+    console.log("Funcion llamarCoin");
+    console.log(data);
+    
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
 }
 
 function mostrarCoin(data) {
