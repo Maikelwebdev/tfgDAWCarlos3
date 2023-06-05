@@ -68,7 +68,7 @@ function llamarCoin(coinId) {
 }
 
 function mostrarCoin(data) {
-  console.log("Mostrarcoin"+data.name);
+  console.log("Mostrarcoin "+data.name);
   console.log(data);
   nav2Coins.textContent = "";
   
@@ -81,7 +81,7 @@ function mostrarCoin(data) {
   precioCriptoEnDolares.textContent = "1 ->"+data.symbol+ " = " +data.statistics.price.toFixed(2)+ "$" ;
   
   let precioDolaresCripto = document.createElement('div');
-  precioDolaresCripto.textContent = "1 ->$ = " + (1 / data.statistics.price).toFixed(10) ;
+  precioDolaresCripto.textContent = "1 ->$ = " + (1 / data.statistics.price).toFixed(10)+data.symbol ;
   
   // let divImgCripto = document.createElement('div');
   // divImgCripto.classList.add("divImgCripto");
