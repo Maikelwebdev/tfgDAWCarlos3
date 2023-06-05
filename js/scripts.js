@@ -60,8 +60,7 @@ function llamarCoin(coinId) {
   fetch(`https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail?id=${coinId}`)
   .then(response => response.json())
   .then(data => {
-    console.log("Funcion llamarCoin");
-    console.log(data);
+    console.log("Funcion llamarCoin" + coinId);
     mostrarCoin(data);
   })
   .catch(error => {
@@ -70,6 +69,7 @@ function llamarCoin(coinId) {
 }
 
 function mostrarCoin(data) {
+  console.log("Mostrarcoin: "+data);
   nav2Coins.textContent = "";
   
   let divCoin = document.createElement('div');
