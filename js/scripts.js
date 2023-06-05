@@ -77,7 +77,7 @@ function mostrarCoin(coinId) {
     }
   }
 
-  // divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
+  divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
   nav2Coins.append(divCoin);
 }
 
