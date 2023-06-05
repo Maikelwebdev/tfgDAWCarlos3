@@ -75,12 +75,12 @@ function mostrarCoin(coinId) {
   let divCoin = document.createElement('div');
   
   let nameCripto = document.createElement('div');
-  nameCripto.textContent = coinInfo.name;
+  nameCripto.textContent = dataCoins.name;
   let precioCriptoEnDolares = document.createElement('div');
-  precioCriptoEnDolares.textContent = '1'+ coinInfo.symbol+' = ' + coinInfo.quotes[0].price.toFixed(2)+'$'; //1BTC = X$
+  precioCriptoEnDolares.textContent = '1'+ dataCoins.symbol+' = ' + dataCoins.quotes[0].price.toFixed(2)+'$'; //1BTC = X$
   
   let precioDolaresCripto = document.createElement('div');
-  precioDolaresCripto.textContent = '1$ = '+(1 / coinInfo.quotes[0].price).toFixed(10)+ coinInfo.symbol; //1$ = XBTC
+  precioDolaresCripto.textContent = '1$ = '+(1 / dataCoins.quotes[0].price).toFixed(10)+ dataCoins.symbol; //1$ = XBTC
   
   divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
   nav2Coins.append(divCoin);
