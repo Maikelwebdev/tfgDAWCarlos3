@@ -21,23 +21,23 @@ const url = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?st
 
 fetch(url)
   .then(response => response.json())
-  .then(data => {
-    console.log(data);
+  .then(dataPF => {
+    console.log(dataPF);
     rellenarSelectCoins(data.data.cryptoCurrencyList);
   })
   .catch(error => {
     console.log('Error:', error);
   });
 
-function rellenarSelectCoins(data) {
-  for (const coin of data) {
+function rellenarSelectCoins(listaCoins) {
+  for (const coin of listaCoins) {
     let opcionCoin = document.createElement('option');
     opcionCoin.textContent = coin.name;
     selectCoins.append(opcionCoin);
   }
   
   setTimeout(() => {
-    const firstCoinId = data[0].id;
+    const firstCoinId = dataPF[0].id;
     llamarCoin(firstCoinId);
   }, 1000);
   
