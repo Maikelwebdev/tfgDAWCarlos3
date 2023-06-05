@@ -60,7 +60,6 @@ function llamarCoin(coinId) {
   .then(response => response.json())
   .then(data => {
     console.log("Funcion llamarCoin: " + coinId);
-    console.log(data.data);
     mostrarCoin(data.data);
   })
   .catch(error => {
@@ -69,16 +68,17 @@ function llamarCoin(coinId) {
 }
 
 function mostrarCoin(data) {
-  console.log("Mostrarcoin: "+data);
+  console.log("Mostrarcoin"+data.name);
+  console.log(data);
   nav2Coins.textContent = "";
   
   let divCoin = document.createElement('div');
   
-  // let nameCripto = document.createElement('div');
-  // nameCripto.textContent = data.name;
+  let nameCripto = document.createElement('div');
+  nameCripto.textContent = data.name;
 
-  // let precioCriptoEnDolares = document.createElement('div');
-  // precioCriptoEnDolares.textContent = data.quotes.USD.price.substring(0, 8) + " $/" + data.symbol;
+  let precioCriptoEnDolares = document.createElement('div');
+  precioCriptoEnDolares.textContent =  data.statistics.price.substring(0, 8) + " $/" + data.symbol;
   
   // let precioDolaresCripto = document.createElement('div');
   // precioDolaresCripto.textContent = (1 / data.quotes.USD.price).toFixed(10) + " " + data.symbol + "/$";
@@ -89,7 +89,7 @@ function mostrarCoin(data) {
   // imgCripto.src = data.logo;
   // divImgCripto.append(imgCripto);
   
-  // divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto, divImgCripto);
+  divCoin.append(nameCripto, precioCriptoEnDolares,); // precioDolaresCripto, divImgCripto
   nav2Coins.append(divCoin);
 }
 
