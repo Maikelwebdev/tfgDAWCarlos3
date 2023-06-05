@@ -58,6 +58,10 @@ function rellenarSelectCoins(dataCoins)
 }
 
 function mostrarCoin(coinId) {
+  console.log("mostrarCoin");
+  console.log(dataCoins);
+  console.log(coinId);
+
   const coinInfo = dataCoins.find(coin => coin.id === coinId);
   console.log(coinInfo);
   nav2Coins.textContent = '';
