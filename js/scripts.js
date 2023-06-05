@@ -22,9 +22,7 @@ const url = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/';
 fetch(url + 'listing?start=1&limit=100&sortBy=market_cap&sortType=desc')
   .then(response => response.json())
   .then(data => {
-    console.log(data);
     console.log(data.data.cryptoCurrencyList);
-    console.log("API de CoinMarketCap");
     rellenarSelectCoins(data.data.cryptoCurrencyList);
   })
   .catch(error => {
