@@ -62,8 +62,15 @@ function mostrarCoin(coinId) {
   console.log(dataCoins);
   console.log(coinId);
 
-  const coinInfo = dataCoins.find(coin => coin.id === coinId);
-  console.log(coinInfo);
+  for (const coin in dataCoins) {
+    if (coin.id == coinId) {
+      console.log("Coinciden");
+      console.log(coin.id);
+      console.log(coinId);
+      
+    }
+  }
+
   nav2Coins.textContent = '';
   let divCoin = document.createElement('div');
   
