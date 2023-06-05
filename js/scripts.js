@@ -61,12 +61,10 @@ function mostrarCoin(coinId) {
   const coinInfo = dataCoins.find(coin => coin.id === coinId);
   console.log(coinInfo);
   nav2Coins.textContent = '';
-  quotes[0].price
   let divCoin = document.createElement('div');
   
   let nameCripto = document.createElement('div');
   nameCripto.textContent = coinInfo.name;
-  quotes[0].price
   let precioCriptoEnDolares = document.createElement('div');
   precioCriptoEnDolares.textContent = '1'+ coinInfo.symbol+' = ' + coinInfo.quotes[0].price.toFixed(2)+'$'; //1BTC = X$
   
