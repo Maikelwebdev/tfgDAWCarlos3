@@ -17,9 +17,9 @@ var coinId;
 let divBalance = document.createElement('div');
 
 // -------------------------------------API + COINS--------------------------------------------------
-const url = '/v1/cryptocurrency/listings/latest?start=1&limit=100&convert=USD&CMC_PRO_API_KEY='+config.apikey;
+const url = 'https://api.coinmarketcap.com/data-api//v1/cryptocurrency/listings/latest?start=1&limit=5000&convert=USD&CMC_PRO_API_KEY='+config.apikey;
 
-fetch(url)
+fetch(url + 'listing?start=1&limit=100&sortBy=market_cap&sortType=desc')
   .then(response => response.json())
   .then(data => {
     rellenarSelectCoins(data.data.cryptoCurrencyList);
