@@ -59,18 +59,18 @@ function getCoinById() {
 function llamarCoin(coinId) {
   fetch(`https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail?id=${coinId}`)
   .then(response => response.json())
-  .then(data => {
+  .then(dataSF => {
     console.log("Funcion llamarCoin: " + coinId);
-    mostrarCoin(data.data);
+    mostrarCoin(dataSF.data);
   })
   .catch(error => {
     console.log('Error:', error);
   });
 }
 
-function mostrarCoin(data) {
-  console.log(data);
-  console.log("Mostrarcoin "+data.name);
+function mostrarCoin(infoCoin) {
+  console.log(infoCoin);
+  // console.log("Mostrarcoin "+infoCoin.name);
   nav2Coins.textContent = "";
   
   let divCoin = document.createElement('div');
