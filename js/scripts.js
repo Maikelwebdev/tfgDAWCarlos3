@@ -64,7 +64,7 @@ function llamarCoin(coinId) {
   .then(data => {
     console.log("Funcion llamarCoin");
     console.log(data);
-    
+    mostrarCoin(data);
   })
   .catch(error => {
     console.log('Error:', error);
