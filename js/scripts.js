@@ -76,7 +76,7 @@ function mostrarCoin(data) {
   
   let nameCripto = document.createElement('div');
   nameCripto.textContent = data.name;
-  
+  data.cryptoCurrencyList[0].quotes[0].price
   let precioCriptoEnDolares = document.createElement('div');
   precioCriptoEnDolares.textContent = data.quotes.USD.price.substring(0, 8) + " $/" + data.symbol;
   
