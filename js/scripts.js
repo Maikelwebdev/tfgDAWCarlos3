@@ -76,13 +76,13 @@ function mostrarCoin(infoCoin) {
   let divCoin = document.createElement('div');
   
   let nameCripto = document.createElement('div');
-  nameCripto.textContent = data.name;
+  nameCripto.textContent = infoCoin.name;
 
   let precioCriptoEnDolares = document.createElement('div');
-  precioCriptoEnDolares.textContent = "1 ->"+data.symbol+ " = " +data.statistics.price.toFixed(2)+ "$" ;
+  precioCriptoEnDolares.textContent = "1 ->"+infoCoin.symbol+ " = " +infoCoin.statistics.price.toFixed(2)+ "$" ;
   
   let precioDolaresCripto = document.createElement('div');
-  precioDolaresCripto.textContent = "1 ->$ = " + (1 / data.statistics.price).toFixed(10)+data.symbol ;
+  precioDolaresCripto.textContent = "1 ->$ = " + (1 / infoCoin.statistics.price).toFixed(10)+infoCoin.symbol ;
   
   // let divImgCripto = document.createElement('div');
   // divImgCripto.classList.add("divImgCripto");
