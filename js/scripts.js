@@ -61,17 +61,17 @@ function mostrarCoin(coinId) {
   const coinInfo = dataCoins.find(coin => coin.id === coinId);
   console.log(coinInfo);
   nav2Coins.textContent = '';
-  
+  quotes[0].price
   let divCoin = document.createElement('div');
   
   let nameCripto = document.createElement('div');
   nameCripto.textContent = coinInfo.name;
-
+  quotes[0].price
   let precioCriptoEnDolares = document.createElement('div');
-  precioCriptoEnDolares.textContent = '1'+ coinInfo.symbol+' = ' + coinInfo.statistics.price.toFixed(2)+'$'; //1BTC = X$
+  precioCriptoEnDolares.textContent = '1'+ coinInfo.symbol+' = ' + coinInfo.quotes[0].price.toFixed(2)+'$'; //1BTC = X$
   
   let precioDolaresCripto = document.createElement('div');
-  precioDolaresCripto.textContent = '1$ = '+(1 / coinInfo.statistics.price).toFixed(10)+ coinInfo.symbol; //1$ = XBTC
+  precioDolaresCripto.textContent = '1$ = '+(1 / coinInfo.quotes[0].price).toFixed(10)+ coinInfo.symbol; //1$ = XBTC
   
   divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
   nav2Coins.append(divCoin);
