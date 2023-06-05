@@ -37,7 +37,7 @@ function rellenarSelectCoins(listaCoins) {
   }
   
   setTimeout(() => {
-    const firstCoinId = dataPF[0].id;
+    const firstCoinId = listaCoins[0].id;
     llamarCoin(firstCoinId);
   }, 1000);
   
