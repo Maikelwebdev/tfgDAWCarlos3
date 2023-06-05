@@ -57,7 +57,8 @@ function rellenarSelectCoins(dataCoins)
   }, 10000);
 }
 
-function mostrarCoin(coinId) {
+function mostrarCoin(coinId)
+{
   for (const coin of dataCoins) 
   {
     if (coin.id == coinId) 
@@ -73,12 +74,11 @@ function mostrarCoin(coinId) {
     
       let precioDolaresCripto = document.createElement('div');
       precioDolaresCripto.textContent = '1$ = '+(1 / coin.quotes[0].price).toFixed(10)+ coin.symbol; //1$ = XBTC
-  
+
+      divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
+      nav2Coins.append(divCoin);
     }
   }
-
-  divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
-  nav2Coins.append(divCoin);
 }
 
 
