@@ -10322,25 +10322,19 @@ form .row:first-child .floating-label-form-group {
 }
 
 
-
 #infoNav2 select {
     text-align: center;
     border: none;
     outline: none;
 }
 
-.divCoin {
+#nav2coins div {
     margin: 0.5rem;
     text-align: center;
     background-color: #10707f;
     border-radius: 1rem;
     border: #333 1px solid;
     padding-bottom: 1rem;
-}
-
-.divImgCripto img {
-    width: 100px;
-    height: 100px;
 }
 
 
