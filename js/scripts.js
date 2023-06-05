@@ -17,29 +17,32 @@ var coinId;
 let divBalance = document.createElement('div');
 
 // -------------------------------------API + COINS--------------------------------------------------
+let dataCoins = [];
+
 const url = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=100&sortBy=market_cap&sortType=desc';
 
 fetch(url)
   .then(response => response.json())
   .then(data => {
     console.log(data);
-    rellenarSelectCoins(data.data.cryptoCurrencyList);
+    dataCoins = data.data.cryptoCurrencyList;
+    rellenarSelectCoins(dataCoins);
   })
   .catch(error => {
     console.log('Error:', error);
   });
 
-function rellenarSelectCoins(listaCoins) {
+function rellenarSelectCoins(dataCoins) {
   const selectCoins = document.getElementById('selectCoins'); // Asegúrate de tener un elemento con el ID "selectCoins" en tu HTML
   
-  listaCoins.forEach(coin => {
+  dataCoins.forEach(coin => {
     let opcionCoin = document.createElement('option');
     opcionCoin.textContent = coin.name;
     opcionCoin.value = coin.id;
     selectCoins.appendChild(opcionCoin);
   });
   
-  const firstCoinId = listaCoins[0].id;
+  const firstCoinId = dataCoins[0].id;
   mostrarCoin(firstCoinId);
   
   selectCoins.addEventListener('change', (e) => {
@@ -54,30 +57,23 @@ function rellenarSelectCoins(listaCoins) {
 }
 
 function mostrarCoin(coinId) {
-  fetch(`https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail?id=${coinId}`)
-    .then(response => response.json())
-    .then(data => {
-      const coinInfo = data.data.coin;
-      console.log(coinInfo);
-      nav2Coins.textContent = '';
-      
-      let divCoin = document.createElement('div');
-      
-      let nameCripto = document.createElement('div');
-      nameCripto.textContent = coinInfo.name;
+  const coinInfo = dataCoins.find(coin => coin.id === coinId);
+  console.log(coinInfo);
+  nav2Coins.textContent = '';
   
-      let precioCriptoEnDolares = document.createElement('div');
-      precioCriptoEnDolares.textContent = `1 ${coinInfo.symbol} = ${coinInfo.statistics.price.toFixed(2)} $`;
-      
-      let precioDolaresCripto = document.createElement('div');
-      precioDolaresCripto.textContent = `1 $ = ${(1 / coinInfo.statistics.price).toFixed(10)} ${coinInfo.symbol}`;
-      
-      divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
-      nav2Coins.append(divCoin);
-    })
-    .catch(error => {
-      console.log('Error:', error);
-    });
+  let divCoin = document.createElement('div');
+  
+  let nameCripto = document.createElement('div');
+  nameCripto.textContent = coinInfo.name;
+
+  let precioCriptoEnDolares = document.createElement('div');
+  precioCriptoEnDolares.textContent = `1 ${coinInfo.symbol} = ${coinInfo.statistics.price.toFixed(2)} $`;
+  
+  let precioDolaresCripto = document.createElement('div');
+  precioDolaresCripto.textContent = `1 $ = ${(1 / coinInfo.statistics.price).toFixed(10)} ${coinInfo.symbol}`;
+  
+  divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
+  nav2Coins.append(divCoin);
 }
 
 
