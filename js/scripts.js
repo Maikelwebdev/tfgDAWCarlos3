@@ -63,6 +63,7 @@ function mostrarCoin(coinId) {
   console.log(coinId);
 
   for (const coin in dataCoins) {
+    console.log(coin);
     if (coin.id == coinId) {
       console.log("Coinciden");
       console.log(coin.id);
@@ -76,13 +77,13 @@ function mostrarCoin(coinId) {
   
   let nameCripto = document.createElement('div');
   nameCripto.textContent = dataCoins.name;
-  let precioCriptoEnDolares = document.createElement('div');
-  precioCriptoEnDolares.textContent = '1'+ dataCoins.symbol+' = ' + dataCoins.quotes[0].price.toFixed(2)+'$'; //1BTC = X$
+  // let precioCriptoEnDolares = document.createElement('div');
+  // precioCriptoEnDolares.textContent = '1'+ dataCoins.symbol+' = ' + dataCoins.quotes[0].price.toFixed(2)+'$'; //1BTC = X$
   
-  let precioDolaresCripto = document.createElement('div');
-  precioDolaresCripto.textContent = '1$ = '+(1 / dataCoins.quotes[0].price).toFixed(10)+ dataCoins.symbol; //1$ = XBTC
+  // let precioDolaresCripto = document.createElement('div');
+  // precioDolaresCripto.textContent = '1$ = '+(1 / dataCoins.quotes[0].price).toFixed(10)+ dataCoins.symbol; //1$ = XBTC
   
-  divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
+  // divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
   nav2Coins.append(divCoin);
 }
 
