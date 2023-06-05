@@ -43,7 +43,7 @@ function rellenarSelectCoins(listaCoins) {
   
   selectCoins.addEventListener('change', (e) => {
     coinId = e.target.value;
-    llamarCoin(coinId);
+    mostrarCoin(coinId);
   });
   
   setInterval(getCoinById, 10000);
@@ -53,19 +53,15 @@ function getCoinById() {
   if (!coinId) {
     return;
   }
-  llamarCoin(coinId);
+  filtrarCoin(coinId);
 }
 
-function llamarCoin(coinId) {
-  fetch(`https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail?id=${coinId}`)
-  .then(response => response.json())
-  .then(dataSF => {
-    console.log("Funcion llamarCoin: " + coinId);
-    mostrarCoin(dataSF.data);
-  })
-  .catch(error => {
-    console.log('Error:', error);
-  });
+function filtrarCoin(coinId) {
+  let coinData = listaCoins;
+  console.log(listaCoins);
+  const monedaSeleccionada = coinData.find(moneda => moneda.id === coinId);
+  console.log(monedaSeleccionada);
+  mostrarCoin(monedaSeleccionada);
 }
 
 function mostrarCoin(infoCoin) {
