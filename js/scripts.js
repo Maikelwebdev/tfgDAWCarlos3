@@ -22,7 +22,6 @@ const url = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/';
 fetch(url + 'listing?start=1&limit=100&sortBy=market_cap&sortType=desc')
   .then(response => response.json())
   .then(data => {
-    console.log(data.data.cryptoCurrencyList);
     rellenarSelectCoins(data.data.cryptoCurrencyList);
   })
   .catch(error => {
@@ -61,6 +60,7 @@ function llamarCoin(coinId) {
   .then(response => response.json())
   .then(data => {
     console.log("Funcion llamarCoin" + coinId);
+    console.log(data);
     mostrarCoin(data);
   })
   .catch(error => {
