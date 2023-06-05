@@ -68,8 +68,8 @@ function llamarCoin(coinId) {
 }
 
 function mostrarCoin(data) {
-  console.log("Mostrarcoin "+data.name);
   console.log(data);
+  console.log("Mostrarcoin "+data.name);
   nav2Coins.textContent = "";
   
   let divCoin = document.createElement('div');
