@@ -32,8 +32,9 @@ fetch(url)
     console.log('Error:', error);
   });
 
-function rellenarSelectCoins(dataCoins) {
-  const selectCoins = document.getElementById('selectCoins'); // Asegúrate de tener un elemento con el ID "selectCoins" en tu HTML
+function rellenarSelectCoins(dataCoins) 
+{
+  const selectCoins = document.getElementById('selectCoins'); 
   
   dataCoins.forEach(coin => {
     let opcionCoin = document.createElement('option');
@@ -67,10 +68,10 @@ function mostrarCoin(coinId) {
   nameCripto.textContent = coinInfo.name;
 
   let precioCriptoEnDolares = document.createElement('div');
-  precioCriptoEnDolares.textContent = `1 ${coinInfo.symbol} = ${coinInfo.statistics.price.toFixed(2)} $`;
+  precioCriptoEnDolares.textContent = '1'+ coinInfo.symbol+' = ' + coinInfo.statistics.price.toFixed(2)+'$'; //1BTC = X$
   
   let precioDolaresCripto = document.createElement('div');
-  precioDolaresCripto.textContent = `1 $ = ${(1 / coinInfo.statistics.price).toFixed(10)} ${coinInfo.symbol}`;
+  precioDolaresCripto.textContent = '1$ = '+(1 / coinInfo.statistics.price).toFixed(10)+ coinInfo.symbol; //1$ = XBTC
   
   divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto);
   nav2Coins.append(divCoin);
