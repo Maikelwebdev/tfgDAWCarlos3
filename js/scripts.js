@@ -59,9 +59,9 @@ function llamarCoin(coinId) {
   fetch(`https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail?id=${coinId}`)
   .then(response => response.json())
   .then(data => {
-    console.log("Funcion llamarCoin" + coinId);
-    console.log(data);
-    mostrarCoin(data);
+    console.log("Funcion llamarCoin: " + coinId);
+    console.log(data.data);
+    mostrarCoin(data.data);
   })
   .catch(error => {
     console.log('Error:', error);
@@ -74,22 +74,22 @@ function mostrarCoin(data) {
   
   let divCoin = document.createElement('div');
   
-  let nameCripto = document.createElement('div');
-  nameCripto.textContent = data.name;
-  data.cryptoCurrencyList[0].quotes[0].price
-  let precioCriptoEnDolares = document.createElement('div');
-  precioCriptoEnDolares.textContent = data.quotes.USD.price.substring(0, 8) + " $/" + data.symbol;
+  // let nameCripto = document.createElement('div');
+  // nameCripto.textContent = data.name;
+
+  // let precioCriptoEnDolares = document.createElement('div');
+  // precioCriptoEnDolares.textContent = data.quotes.USD.price.substring(0, 8) + " $/" + data.symbol;
   
-  let precioDolaresCripto = document.createElement('div');
-  precioDolaresCripto.textContent = (1 / data.quotes.USD.price).toFixed(10) + " " + data.symbol + "/$";
+  // let precioDolaresCripto = document.createElement('div');
+  // precioDolaresCripto.textContent = (1 / data.quotes.USD.price).toFixed(10) + " " + data.symbol + "/$";
   
-  let divImgCripto = document.createElement('div');
-  divImgCripto.classList.add("divImgCripto");
-  let imgCripto = document.createElement('img');
-  imgCripto.src = data.logo;
-  divImgCripto.append(imgCripto);
+  // let divImgCripto = document.createElement('div');
+  // divImgCripto.classList.add("divImgCripto");
+  // let imgCripto = document.createElement('img');
+  // imgCripto.src = data.logo;
+  // divImgCripto.append(imgCripto);
   
-  divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto, divImgCripto);
+  // divCoin.append(nameCripto, precioCriptoEnDolares, precioDolaresCripto, divImgCripto);
   nav2Coins.append(divCoin);
 }
 
