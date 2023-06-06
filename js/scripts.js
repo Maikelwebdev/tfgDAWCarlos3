@@ -85,7 +85,10 @@ function mostrarCoin(coinId) {
 
 
 //--------------------------------------------CONECTAR WALLET---------------
-comprobarConexionWallet()
+document.addEventListener('DOMContentLoaded', function() 
+{
+    comprobarConexionMetamask();
+});
 
 menuConnectWallet.addEventListener("click", function (event) { //CONECTAR WALLET
   comprobarInstalacionMetamask()
