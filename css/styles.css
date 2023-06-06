@@ -10329,12 +10329,11 @@ form .row:first-child .floating-label-form-group {
 }
 
 #nav2coins div {
-    margin: 0.5rem;
-    text-align: center;
-    background-color: #10707f;
-    border-radius: 1rem;
-    border: #333 1px solid;
-    padding-bottom: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px #1abc9c;
 }
 
 
