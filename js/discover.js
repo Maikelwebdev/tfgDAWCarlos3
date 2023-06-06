@@ -38,59 +38,30 @@ async function comprobarConexionWallet() {
 }
 
 //----------------------------------ENVIAR DONACION A WALLET ----------------------------------
-async function enviarDonacion() {
-    const address = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
-    const value = '10000000000000'; // cantidad en wei que se enviará (0.00001 ETH en wei)
-    const provider = await detectarProveedor(); // detectar proveedor de Ethereum (por ejemplo, MetaMask)
-    const cuenta = await obtenerCuenta(provider); // obtener cuenta de MetaMask
-    const gasPrice = await obtenerPrecioGas(provider); // obtener precio actual del gas
-    const transaction =
-    {
-        to: address,
-        value: value,
-        gasPrice: gasPrice
-    };
+const direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
+botonDonacion.addEventListener('click', enviarDonacion(direccionDestino));
+
+async function enviarDonacion(direccionDestino) {
     try {
-        const txHash = await cuenta.sendTransaction(transaction); // enviar transacción
-        console.log('Transacción enviada:', txHash);
-        const blockNumber = await provider.getBlockNumber(); // obtener número de bloque actual
-        const block = await provider.getBlock(blockNumber); // obtener información del bloque actual
-        console.log('Bloque de transacción:', block);
-        // mostrar información del bloque en la página HTML (por ejemplo, usando DOM)
-        document.getElementById('bloqueTransaccion').innerHTML = JSON.stringify(block);
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      const cuentaOrigen = accounts[0];
+  
+      const cantidadDonacion = '0.0001'; // Cantidad de ETH a donar
+  
+      const transaction = {
+        from: cuentaOrigen,
+        to: direccionDestino,
+        value: ethers.utils.parseEther(cantidadDonacion),
+      };
+  
+      const txHash = await ethereum.request({ method: 'eth_sendTransaction', params: [transaction] });
+  
+      console.log('Donación enviada con éxito. Hash de transacción:', txHash);
+    } catch (error) {
+      console.error('Error al enviar la donación:', error);
     }
-    catch (error) {
-        console.error('Error al enviar transacción:', error);
-    }
-}
-
-//----------------------------------DETECTAR PROVEEDOR WALLET ----------------------------------
-async function detectarProveedor() {
-    if (window.ethereum) {
-        return window.ethereum;
-    }
-    else if (window.web3) {
-        return window.web3.currentProvider;
-    }
-    else {
-        throw new Error('No se pudo detectar proveedor de Ethereum');
-    }
-}
-
-async function obtenerCuenta(provider) {
-    const cuentas = await provider.request({ method: 'eth_requestAccounts' });
-    if (cuentas.length === 0) {
-        throw new Error('No se encontró cuenta de MetaMask');
-    }
-    return provider.getSigner(cuentas[0]);
-}
-
-async function obtenerPrecioGas(provider) {
-    const response = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=:myapp');
-    const data = await response.json();
-    return provider.utils.parseUnits(String(data.data.rapid), 'gwei');
-}
-
+  }
+  
 
 //escribir balance de ETHs de la cartera 
 function getBalanceETH() {
