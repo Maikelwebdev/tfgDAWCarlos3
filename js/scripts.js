@@ -65,7 +65,7 @@ function mostrarCoin(coinId)
     {
       nav2Coins.textContent = '';
       let divCoin = document.createElement('div');
-      divCoin.style.border='2px solid black';
+      divCoin.style='background-color: #fff,border-radius: 8px,padding: 20px,margin-bottom: 20px,color: #1abc9c';
 
       
       let nameCripto = document.createElement('div');
@@ -85,6 +85,11 @@ function mostrarCoin(coinId)
 
 
 //--------------------------------------------CONECTAR WALLET---------------
+function isConnectedWallet() {
+
+  
+}
+
 menuConnectWallet.addEventListener("click", function(event) { //CONECTAR WALLET
   conectarWallet(event);
 });
