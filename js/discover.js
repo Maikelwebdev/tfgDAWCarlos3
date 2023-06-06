@@ -7,6 +7,10 @@ let botonDonacion = document.querySelector('#bDonacion');
 
 
 //ACCION
+document.addEventListener('DOMContentLoaded', function () {
+    comprobarConexionWallet();
+  });
+
 
 botonDonacion.addEventListener('click', enviarDonacion);
 
@@ -19,6 +23,21 @@ botonDonacion.addEventListener('click', enviarDonacion);
 
 //FUNCIONES
 
+//----------------------------------COMPROBAR CONEXION WALLET ----------------------------------
+async function comprobarConexionWallet() {
+  if (typeof window.ethereum !== 'undefined') {
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    if (accounts.length > 0) {
+      console.log('La wallet de Metamask está conectada correctamente.');  
+    } else {
+      console.log('La wallet de Metamask está instalada, pero no está conectada.');
+    }
+  } else {
+    console.log('Por favor, instale Metamask para utilizar esta función.');
+  }
+}
+
+//----------------------------------ENVIAR DONACION A WALLET ----------------------------------
 async function enviarDonacion() {
     const address = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
     const value = '10000000000000'; // cantidad en wei que se enviará (0.00001 ETH en wei)
@@ -45,6 +64,7 @@ async function enviarDonacion() {
     }
 }
 
+//----------------------------------DETECTAR PROVEEDOR WALLET ----------------------------------
 async function detectarProveedor() {
     if (window.ethereum) {
         return window.ethereum;
