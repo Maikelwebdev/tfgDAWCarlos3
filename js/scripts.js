@@ -66,6 +66,8 @@ function mostrarCoin(coinId)
       nav2Coins.textContent = '';
       let divCoin = document.createElement('div');
       divCoin.classList.add('divCoin')
+      divCoin.setAttribute('id', 'divCoin'); 
+
       
       let nameCripto = document.createElement('div');
       nameCripto.textContent = coin.name;
