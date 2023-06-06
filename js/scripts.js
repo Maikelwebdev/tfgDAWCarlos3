@@ -86,52 +86,46 @@ function mostrarCoin(coinId) {
 
 //--------------------------------------------CONECTAR WALLET---------------
 menuConnectWallet.addEventListener("click", function (event) { //CONECTAR WALLET
+  comprobarInstalacionMetamask()
   conectarMetamask(event);
 });
 
-async function comprobarConexionMetamask() {
+function comprobarInstalacionMetamask() {
+  if (typeof window.ethereum !== 'undefined') {
+    console.log('Metamask está instalado correctamente.');
+  } else {
+    console.log('Por favor, instale Metamask para utilizar esta función.');
+    const linkDescargaMetamask = 'https://metamask.io/download.html';
+    window.open(linkDescargaMetamask, '_blank');
+  }
+}
+
+async function comprobarConexionWallet() {
   if (typeof window.ethereum !== 'undefined') {
     const accounts = await window.ethereum.request({ method: 'eth_accounts' });
     if (accounts.length > 0) {
-      console.log('Metamask está conectado correctamente.');
-      isConnectedWallet = true;
+      console.log('La wallet de Metamask está conectada correctamente.');
       isActive.style.color = "green";
       menuConnectWallet.textContent = "CONNECTED WALLET";
-      console.log("Conectada la wallet y cambios hechos");
-      return true;
     } else {
-      console.log('Metamask está instalado, pero no está conectado.');
-      isConnectedWallet = false;
-      return false;
+      console.log('La wallet de Metamask está instalada, pero no está conectada.');
     }
   } else {
     console.log('Por favor, instale Metamask para utilizar esta función.');
-    isConnectedWallet = false;
-    const linkDescargaMetamask = 'https://metamask.io/download.html';
-    window.open(linkDescargaMetamask, '_blank');
-    return false;
   }
 }
 
 async function conectarMetamask() {
-  if (isConnectedWallet) {
-    console.log('Metamask ya está conectado.');
-    return;
-  }
-
-  const isConnected = await comprobarConexionMetamask();
-  if (isConnected) {
+  if (typeof window.ethereum !== 'undefined') {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
     console.log('Metamask conectado correctamente.');
     isActive.style.color = "green";
     menuConnectWallet.textContent = "CONNECTED WALLET";
-    console.log("Conectada la wallet y cambios hechos");
   } else {
-    console.log('No se puede conectar Metamask.');
+    console.log('Por favor, instale Metamask para utilizar esta función.');
   }
 }
 
-comprobarConexionMetamask();
 
 
 // Agrega mensaje de conexión exitosa
