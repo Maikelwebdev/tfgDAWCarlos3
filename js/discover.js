@@ -1,17 +1,19 @@
 //LLAMADAS
 let botonDonacion = document.querySelector('#bDonacion');
-
+const ethers = require('ethers');
+const direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
 
 
 
 
 
 //ACCION
+botonDonacion.addEventListener('click', enviarDonacion(direccionDestino));
+
 document.addEventListener('DOMContentLoaded', function () {
     comprobarConexionWallet();
   });
-
-
+  
 botonDonacion.addEventListener('click', enviarDonacion);
 
 
@@ -38,8 +40,7 @@ async function comprobarConexionWallet() {
 }
 
 //----------------------------------ENVIAR DONACION A WALLET ----------------------------------
-const direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
-botonDonacion.addEventListener('click', enviarDonacion(direccionDestino));
+
 
 async function enviarDonacion(direccionDestino) {
     try {
