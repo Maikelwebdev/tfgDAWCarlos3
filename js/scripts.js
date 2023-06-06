@@ -85,6 +85,8 @@ function mostrarCoin(coinId) {
 
 
 //--------------------------------------------CONECTAR WALLET---------------
+comprobarConexionWallet()
+
 menuConnectWallet.addEventListener("click", function (event) { //CONECTAR WALLET
   comprobarInstalacionMetamask()
   conectarMetamask(event);
@@ -107,6 +109,9 @@ async function comprobarConexionWallet() {
       console.log('La wallet de Metamask está conectada correctamente.');
       isActive.style.color = "green";
       menuConnectWallet.textContent = "CONNECTED WALLET";
+      let menuOpcionExtra = document.querySelector('#menuOpcionExtra'); //menu opcion
+      menuOpcionExtra.classList.remove('esOculto');
+      menuOpcionExtra.classList.add('esVisible');
     } else {
       console.log('La wallet de Metamask está instalada, pero no está conectada.');
     }
@@ -126,23 +131,14 @@ async function conectarMetamask() {
   }
 }
 
+// --- opciones AFTER WALLET CONNECTED
 
-
-// Agrega mensaje de conexión exitosa
-let successMsg = document.createElement('p');
-successMsg.textContent = "¡Ha conectado su billetera de Metamask correctamente!";
-successMsg.style.color = "green";
-divCoin.after(successMsg);
-
-//--- opciones AFTER WALLET CONNECTED
-// if(cuentaConectada){
-//   let menuOpcionExtra = document.querySelector('#menuOpcionExtra'); //menu opcion
 //   let botonDonacion = document.querySelector('#bDonacion');
 //   botonDonacion.addEventListener('click', enviarDonacion);
-//divQueSeOfrece //divOculto
+// divQueSeOfrece //divOculto
 // La billetera está conectada, habilita el botón de redireccionamiento
 // Redirige a la página "second.html"
-//window.location.href = 'second.html';
+// window.location.href = 'second.html';
 // }
 
 
