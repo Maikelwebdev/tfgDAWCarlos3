@@ -1,22 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" crossorigin="anonymous"></script>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <title>Descubre</title>
-</head>
-<body>
-    <div id="bloqueSaludo"></div>
-    <div id="bloqueInfo">
-      <div>
-        <p>
-          ¡Hola! Soy un estudiante apasionado por la programación y estoy trabajando en un proyecto emocionante. Me encantaría mejorar y expandir este proyecto, pero necesito tu ayuda. Si te sientes generoso y puedes permitirlo, te pido amablemente considerar hacer una pequeña donación de 0.00001 ETH (aproximadamente 0.02$) para respaldar mis esfuerzos. Cada contribución cuenta y será utilizada para adquirir recursos y herramientas que permitan mejorar la calidad y funcionalidad del proyecto. ¡Agradezco enormemente tu apoyo y cualquier ayuda que puedas brindar!</p>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/heading.css" />
+    <link rel="stylesheet" href="css/body.css" />
+  </head>
+
+  <body id="page-top">
+    <nav class="navbar navbar-expand-lg bg-secondary fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top"
+          >BIENVENID@ A LA WEB 3</a
+        >
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item mx-0 mx-lg-1">
+              <a
+                class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                href="index.html"
+                >¿QUE ES?</a
+              >
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a
+                class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                href="index.html"
+                >¿QUE SE OFRECE?</a
+              >
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a
+                class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                href="index.html"
+                >CONTACTO</a
+              >
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a
+                class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger esOculto"
+                id="menuOpcionExtra"
+                >DESCUBRE</a
+              >
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a
+                class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                id="menuConnectWallet"
+                >CONNECT WALLET <i class="bi bi-wallet" id="iconWallet"></i
+              ></a>
+            </li>
+            <i class="nav-item bi bi-circle-fill" id="isActive"></i>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- TRANSFORMA TU NEGOCIO EN LA WEB 3 + TEXTO -->
+    <header class="masthead bg-primary text-white text-center">
+      <div class="container d-flex align-items-center flex-column">
+        <div id="bloqueSaludo">
+          <h1 class="masthead-heading mb-0">DESCUBRIENDO LA WEB 3</h1>
+          <p class="pre-wrap masthead-subheading font-weight-light mb-3">
+            Si te sientes generoso haz una pequeña donación de 0.00001 ETH
+            (aproximadamente 0.02$) para respaldar mis esfuerzos.
+          </p>
+        </div>
+        <div id="bloqueInfo"></div>
         <button id="bDonacion">Donar</button>
       </div>
-    </div>
-    <div id="bloqueTransaccion"></div>
+    </header>
+
+    <footer class="footer text-center">
+      <div class="container">
+        <div class="row">
+          <!-- Footer Location-->
+          <div class="col-lg mb-5 mb-lg-0">
+            <h4 class="mb-4">LOCALIZADOR DEL BLOQUE</h4>
+            <p class="pre-wrap lead mb-0">Vamos a rastrear el bloque donde se ha hecho la transacción</p>
+            <div id="bloqueTransaccion"></div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
     <script src="/js/discover.js"></script>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/discover.js"></script>
   </body>
 </html>
