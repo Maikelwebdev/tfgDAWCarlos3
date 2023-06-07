@@ -45,7 +45,6 @@ async function enviarDonacion(direccionDestino) {
     try {
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       const cuentaOrigen = accounts[0];
-  
       const cantidadDonacion = '0.0001'; // Cantidad de ETH a donar
   
       const transaction = {
