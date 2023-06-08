@@ -30,6 +30,7 @@ sendButton.addEventListener('click', async () => {
         return;
     }
 
+    console.log(walletAddress);
     const transactions = await getTransactionHistory(walletAddress);
     renderTransactionHistory(transactions);
 });
@@ -94,16 +95,16 @@ async function enviarDonacion(direccionDestino) {
 
 
 // ---------------------------------- MOSTRAR SALDO DE LA WALLET  ----------------------------------
-function getBalanceETH() {
-    ethereum
-        .request({ method: 'eth_getBalance', params: [account, 'latest'] })
-        .then(result => {
-            let wei = parseInt(result, 16);
-            let balance = wei / (10 ** 18);
-            divBalance.textContent = "Usted tiene " + balance + " ETH en su billetera de Metamask";
-            button.after(divBalance);
-        });
-}
+// function getBalanceETH() {
+//     ethereum
+//         .request({ method: 'eth_getBalance', params: [account, 'latest'] })
+//         .then(result => {
+//             let wei = parseInt(result, 16);
+//             let balance = wei / (10 ** 18);
+//             divBalance.textContent = "Usted tiene " + balance + " ETH en su billetera de Metamask";
+//             button.after(divBalance);
+//         });
+// }
 
 
 //------------------------------ RECIBIR DIRECCION DE WALLET --------------------------------------
@@ -112,6 +113,7 @@ async function getMetamaskAddress() {
     if (typeof window.ethereum !== 'undefined') {
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         if (accounts.length > 0) {
+            console.log(accounts[0]);
             return accounts[0];
         }
     }
@@ -143,6 +145,8 @@ async function getTransactionHistory(walletAddress) {
 
 function renderTransactionHistory(transactions) {
     transactionHistoryDiv.innerHTML = '';
+
+    console.log(transactions);
 
     transactions.forEach(transaction => {
         const transactionDiv = document.createElement('div');
