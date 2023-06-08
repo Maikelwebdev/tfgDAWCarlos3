@@ -29,8 +29,6 @@ sendButton.addEventListener('click', async () => {
         console.log('Dirección de wallet inválida');
         return;
     }
-
-    console.log(walletAddress);
     const transactions = await getTransactionHistory(walletAddress);
     renderTransactionHistory(transactions);
 });
@@ -137,7 +135,6 @@ async function getTransactionHistory(walletAddress) {
     } catch (error) {
         console.log('Error al realizar la solicitud');
     }
-
     return [];
 }
 
@@ -147,6 +144,7 @@ async function getTransactionHistory(walletAddress) {
 function renderTransactionHistory(transactions) {
     transactionHistoryDiv.innerHTML = '';
 
+    console.log("renderTransactionHistory");
     console.log(transactions);
 
     transactions.forEach(transaction => {
