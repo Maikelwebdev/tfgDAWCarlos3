@@ -1,8 +1,11 @@
 //LLAMADAS
 let botonDonacion = document.querySelector('#bDonacion');
 const direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
+let isActive = document.querySelector('#isActive');
+isActive.style.color = "red";
 
-
+let bloqueSaludo = document.getElementById('bloqueSaludo');
+let bloqueTransaccion = document.getElementById('bloqueTransaccion');
 
 
 
@@ -23,6 +26,12 @@ botonDonacion.addEventListener('click', enviarDonacion);
 
 
 //FUNCIONES
+function redireccionWallet(){
+    bloqueSaludo.textContent = '';
+    bloqueTransaccion.textContent = '';
+    window.location.href = 'index.html'; 
+}
+
 
 //----------------------------------COMPROBAR CONEXION WALLET ----------------------------------
 async function comprobarConexionWallet() {
@@ -30,6 +39,8 @@ async function comprobarConexionWallet() {
     const accounts = await window.ethereum.request({ method: 'eth_accounts' });
     if (accounts.length > 0) {
       console.log('La wallet de Metamask está conectada correctamente.');  
+      isActive.style.color = "green";
+      menuConnectWallet.textContent = "CONNECTED WALLET";
     } else {
       console.log('La wallet de Metamask está instalada, pero no está conectada.');
     }
