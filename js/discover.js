@@ -144,6 +144,8 @@ async function getTransactionHistory(walletAddress) {
         });
 }
 
+//DIRECCION EJEMPLO : 0x12bffb97f37606f2...73fea9f8892EE7E7964209b0 
+
 // ----------------------------------------MOSTRAR HISTORIAL DE TRANSACCIONES ----------------------------------------------
 
 
