@@ -43,9 +43,11 @@ async function comprobarConexionWallet() {
       menuConnectWallet.textContent = "CONNECTED WALLET";
     } else {
       console.log('La wallet de Metamask está instalada, pero no está conectada.');
+      redireccionWallet()
     }
   } else {
     console.log('Por favor, instale Metamask para utilizar esta función.');
+    redireccionWallet()
   }
 }
 
