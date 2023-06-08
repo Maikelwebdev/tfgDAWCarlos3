@@ -6,7 +6,7 @@ isActive.style.color = "red";
 
 let bloqueSaludo = document.getElementById('bloqueSaludo');
 let bloqueTransaccion = document.getElementById('bloqueTransaccion');
-
+let montoEnviar = '0.0001';
 
 
 //ACCION
@@ -55,23 +55,29 @@ async function comprobarConexionWallet() {
 
 
 async function enviarDonacion(direccionDestino) {
-    try {
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      const cuentaOrigen = accounts[0];
-      const cantidadDonacion = '0.0001'; // Cantidad de ETH a donar
-  
-      const transaction = {
-        from: cuentaOrigen,
-        to: direccionDestino,
-        value: ethers.utils.parseEther(cantidadDonacion),
-      };
-  
-      const txHash = await ethereum.request({ method: 'eth_sendTransaction', params: [transaction] });
-  
-      console.log('Donación enviada con éxito. Hash de transacción:', txHash);
-    } catch (error) {
-      console.error('Error al enviar la donación:', error);
-    }
+     // Validar si Metamask está instalado y conectado
+  if (typeof window.ethereum === 'undefined') {
+    console.log('Metamask no está instalado.');
+    return;
+  }
+
+  // Crear objeto de transacción
+  const transaccion = {
+    to: direccionDestino,
+    value: ethers.utils.parseEther(montoEnviar),
+  };
+
+  try {
+    // Solicitar al usuario que apruebe y envíe la transacción usando Metamask
+    await window.ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [transaccion],
+    });
+
+    console.log('Transacción enviada correctamente.');
+  } catch (error) {
+    console.log('Error al enviar la transacción:', error);
+  }
   }
   
 
