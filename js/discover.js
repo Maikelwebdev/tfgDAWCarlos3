@@ -1,9 +1,8 @@
-//----------------------------------LLAMADAS
+//----------------------------------LLAMADAS------------------------------------------------------------------------------------------------------
 let botonDonacion = document.querySelector('#bDonacion');
 const direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
 let isActive = document.querySelector('#isActive');
 isActive.style.color = "red";
-
 let bloqueSaludo = document.getElementById('bloqueSaludo');
 let bloqueTransaccion = document.getElementById('bloqueTransaccion');
 let montoEnviar = '0.0001';
@@ -14,52 +13,7 @@ const sendButton = document.getElementById('bDetectar');
 const walletAddressInput = document.getElementById('wallet-address');
 const transactionHistoryDiv = document.getElementById('transaction-history');
 
-
-
-async function getMetamaskAddress() {
-    if (typeof window.ethereum !== 'undefined') {
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-        if (accounts.length > 0) {
-            return accounts[0];
-        }
-    }
-    return null;
-}
-
-async function getTransactionHistory(walletAddress) {
-    // Aquí puedes usar la API de Etherscan para obtener el historial de transacciones de la dirección de la wallet
-    // Puedes realizar una solicitud HTTP a la API de Etherscan utilizando fetch u otra biblioteca de tu elección
-    // y obtener los datos necesarios para mostrar en el historial de transacciones
-    // Aquí tienes un ejemplo simple de cómo podrías obtener las transacciones más recientes utilizando la API de Etherscan
-    const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&apikey=${api_key_eth_scan}`;
-
-    try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        if (data.status === '1') {
-            return data.result;
-        } else {
-            console.log('Error al obtener el historial de transacciones');
-        }
-    } catch (error) {
-        console.log('Error al realizar la solicitud');
-    }
-
-    return [];
-}
-
-function renderTransactionHistory(transactions) {
-    transactionHistoryDiv.innerHTML = '';
-
-    transactions.forEach(transaction => {
-        const transactionDiv = document.createElement('div');
-        transactionDiv.textContent = `Fecha: ${new Date(transaction.timeStamp * 1000).toLocaleString()}, Hash: ${transaction.hash}`;
-        transactionHistoryDiv.appendChild(transactionDiv);
-    });
-}
-
-
-//----------------------------------ACCION
+//----------------------------------ACCION------------------------------------------------------------------------------------------------------
 botonDonacion.addEventListener('click', enviarDonacion(direccionDestino));
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -83,7 +37,7 @@ sendButton.addEventListener('click', async () => {
 
 
 
-//----------------------------------FUNCIONES
+//----------------------------------FUNCIONES------------------------------------------------------------------------------------------------------
 function redireccionWallet() {
     bloqueSaludo.textContent = '';
     bloqueTransaccion.textContent = '';
@@ -139,7 +93,7 @@ async function enviarDonacion(direccionDestino) {
 }
 
 
-//escribir balance de ETHs de la cartera 
+// ---------------------------------- MOSTRAR SALDO DE LA WALLET  ----------------------------------
 function getBalanceETH() {
     ethereum
         .request({ method: 'eth_getBalance', params: [account, 'latest'] })
@@ -149,4 +103,50 @@ function getBalanceETH() {
             divBalance.textContent = "Usted tiene " + balance + " ETH en su billetera de Metamask";
             button.after(divBalance);
         });
+}
+
+
+//------------------------------ RECIBIR DIRECCION DE WALLET --------------------------------------
+
+async function getMetamaskAddress() {
+    if (typeof window.ethereum !== 'undefined') {
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        if (accounts.length > 0) {
+            return accounts[0];
+        }
+    }
+    return null;
+}
+
+// ---------------------------------- RECUPERAR TRANSACCION -----------------------------------------
+
+async function getTransactionHistory(walletAddress) {
+    const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&apikey=${api_key_eth_scan}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        if (data.status === '1') {
+            return data.result;
+        } else {
+            console.log('Error al obtener el historial de transacciones');
+        }
+    } catch (error) {
+        console.log('Error al realizar la solicitud');
+    }
+
+    return [];
+}
+
+// ----------------------------------------MOSTRAR HISTORIAL DE TRANSACCIONES ----------------------------------------------
+
+
+function renderTransactionHistory(transactions) {
+    transactionHistoryDiv.innerHTML = '';
+
+    transactions.forEach(transaction => {
+        const transactionDiv = document.createElement('div');
+        transactionDiv.textContent = `Fecha: ${new Date(transaction.timeStamp * 1000).toLocaleString()}, Hash: ${transaction.hash}`;
+        transactionHistoryDiv.appendChild(transactionDiv);
+    });
 }
