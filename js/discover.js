@@ -125,18 +125,27 @@ async function getMetamaskAddress() {
 async function getTransactionHistory(walletAddress) {
     const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&apikey=${api_key_eth_scan}`;
     console.log("Paso 3 - getTransactionHistory - recuperamos transaccion");
-    try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        if (data.status === '1') {
-            return data.result;
-        } else {
-            console.log('Error al obtener el historial de transacciones');
-        }
-    } catch (error) {
-        console.log('Error al realizar la solicitud');
-    }
-    return [];
+    fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+        console.log('paso 3 - fetch -api de etherscan');
+        console.log(data);
+    })
+    .catch(error => {
+        console.log('Error:', error);
+    });
+    // try {
+    //     const response = await fetch(apiUrl);
+    //     const data = await response.json();
+    //     if (data.status === '1') {
+    //         return data.result;
+    //     } else {
+    //         console.log('Error al obtener el historial de transacciones');
+    //     }
+    // } catch (error) {
+    //     console.log('Error al realizar la solicitud');
+    // }
+    // return [];
 }
 
 // ----------------------------------------MOSTRAR HISTORIAL DE TRANSACCIONES ----------------------------------------------
