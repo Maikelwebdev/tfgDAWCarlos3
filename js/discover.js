@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
     comprobarConexionWallet();
   });
 
-botonDonacion.addEventListener('click', enviarDonacion);
-
 
 
 
