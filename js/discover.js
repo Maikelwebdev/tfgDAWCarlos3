@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 sendButton.addEventListener('click', async () => {
+    console.log("Paso 1 - pulsar boton");
     const walletAddress = document.querySelector('input[name="wallet-option"]:checked').id === 'option1'
         ? await getMetamaskAddress()
         : walletAddressInput.value.trim();
@@ -111,7 +112,7 @@ async function getMetamaskAddress() {
     if (typeof window.ethereum !== 'undefined') {
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         if (accounts.length > 0) {
-            console.log('GetMetamaskAddress');
+            console.log('Paso 2 - GetMetamaskAddress - Direccion de wallet');
             console.log(accounts[0]);
             return accounts[0];
         }
@@ -123,7 +124,7 @@ async function getMetamaskAddress() {
 
 async function getTransactionHistory(walletAddress) {
     const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&apikey=${api_key_eth_scan}`;
-
+    console.log("Paso 3 - getTransactionHistory - recuperamos transaccion");
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
@@ -144,7 +145,7 @@ async function getTransactionHistory(walletAddress) {
 function renderTransactionHistory(transactions) {
     transactionHistoryDiv.innerHTML = '';
 
-    console.log("renderTransactionHistory");
+    console.log("Paso 4 - renderTransactionHistory - TRANSACCIONES");
     console.log(transactions);
 
     transactions.forEach(transaction => {
