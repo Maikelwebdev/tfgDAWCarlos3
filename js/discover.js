@@ -113,6 +113,7 @@ async function getMetamaskAddress() {
     if (typeof window.ethereum !== 'undefined') {
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         if (accounts.length > 0) {
+            console.log('GetMetamaskAddress');
             console.log(accounts[0]);
             return accounts[0];
         }
