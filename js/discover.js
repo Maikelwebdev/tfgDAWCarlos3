@@ -120,7 +120,6 @@ async function getTransactionHistory(walletAddress) {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            console.log('paso 3 - fetch -api de etherscan');
             console.log(data);
             if (data.status === '0') {
                 console.log("No se encontraron transacciones");
