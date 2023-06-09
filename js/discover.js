@@ -1,5 +1,5 @@
 //----------------------------------LLAMADAS------------------------------------------------------------------------------------------------------
-let botonDonacion = document.getElementById('#bDonacion');
+let botonDonacion = document.getElementById('bDonacion');
 const direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
 let isActive = document.querySelector('#isActive');
 isActive.style.color = "red";
@@ -9,7 +9,7 @@ let montoEnviar = '0.0001';
 
 let api_key_eth_scan = 'VVRG818I2PP9FTPU3XSQJ6WBWZT3HYBTP5';
 
-const sendButton = document.getElementById('bDetectar');
+const botonDetectar = document.getElementById('bDetectar');
 const walletAddressInput = document.getElementById('wallet-address');
 const transactionHistoryDiv = document.getElementById('transaction-history');
 
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     comprobarConexionWallet();
 });
 
-sendButton.addEventListener('click', async () => {
+botonDetectar.addEventListener('click', async () => {
     const walletAddress = document.querySelector('input[name="wallet-option"]:checked').id === 'option1'
         ? await getMetamaskAddress()
         : walletAddressInput.value.trim();
@@ -157,12 +157,9 @@ function convertUnixTimestamp(timestamp) {
 
 function renderTransactionHistory(transactions) {
     transactionHistoryDiv.innerHTML = '';
-
-    console.log("Paso 4 - renderTransactionHistory - TRANSACCIONES");
     console.log(transactions);
 
     transactions.forEach(transaction => {
-        console.log();
         const transactionDiv = document.createElement('div');
         transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
         console.log(transactionDiv.textContent);
