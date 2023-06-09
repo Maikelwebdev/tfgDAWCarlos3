@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 sendButton.addEventListener('click', async () => {
-    console.log("Paso 1 - pulsar boton");
     const walletAddress = document.querySelector('input[name="wallet-option"]:checked').id === 'option1'
         ? await getMetamaskAddress()
         : walletAddressInput.value.trim();
@@ -112,7 +111,6 @@ async function getMetamaskAddress() {
     if (typeof window.ethereum !== 'undefined') {
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         if (accounts.length > 0) {
-            console.log('Paso 2 - GetMetamaskAddress - Direccion de wallet');
             console.log(accounts[0]);
             return accounts[0];
         }
