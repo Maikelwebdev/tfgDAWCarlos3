@@ -29,7 +29,7 @@ sendButton.addEventListener('click', async () => {
         console.log('Dirección de wallet inválida');
         return;
     }
-    const transactions = await getTransactionHistory(walletAddress);
+    const transactions = getTransactionHistory(walletAddress);
     renderTransactionHistory(transactions);
 });
 
