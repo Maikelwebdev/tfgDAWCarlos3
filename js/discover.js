@@ -147,7 +147,21 @@ async function getTransactionHistory(walletAddress) {
 //DIRECCION EJEMPLO : 0x12bffb97f37606f2...73fea9f8892EE7E7964209b0 
 
 // ----------------------------------------MOSTRAR HISTORIAL DE TRANSACCIONES ----------------------------------------------
-
+function convertUnixTimestamp(timestamp) {
+    const date = new Date(timestamp * 1000); // Multiplica por 1000 para convertir el timestamp a milisegundos
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Los meses en JavaScript son base 0, por lo que se suma 1
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+  
+    // Formatea la fecha y hora
+    const formattedDate = `${day}/${month}/${year}`;
+    const formattedTime = `${hours}:${minutes}:${seconds}`;
+  
+    return `${formattedDate} ${formattedTime}`;
+  }
 
 function renderTransactionHistory(transactions) {
     transactionHistoryDiv.innerHTML = '';
@@ -156,8 +170,9 @@ function renderTransactionHistory(transactions) {
     console.log(transactions);
 
     transactions.forEach(transaction => {
+        console.log();
         const transactionDiv = document.createElement('div');
-        transactionDiv.textContent = `Fecha: ${new Date(transaction.timeStamp * 1000).toLocaleString()}, Hash: ${transaction.hash}`;
+        transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
         transactionHistoryDiv.appendChild(transactionDiv);
     });
 }
