@@ -1,5 +1,5 @@
 //----------------------------------LLAMADAS------------------------------------------------------------------------------------------------------
-let botonDonacion = document.querySelector('#bDonacion');
+let botonDonacion = document.getElementById('#bDonacion');
 const direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
 let isActive = document.querySelector('#isActive');
 isActive.style.color = "red";
