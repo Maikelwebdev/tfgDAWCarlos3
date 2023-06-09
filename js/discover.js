@@ -14,7 +14,7 @@ const walletAddressInput = document.getElementById('wallet-address');
 const transactionHistoryDiv = document.getElementById('transaction-history');
 
 //----------------------------------ACCION------------------------------------------------------------------------------------------------------
-botonDonacion.addEventListener('click', enviarDonacion(direccionDestino));
+botonDonacion.addEventListener('click', enviarDonacion());
 
 document.addEventListener('DOMContentLoaded', function () {
     comprobarConexionWallet();
@@ -29,7 +29,7 @@ sendButton.addEventListener('click', async () => {
         console.log('Dirección de wallet inválida');
         return;
     }
-    const transactions = getTransactionHistory(walletAddress);
+    const transactions = await getTransactionHistory(walletAddress);
     renderTransactionHistory(transactions);
 });
 
@@ -65,13 +65,7 @@ async function comprobarConexionWallet() {
 //----------------------------------ENVIAR DONACION A WALLET ----------------------------------
 
 
-async function enviarDonacion(direccionDestino) {
-    // Validar si Metamask está instalado y conectado
-    if (typeof window.ethereum === 'undefined') {
-        console.log('Metamask no está instalado.');
-        return;
-    }
-
+async function enviarDonacion() {
     // Crear objeto de transacción
     const transaccion = {
         to: direccionDestino,
@@ -85,9 +79,9 @@ async function enviarDonacion(direccionDestino) {
             params: [transaccion],
         });
 
-        console.log('Transacción enviada correctamente.');
+        console.log('Donacion enviada correctamente.');
     } catch (error) {
-        console.log('Error al enviar la transacción:', error);
+        console.log('Error al enviar la donacion:', error);
     }
 }
 
@@ -129,9 +123,10 @@ async function getTransactionHistory(walletAddress) {
             console.log('paso 3 - fetch -api de etherscan');
             console.log(data);
             if (data.status === '0') {
+                console.log("No se encontraron transacciones");
                 return data.message; //no transactions found
             }
-            else if(data.status === '1') {
+            else if (data.status === '1') {
                 return data.result; //se encontraron transacciones
             } else {
                 console.log('Error al obtener el historial de transacciones'); // error
@@ -153,13 +148,13 @@ function convertUnixTimestamp(timestamp) {
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
-  
+
     // Formatea la fecha y hora
     const formattedDate = `${day}/${month}/${year}`;
     const formattedTime = `${hours}:${minutes}:${seconds}`;
-  
+
     return `${formattedDate} ${formattedTime}`;
-  }
+}
 
 function renderTransactionHistory(transactions) {
     transactionHistoryDiv.innerHTML = '';
