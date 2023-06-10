@@ -136,7 +136,7 @@ async function getTransactionHistory(walletAddress) {
         });
 }
 
-//DIRECCION EJEMPLO : 0x12bffb97f37606f2...73fea9f8892EE7E7964209b0 
+//DIRECCION EJEMPLO : 0x12bffb97f37606f2...73fea9f8892EE7E7964209b0
 
 // ----------------------------------------MOSTRAR HISTORIAL DE TRANSACCIONES ----------------------------------------------
 function convertUnixTimestamp(timestamp) {
@@ -159,15 +159,15 @@ function renderTransactionHistory(transactions) {
     transactionHistoryDiv.innerHTML = '';
     console.log(transactions);
 
-    for (let i = 0; i < 10; i++) {
-        console.log('Recorriendo array 10 posiciones de transacciones');
-        console.log(transactions.result[i].timeStamp);
-        console.log(transactions.result[i].hash);        
-    }
-    // transactions.forEach(transaction => {
-    //     const transactionDiv = document.createElement('div');
-    //     transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
-    //     console.log(transactionDiv.textContent);
-    //     transactionHistoryDiv.appendChild(transactionDiv);
-    // });
+    // for (let i = 0; i < 10; i++) {
+    //     console.log('Recorriendo array 10 posiciones de transacciones');
+    //     console.log(transactions.result[i].timeStamp);
+    //     console.log(transactions.result[i].hash);        
+    // }
+    transactions.result.forEach(transaction => {
+        const transactionDiv = document.createElement('div');
+        transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
+        console.log(transactionDiv.textContent);
+        transactionHistoryDiv.appendChild(transactionDiv);
+    });
 }
