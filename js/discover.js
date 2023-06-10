@@ -29,7 +29,7 @@ botonDetectar.addEventListener('click', async () => {
         console.log('Dirección de wallet inválida');
         return;
     }
-    const transactions = await getTransactionHistory(walletAddress);
+    const transactions = getTransactionHistory(walletAddress);
     renderTransactionHistory(transactions);
 });
 
@@ -114,27 +114,28 @@ async function getMetamaskAddress() {
 
 // ---------------------------------- RECUPERAR TRANSACCION -----------------------------------------
 
-async function getTransactionHistory(walletAddress) {
+function getTransactionHistory(walletAddress) {
     const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&apikey=${api_key_eth_scan}`;
     console.log("Paso 3 - getTransactionHistory - recuperamos transaccion");
-    fetch(apiUrl)
+
+    return fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             console.log(data);
             if (data.status === '0') {
                 console.log("No se encontraron transacciones");
-                return data.message; //no transactions found
-            }
-            else if (data.status === '1') {
-                return data.result; //se encontraron transacciones
+                return data.message; // No se encontraron transacciones
+            } else if (data.status === '1') {
+                return data.result; // Se encontraron transacciones
             } else {
-                console.log('Error al obtener el historial de transacciones'); // error
+                console.log('Error al obtener el historial de transacciones');
             }
         })
         .catch(error => {
-            console.log('Error al realizar la solicitud', error); // error
+            console.log('Error al realizar la solicitud', error);
         });
 }
+
 
 //DIRECCION EJEMPLO : 0x12bffb97f37606f2...73fea9f8892EE7E7964209b0
 
