@@ -163,13 +163,9 @@ function convertUnixTimestamp(timestamp) {
 
 function renderTransactionHistory(transactions) {
     transactionHistoryDiv.innerHTML = '';
+    console.log("renderTransactionHistory");
     console.log(transactions);
 
-    // for (let i = 0; i < 10; i++) {
-    //     console.log('Recorriendo array 10 posiciones de transacciones');
-    //     console.log(transactions.result[i].timeStamp);
-    //     console.log(transactions.result[i].hash);        
-    // }
     transactions.result.forEach(transaction => {
         const transactionDiv = document.createElement('div');
         transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
