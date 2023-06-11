@@ -82,8 +82,7 @@ botonDonacion.addEventListener('click', () => {
 
 // Send Ethereum to an address
 function sendEth(recipientAddress) {
-    ethereum
-      .request({
+    const apiConfig = {
         method: 'eth_sendTransaction',
         params: [
           {
@@ -94,7 +93,10 @@ function sendEth(recipientAddress) {
             gas: '0x2710', // Customizable by the user during MetaMask confirmation.
           },
         ],
-      })
+      }
+      console.log('Apiconfig',apiConfig);
+    ethereum
+      .request(apiConfig)
       .then((txHash) => console.log(txHash))
       .catch((error) => console.error(error));
   }
