@@ -67,27 +67,47 @@ async function comprobarConexionWallet() {
 let botonDonacion = document.getElementById('bDonacion');
 let direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
 let montoEnviar = '0.0001';
-async function enviarDonacion() {
-    // Crear objeto de transacción
-    const transaccion = {
-        to: direccionDestino,
-        value: ethers.utils.parseEther(montoEnviar),
-    };
+// Send Ethereum to an address
+botonDonacion.addEventListener('click', () => {
+    ethereum
+      .request({
+        method: 'eth_sendTransaction',
+        params: [
+          {
+            from: accounts[0], // The user's active address.
+            to: '0x933Dcf0923B6F1bED3ae35dD7523D058b9325417', //  dirección de billetera a la que se enviará la donación
+            value: '0x29a2241af62c0000', //  representación en Wei de 0.0001 ETH
+            gasPrice: '0x09184e72a000', // Customizable by the user during MetaMask confirmation.
+            gas: '0x2710', // Customizable by the user during MetaMask confirmation.
+          },
+        ],
+      })
+      .then((txHash) => console.log(txHash))
+      .catch((error) => console.error(error));
+  });
 
-    try {
-        // Solicitar al usuario que apruebe y envíe la transacción usando Metamask
-        await window.ethereum.request({
-            method: 'eth_sendTransaction',
-            params: [transaccion],
-        });
 
-        console.log('Donacion enviada correctamente.');
-    } catch (error) {
-        console.log('Error al enviar la donacion:', error);
-    }
-}
+// async function enviarDonacion() {
+//     // Crear objeto de transacción
+//     const transaccion = {
+//         to: direccionDestino,
+//         value: ethers.utils.parseEther(montoEnviar),
+//     };
 
-botonDonacion.addEventListener('click', enviarDonacion);
+//     try {
+//         // Solicitar al usuario que apruebe y envíe la transacción usando Metamask
+//         await window.ethereum.request({
+//             method: 'eth_sendTransaction',
+//             params: [transaccion],
+//         });
+
+//         console.log('Donacion enviada correctamente.');
+//     } catch (error) {
+//         console.log('Error al enviar la donacion:', error);
+//     }
+// }
+
+// botonDonacion.addEventListener('click', enviarDonacion);
 
 
 // ---------------------------------- MOSTRAR SALDO DE LA WALLET  ----------------------------------
