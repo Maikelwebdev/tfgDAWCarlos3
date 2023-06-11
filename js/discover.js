@@ -64,6 +64,7 @@ async function comprobarConexionWallet() {
 }
 
 //----------------------------------ENVIAR DONACION A WALLET ----------------------------------
+let accounts = [];
 let botonDonacion = document.getElementById('bDonacion');
 let direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
 let montoEnviar = '0.0001';
@@ -86,30 +87,6 @@ botonDonacion.addEventListener('click', () => {
       .catch((error) => console.error(error));
   });
 
-
-// async function enviarDonacion() {
-//     // Crear objeto de transacción
-//     const transaccion = {
-//         to: direccionDestino,
-//         value: ethers.utils.parseEther(montoEnviar),
-//     };
-
-//     try {
-//         // Solicitar al usuario que apruebe y envíe la transacción usando Metamask
-//         await window.ethereum.request({
-//             method: 'eth_sendTransaction',
-//             params: [transaccion],
-//         });
-
-//         console.log('Donacion enviada correctamente.');
-//     } catch (error) {
-//         console.log('Error al enviar la donacion:', error);
-//     }
-// }
-
-// botonDonacion.addEventListener('click', enviarDonacion);
-
-
 // ---------------------------------- MOSTRAR SALDO DE LA WALLET  ----------------------------------
 // function getBalanceETH() {
 //     ethereum
@@ -127,7 +104,7 @@ botonDonacion.addEventListener('click', () => {
 
 async function getMetamaskAddress() {
     if (typeof window.ethereum !== 'undefined') {
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        accounts = await window.ethereum.request({ method: 'eth_accounts' });
         if (accounts.length > 0) {
             console.log(accounts[0]);
             return accounts[0];
