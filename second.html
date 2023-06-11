@@ -13,8 +13,11 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
-        type="application/javascript"></script>
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+      type="application/javascript"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
@@ -82,9 +85,15 @@
             (aproximadamente 0.02$) para respaldar mis esfuerzos.
           </p>
         </div>
-        
-        <label for="recipientAddress">Introduce manualmente la direccion de metamask</label>
-        <input type="text" id="recipientAddress" placeholder="Dirección Ethereum">
+
+        <label for="recipientAddress"
+          >Introduce manualmente la direccion de metamask</label
+        >
+        <input
+          type="text"
+          id="recipientAddress"
+          placeholder="Dirección Ethereum"
+        />
         <button id="bDonacion">Donar</button>
       </div>
     </header>
@@ -100,12 +109,20 @@
                 Vamos a rastrear el bloque donde se ha hecho la transacción
               </p>
               <input type="radio" name="wallet-option" id="option1" />
-              <label for="option1">Opción 1: Detectar dirección de Metamask</label>
-              <br/>
-              <input type="radio" name="wallet-option" id="option2" checked/>
-              <label for="option2">Opción 2: Ingresar dirección manualmente</label>
-              <br/>
-              <input type="text" id="wallet-address" placeholder="Dirección de la wallet"/>
+              <label for="option1"
+                >Opción 1: Detectar dirección de Metamask</label
+              >
+              <br />
+              <input type="radio" name="wallet-option" id="option2" checked />
+              <label for="option2"
+                >Opción 2: Ingresar dirección manualmente</label
+              >
+              <br />
+              <input
+                type="text"
+                id="wallet-address"
+                placeholder="Dirección de la wallet"
+              />
               <button id="bDetectar">Mostrar bloques</button>
               <div id="transaction-history"></div>
             </div>
