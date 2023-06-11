@@ -68,12 +68,13 @@ let accounts = [];
 let botonDonacion = document.getElementById('bDonacion');
 let direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
 let montoEnviar = '0.0001';
-
+// Crear una instancia de Web3
+const web3 = new Web3("http://localhost:7545");
 
 botonDonacion.addEventListener('click', () => {
     const recipientAddress = document.getElementById('recipientAddress').value;
      // Asegurarse de que la dirección tiene el formato correcto
-     const checksumAddress = Web3.utils.toChecksumAddress(recipientAddress);
+     const checksumAddress = web3.utils.toChecksumAddress(recipientAddress);
     sendEth(recipientAddress);
   });
 
