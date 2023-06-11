@@ -78,7 +78,7 @@ botonDonacion.addEventListener('click', () => {
         params: [
           {
             from: accounts[0], // The user's active address.
-            to: '0x933Dcf0923B6F1bED3ae35dD7523D058b9325417', //  dirección de billetera a la que se enviará la donación
+            to: recipientAddress, //  dirección de billetera a la que se enviará la donación
             value: '0x29a2241af62c0000', //  representación en Wei de 0.0001 ETH
             gasPrice: '0x09184e72a000', // 15 Gwei 
             gas: '0x2710', // Customizable by the user during MetaMask confirmation.
