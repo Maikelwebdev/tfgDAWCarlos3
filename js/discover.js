@@ -72,6 +72,8 @@ let montoEnviar = '0.0001';
 
 botonDonacion.addEventListener('click', () => {
     const recipientAddress = document.getElementById('recipientAddress').value;
+     // Asegurarse de que la dirección tiene el formato correcto
+     const checksumAddress = Web3.utils.toChecksumAddress(recipientAddress);
     sendEth(recipientAddress);
   });
 
