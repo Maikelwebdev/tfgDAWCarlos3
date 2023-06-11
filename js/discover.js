@@ -1,10 +1,8 @@
 //----------------------------------LLAMADAS------------------------------------------------------------------------------------------------------
-const direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
 let isActive = document.querySelector('#isActive');
 isActive.style.color = "red";
 let bloqueSaludo = document.getElementById('bloqueSaludo');
 let bloqueTransaccion = document.getElementById('bloqueTransaccion');
-let montoEnviar = '0.0001';
 
 let api_key_eth_scan = 'VVRG818I2PP9FTPU3XSQJ6WBWZT3HYBTP5';
 
@@ -67,7 +65,8 @@ async function comprobarConexionWallet() {
 
 //----------------------------------ENVIAR DONACION A WALLET ----------------------------------
 let botonDonacion = document.getElementById('bDonacion');
-
+let direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
+let montoEnviar = '0.0001';
 async function enviarDonacion() {
     // Crear objeto de transacción
     const transaccion = {
