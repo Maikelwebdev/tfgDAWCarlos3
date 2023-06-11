@@ -70,8 +70,13 @@ let direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // direcci�
 let montoEnviar = '0.0001';
 
 
+sendEthButton.addEventListener('click', () => {
+    const recipientAddress = document.getElementById('recipientAddress').value;
+    sendEth(recipientAddress);
+  });
+
 // Send Ethereum to an address
-botonDonacion.addEventListener('click', () => {
+function sendEth(recipientAddress) {
     ethereum
       .request({
         method: 'eth_sendTransaction',
@@ -79,15 +84,15 @@ botonDonacion.addEventListener('click', () => {
           {
             from: accounts[0], // The user's active address.
             to: recipientAddress, //  dirección de billetera a la que se enviará la donación
-            value: '0x29a2241af62c0000', //  representación en Wei de 0.0001 ETH
-            gasPrice: '0x09184e72a000', // 15 Gwei 
+            value: '0x2386f26fc10000', //  representación en Wei de 0.0001 ETH
+            gasPrice: '0x38d7ea4c68000', // 15 Gwei 
             gas: '0x2710', // Customizable by the user during MetaMask confirmation.
           },
         ],
       })
       .then((txHash) => console.log(txHash))
       .catch((error) => console.error(error));
-  });
+  }
 
 // ---------------------------------- MOSTRAR SALDO DE LA WALLET  ----------------------------------
 // function getBalanceETH() {
