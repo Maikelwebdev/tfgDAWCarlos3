@@ -121,12 +121,9 @@ async function getMetamaskAddress() {
 
 function getTransactionHistory(walletAddress) {
     const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&apikey=${api_key_eth_scan}`;
-    console.log("Paso 3 - getTransactionHistory - recuperamos transaccion");
-
     return fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if (data.status === '0') {
                 console.log("No se encontraron transacciones");
                 return data.message; // No se encontraron transacciones
@@ -166,10 +163,20 @@ function renderTransactionHistory(transactions) {
     console.log("renderTransactionHistory");
     console.log(transactions);
 
-    transactions.result.forEach(transaction => {
-        const transactionDiv = document.createElement('div');
-        transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
-        console.log(transactionDiv.textContent);
-        transactionHistoryDiv.appendChild(transactionDiv);
-    });
+    // transactions.result.forEach(transaction => {
+    //     const transactionDiv = document.createElement('div');
+    //     transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
+    //     console.log(transactionDiv.textContent);
+    //     transactionHistoryDiv.appendChild(transactionDiv);
+    // });
+
+    for (let i = 0; i < 10; i++) {
+        if (i >= transactions.length) {
+          break; // Detener el bucle si se alcanza el final del arreglo de transacciones
+        }
+      
+        const transaction = transactions[i];
+        const timestamp = transaction.timeStamp;
+        console.log(timestamp);
+    }
 }
