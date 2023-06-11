@@ -1,5 +1,4 @@
 //----------------------------------LLAMADAS------------------------------------------------------------------------------------------------------
-let botonDonacion = document.getElementById('bDonacion');
 const direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
 let isActive = document.querySelector('#isActive');
 isActive.style.color = "red";
@@ -14,7 +13,6 @@ const walletAddressInput = document.getElementById('wallet-address');
 const transactionHistoryDiv = document.getElementById('transaction-history');
 
 //----------------------------------ACCION------------------------------------------------------------------------------------------------------
-botonDonacion.addEventListener('click', enviarDonacion());
 
 document.addEventListener('DOMContentLoaded', function () {
     comprobarConexionWallet();
@@ -68,7 +66,7 @@ async function comprobarConexionWallet() {
 }
 
 //----------------------------------ENVIAR DONACION A WALLET ----------------------------------
-
+let botonDonacion = document.getElementById('bDonacion');
 
 async function enviarDonacion() {
     // Crear objeto de transacción
@@ -89,6 +87,8 @@ async function enviarDonacion() {
         console.log('Error al enviar la donacion:', error);
     }
 }
+
+botonDonacion.addEventListener('click', enviarDonacion);
 
 
 // ---------------------------------- MOSTRAR SALDO DE LA WALLET  ----------------------------------
