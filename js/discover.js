@@ -76,6 +76,7 @@ botonDonacion.addEventListener('click', () => {
     const recipientAddress = document.getElementById('recipientAddress').value;
      // Asegurarse de que la dirección tiene el formato correcto
      const checksumAddress = web3.utils.toChecksumAddress(recipientAddress);
+     console.log(recipientAddress);
     sendEth(recipientAddress);
   });
 
