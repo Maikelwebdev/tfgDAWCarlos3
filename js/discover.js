@@ -29,8 +29,13 @@ botonDetectar.addEventListener('click', async () => {
         console.log('Dirección de wallet inválida');
         return;
     }
-    const transactions = getTransactionHistory(walletAddress);
-    renderTransactionHistory(transactions);
+    getTransactionHistory(walletAddress)
+    .then(transactions => {
+      renderTransactionHistory(transactions);
+    })
+    .catch(error => {
+      console.log('Error al obtener el historial de transacciones', error);
+    });
 });
 
 
