@@ -79,13 +79,13 @@ botonDonacion.addEventListener('click', () => {
 
 // Send Ethereum to an address
 async function sendEth(recipientAddress) {
-    accounts = await getMetamaskAddress();
-    console.log(accounts);
+    const account = await getMetamaskAddress();
+    console.log({account});
     const apiConfig = {
         method: 'eth_sendTransaction',
         params: [
           {
-            from: accounts[0], // The user's active address.
+            from: account, // The user's active address.
             to: recipientAddress, //  dirección de billetera a la que se enviará la donación
             value: '0x2386f26fc10000', //  representación en Wei de 0.0001 ETH
             gasPrice: '0x38d7ea4c68000', // 15 Gwei 
