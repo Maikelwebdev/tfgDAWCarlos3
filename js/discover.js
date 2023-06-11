@@ -66,7 +66,8 @@ async function comprobarConexionWallet() {
 //----------------------------------ENVIAR DONACION A WALLET ----------------------------------
 let accounts = [];
 let botonDonacion = document.getElementById('bDonacion');
-let direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // dirección de billetera a la que se enviará la donación
+// dirección de billetera que enviará la donación --- 0x834999AC875E16EB769E3726F4c8884aDDCc4f63
+// dirección de billetera a la que se enviará la donación --- 0x933Dcf0923B6F1bED3ae35dD7523D058b9325417
 let montoEnviar = '0.0001';
 // Crear una instancia de Web3
 const web3 = new Web3("http://localhost:7545");
