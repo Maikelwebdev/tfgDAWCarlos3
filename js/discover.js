@@ -120,7 +120,7 @@ async function getMetamaskAddress() {
 // ---------------------------------- RECUPERAR TRANSACCION -----------------------------------------
 
 function getTransactionHistory(walletAddress) {
-    const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&apikey=${api_key_eth_scan}`;
+    const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&sort=desc&&apikey=${api_key_eth_scan}&offset=0&limit=10`;
     
     return fetch(apiUrl)
       .then(response => response.json())
