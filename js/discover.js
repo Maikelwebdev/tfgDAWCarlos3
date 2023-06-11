@@ -121,22 +121,25 @@ async function getMetamaskAddress() {
 
 function getTransactionHistory(walletAddress) {
     const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&apikey=${api_key_eth_scan}`;
+    
     return fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === '0') {
-                console.log("No se encontraron transacciones");
-                return data.message; // No se encontraron transacciones
-            } else if (data.status === '1') {
-                return data.result; // Se encontraron transacciones
-            } else {
-                console.log('Error al obtener el historial de transacciones');
-            }
-        })
-        .catch(error => {
-            console.log('Error al realizar la solicitud', error);
-        });
-}
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === '0') {
+          console.log("No se encontraron transacciones");
+          return []; // No se encontraron transacciones
+        } else if (data.status === '1') {
+          return data.result; // Se encontraron transacciones
+        } else {
+          console.log('Error al obtener el historial de transacciones');
+          return []; // Error al obtener el historial de transacciones
+        }
+      })
+      .catch(error => {
+        console.log('Error al realizar la solicitud', error);
+        return []; // Error al realizar la solicitud
+      });
+  }
 
 
 //DIRECCION EJEMPLO : 0x12bffb97f37606f2...73fea9f8892EE7E7964209b0
@@ -162,13 +165,6 @@ function renderTransactionHistory(transactions) {
     transactionHistoryDiv.innerHTML = '';
     console.log("renderTransactionHistory");
     console.log(transactions);
-
-    // transactions.result.forEach(transaction => {
-    //     const transactionDiv = document.createElement('div');
-    //     transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
-    //     console.log(transactionDiv.textContent);
-    //     transactionHistoryDiv.appendChild(transactionDiv);
-    // });
 
     for (let i = 0; i < 10; i++) {
         if (i >= transactions.length) {
