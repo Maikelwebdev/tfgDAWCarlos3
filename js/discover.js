@@ -70,7 +70,7 @@ let direccionDestino = '0x834999AC875E16EB769E3726F4c8884aDDCc4f63'; // direcciÃ
 let montoEnviar = '0.0001';
 
 
-sendEthButton.addEventListener('click', () => {
+botonDonacion.addEventListener('click', () => {
     const recipientAddress = document.getElementById('recipientAddress').value;
     sendEth(recipientAddress);
   });
