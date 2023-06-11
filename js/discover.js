@@ -174,9 +174,13 @@ function renderTransactionHistory(transactions) {
         if (i >= transactions.length) {
           break; // Detener el bucle si se alcanza el final del arreglo de transacciones
         }
-      
-        const transaction = transactions[i];
+        const transaction = transactions[i]
+        console.log(transaction);
         const timestamp = transaction.timeStamp;
         console.log(timestamp);
+        const transactionDiv = document.createElement('div');
+        transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
+        console.log(transactionDiv.textContent);
+        transactionHistoryDiv.appendChild(transactionDiv);
     }
 }
