@@ -89,8 +89,8 @@ async function sendEth(recipientAddress) {
         to: recipientAddress, //  dirección de billetera a la que se enviará la donación
         value: '100000000000', //  representación en Wei de 0.0001 ETH
         gasLimit: '0x5028', // Customizable by the user during MetaMask confirmation.
-        maxPriorityFeePerGas: '0x1C6BF52634000', // Customizable by the user during MetaMask confirmation.
-        maxFeePerGas: '0x221B262DD8000', // Customizable by the user during MetaMask confirmation.
+        maxPriorityFeePerGas: '0x37E11D600', // Customizable by the user during MetaMask confirmation.
+        maxFeePerGas: '0x3B9ACA000', // Customizable by the user during MetaMask confirmation.
       },
     ],
   }
