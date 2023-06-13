@@ -88,8 +88,8 @@ async function sendEth(recipientAddress) {
             from: account, // The user's active address.
             to: recipientAddress, //  dirección de billetera a la que se enviará la donación
             value: '10000000000000', //  representación en Wei de 0.0001 ETH
-            gasPrice: '0x56bc75e2d6310000', // 0.0001 
-            gas: '0x38d7ea4c68000', // Customizable by the user during MetaMask confirmation.
+            gasPrice: 'E8D4A51000', // 0.0001 
+            gas: 'E8D4A51000', // Customizable by the user during MetaMask confirmation.
           },
         ],
       }
