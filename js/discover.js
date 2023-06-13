@@ -13,19 +13,19 @@ const transactionHistoryDiv = document.getElementById('transaction-history');
 //----------------------------------ACCION------------------------------------------------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', function () {
-    comprobarConexionWallet();
+  comprobarConexionWallet();
 });
 
 botonDetectar.addEventListener('click', async () => {
-    const walletAddress = document.querySelector('input[name="wallet-option"]:checked').id === 'option1'
-        ? await getMetamaskAddress()
-        : walletAddressInput.value.trim();
+  const walletAddress = document.querySelector('input[name="wallet-option"]:checked').id === 'option1'
+    ? await getMetamaskAddress()
+    : walletAddressInput.value.trim();
 
-    if (!walletAddress) {
-        console.log('Dirección de wallet inválida');
-        return;
-    }
-    getTransactionHistory(walletAddress)
+  if (!walletAddress) {
+    console.log('Dirección de wallet inválida');
+    return;
+  }
+  getTransactionHistory(walletAddress)
     .then(transactions => {
       renderTransactionHistory(transactions);
     })
@@ -39,28 +39,28 @@ botonDetectar.addEventListener('click', async () => {
 
 //----------------------------------FUNCIONES------------------------------------------------------------------------------------------------------
 function redireccionWallet() {
-    bloqueSaludo.textContent = '';
-    bloqueTransaccion.textContent = '';
-    window.location.href = 'index.html';
+  bloqueSaludo.textContent = '';
+  bloqueTransaccion.textContent = '';
+  window.location.href = 'index.html';
 }
 
 
 //----------------------------------COMPROBAR CONEXION WALLET ----------------------------------
 async function comprobarConexionWallet() {
-    if (typeof window.ethereum !== 'undefined') {
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-        if (accounts.length > 0) {
-            console.log('La wallet de Metamask está conectada correctamente.');
-            isActive.style.color = "green";
-            menuConnectWallet.textContent = "CONNECTED WALLET";
-        } else {
-            console.log('La wallet de Metamask está instalada, pero no está conectada.');
-            redireccionWallet()
-        }
+  if (typeof window.ethereum !== 'undefined') {
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    if (accounts.length > 0) {
+      console.log('La wallet de Metamask está conectada correctamente.');
+      isActive.style.color = "green";
+      menuConnectWallet.textContent = "CONNECTED WALLET";
     } else {
-        console.log('Por favor, instale Metamask para utilizar esta función.');
-        redireccionWallet()
+      console.log('La wallet de Metamask está instalada, pero no está conectada.');
+      redireccionWallet()
     }
+  } else {
+    console.log('Por favor, instale Metamask para utilizar esta función.');
+    redireccionWallet()
+  }
 }
 
 //----------------------------------ENVIAR DONACION A WALLET ----------------------------------
@@ -71,34 +71,35 @@ let botonDonacion = document.getElementById('bDonacion');
 let montoEnviar = '0.0001';
 
 botonDonacion.addEventListener('click', () => {
-    const recipientAddress = document.getElementById('recipientAddress').value;
-    getMetamaskAddress();
-     console.log(recipientAddress);
-    sendEth(recipientAddress);
-  });
+  const recipientAddress = document.getElementById('recipientAddress').value;
+  getMetamaskAddress();
+  console.log(recipientAddress);
+  sendEth(recipientAddress);
+});
 
 // Send Ethereum to an address
 async function sendEth(recipientAddress) {
-    const account = await getMetamaskAddress();
-    console.log({account});
-    const apiConfig = {
-        method: 'eth_sendTransaction',
-        params: [
-          {
-            from: account, // The user's active address.
-            to: recipientAddress, //  dirección de billetera a la que se enviará la donación
-            value: '10000000000000', //  representación en Wei de 0.0001 ETH
-            gasPrice: '1000000000000'// 0.0001 
-             // Customizable by the user during MetaMask confirmation.
-          },
-        ],
-      }
-      console.log('Apiconfig',apiConfig);
-    ethereum
-      .request(apiConfig)
-      .then((txHash) => console.log(txHash))
-      .catch((error) => console.error(error));
+  const account = await getMetamaskAddress();
+  console.log({ account });
+  const apiConfig = {
+    method: 'eth_sendTransaction',
+    params: [
+      {
+        from: account, // The user's active address.
+        to: recipientAddress, //  dirección de billetera a la que se enviará la donación
+        value: '100000000000', //  representación en Wei de 0.0001 ETH
+        gasLimit: '0x5028', // Customizable by the user during MetaMask confirmation.
+        maxPriorityFeePerGas: '0x3b9aca00', // Customizable by the user during MetaMask confirmation.
+        maxFeePerGas: '0x2540be400', // Customizable by the user during MetaMask confirmation.
+      },
+    ],
   }
+  console.log('Apiconfig', apiConfig);
+  ethereum
+    .request(apiConfig)
+    .then((txHash) => console.log(txHash))
+    .catch((error) => console.error(error));
+}
 
 // ---------------------------------- MOSTRAR SALDO DE LA WALLET  ----------------------------------
 // function getBalanceETH() {
@@ -116,76 +117,76 @@ async function sendEth(recipientAddress) {
 //------------------------------ RECIBIR DIRECCION DE WALLET --------------------------------------
 
 async function getMetamaskAddress() {
-    if (typeof window.ethereum !== 'undefined') {
-        accounts = await window.ethereum.request({ method: 'eth_accounts' });
-        if (accounts.length > 0) {
-            console.log(accounts[0]);
-            return accounts[0];
-        }
+  if (typeof window.ethereum !== 'undefined') {
+    accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    if (accounts.length > 0) {
+      console.log(accounts[0]);
+      return accounts[0];
     }
-    return null;
+  }
+  return null;
 }
 
 // ---------------------------------- RECUPERAR TRANSACCION -----------------------------------------
 
 function getTransactionHistory(walletAddress) {
-    const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&sort=desc&&apikey=${api_key_eth_scan}&offset=0&limit=10`;
-    
-    return fetch(apiUrl)
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === '0') {
-          console.log("No se encontraron transacciones");
-          return []; // No se encontraron transacciones
-        } else if (data.status === '1') {
-          return data.result; // Se encontraron transacciones
-        } else {
-          console.log('Error al obtener el historial de transacciones');
-          return []; // Error al obtener el historial de transacciones
-        }
-      })
-      .catch(error => {
-        console.log('Error al realizar la solicitud', error);
-        return []; // Error al realizar la solicitud
-      });
-  }
+  const apiUrl = `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&sort=desc&&apikey=${api_key_eth_scan}&offset=0&limit=10`;
+
+  return fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === '0') {
+        console.log("No se encontraron transacciones");
+        return []; // No se encontraron transacciones
+      } else if (data.status === '1') {
+        return data.result; // Se encontraron transacciones
+      } else {
+        console.log('Error al obtener el historial de transacciones');
+        return []; // Error al obtener el historial de transacciones
+      }
+    })
+    .catch(error => {
+      console.log('Error al realizar la solicitud', error);
+      return []; // Error al realizar la solicitud
+    });
+}
 
 
 //DIRECCION EJEMPLO : 0x12bffb97f37606f2...73fea9f8892EE7E7964209b0
 
 // ----------------------------------------MOSTRAR HISTORIAL DE TRANSACCIONES ----------------------------------------------
 function convertUnixTimestamp(timestamp) {
-    const date = new Date(timestamp * 1000); // Multiplica por 1000 para convertir el timestamp a milisegundos
-    const day = date.getDate();
-    const month = date.getMonth() + 1; // Los meses en JavaScript son base 0, por lo que se suma 1
-    const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
+  const date = new Date(timestamp * 1000); // Multiplica por 1000 para convertir el timestamp a milisegundos
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Los meses en JavaScript son base 0, por lo que se suma 1
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
 
-    // Formatea la fecha y hora
-    const formattedDate = `${day}/${month}/${year}`;
-    const formattedTime = `${hours}:${minutes}:${seconds}`;
+  // Formatea la fecha y hora
+  const formattedDate = `${day}/${month}/${year}`;
+  const formattedTime = `${hours}:${minutes}:${seconds}`;
 
-    return `${formattedDate} ${formattedTime}`;
+  return `${formattedDate} ${formattedTime}`;
 }
 
 function renderTransactionHistory(transactions) {
-    transactionHistoryDiv.innerHTML = '';
-    console.log("renderTransactionHistory");
-    console.log(transactions);
+  transactionHistoryDiv.innerHTML = '';
+  console.log("renderTransactionHistory");
+  console.log(transactions);
 
-    for (let i = 0; i < 10; i++) {
-        if (i >= transactions.length) {
-          break; // Detener el bucle si se alcanza el final del arreglo de transacciones
-        }
-        const transaction = transactions[i]
-        console.log(transaction);
-        const timestamp = transaction.timeStamp;
-        console.log(timestamp);
-        const transactionDiv = document.createElement('div');
-        transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
-        console.log(transactionDiv.textContent);
-        transactionHistoryDiv.appendChild(transactionDiv);
+  for (let i = 0; i < 10; i++) {
+    if (i >= transactions.length) {
+      break; // Detener el bucle si se alcanza el final del arreglo de transacciones
     }
+    const transaction = transactions[i]
+    console.log(transaction);
+    const timestamp = transaction.timeStamp;
+    console.log(timestamp);
+    const transactionDiv = document.createElement('div');
+    transactionDiv.textContent = `Fecha: ${convertUnixTimestamp(transaction.timeStamp)}, Hash: ${transaction.hash}`;
+    console.log(transactionDiv.textContent);
+    transactionHistoryDiv.appendChild(transactionDiv);
+  }
 }
