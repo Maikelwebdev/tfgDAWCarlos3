@@ -38,6 +38,11 @@ const fallbackData: CryptoData[] = [
 export default function CryptoTracker({ lang }: CryptoTrackerProps) {
   const [data, setData] = useState<CryptoData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +76,16 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
 
   const displayData = loading || !data.length ? fallbackData : data.filter(c => c && c.id && c.current_price !== undefined);
 
+  if (!isMounted) {
+    return (
+      <div className="fixed top-[73px] left-0 right-0 z-50 w-full py-3 px-4 bg-zinc-900/80 backdrop-blur-md border-b border-white/10">
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-6 md:gap-10">
+          <span className="text-white text-sm">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
@@ -94,7 +109,7 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
               <span className="text-white font-bold text-lg">{cryptoLogos[crypto.id]}</span>
               <span className="text-white font-medium text-sm">{cryptoSymbols[crypto.id]}</span>
               <span className="text-white font-mono">
-                ${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
               <span className={`text-xs font-bold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
                 {isPositive ? '↑' : '↓'} {Math.abs(change).toFixed(2)}%
