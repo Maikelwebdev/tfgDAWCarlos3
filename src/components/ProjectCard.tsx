@@ -5,11 +5,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ title, description }: ProjectCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-xl border border-white/10 bg-black/30 p-6 backdrop-blur-md transition-all duration-300 hover:scale-105">
-      <span className="inline-block rounded-full bg-blue-500/20 px-3 py-1 text-xs font-medium text-blue-400 ring-1 ring-blue-500/30">
-        Next.js 15
-      </span>
-
+    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/80 p-6 backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)]">
       <h3 className="mt-4 text-xl font-semibold text-white/90">
         {title}
       </h3>
