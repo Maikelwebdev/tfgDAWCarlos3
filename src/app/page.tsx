@@ -54,6 +54,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#050505] text-white selection:bg-cyan-500/30 font-sans">
       <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/30 via-purple-950/20 to-emerald-950/30" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial_gradient(ellipse_60%_60%_at_50%_50%,black,transparent)]" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-cyan-500/20 via-purple-500/20 to-emerald-500/10 blur-[120px] pointer-events-none" />
         <InteractiveParticles />

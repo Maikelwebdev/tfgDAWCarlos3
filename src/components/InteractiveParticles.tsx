@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
@@ -10,7 +10,7 @@ function ParticleField() {
   const { viewport, pointer } = useThree();
   
   const positions = useMemo(() => {
-    const count = 800;
+    const count = 400;
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 8;
@@ -21,7 +21,7 @@ function ParticleField() {
   }, []);
 
   const colors = useMemo(() => {
-    const count = 800;
+    const count = 400;
     const cols = new Float32Array(count * 3);
     const cyan = new THREE.Color('#22d3ee');
     const violet = new THREE.Color('#a855f7');
@@ -50,7 +50,7 @@ function ParticleField() {
         transparent
         vertexColors
         color="#ffffff"
-        size={0.025}
+        size={0.04}
         sizeAttenuation={true}
         depthWrite={false}
         opacity={0.7}
@@ -60,9 +60,23 @@ function ParticleField() {
 }
 
 export default function InteractiveParticles() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
   return (
-    <div className="absolute inset-0 -z-10">
-      <Canvas camera={{ position: [0, 0, 2.5], fov: 60 }}>
+    <div className="fixed top-0 left-0 w-full h-full -z-10">
+      <Canvas
+        camera={{ position: [0, 0, 2.5], fov: 60 }}
+        dpr={[1, 2]}
+        gl={{ powerPreference: 'high-performance' }}
+      >
         <ParticleField />
       </Canvas>
     </div>

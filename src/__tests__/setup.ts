@@ -7,3 +7,11 @@ global.IntersectionObserver = class IntersectionObserver {
   unobserve() {}
   takeRecords() { return []; }
 } as unknown as typeof IntersectionObserver;
+
+global.ResizeObserver = class ResizeObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  unobserve() {}
+  takeRecords() { return []; }
+} as unknown as typeof ResizeObserver;
