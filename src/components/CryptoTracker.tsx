@@ -29,6 +29,12 @@ interface CryptoTrackerProps {
   lang: 'es' | 'en';
 }
 
+const fallbackData: CryptoData[] = [
+  { id: 'bitcoin', symbol: 'btc', name: 'Bitcoin', current_price: 90000, price_change_percentage_24h: 2.5 },
+  { id: 'ethereum', symbol: 'eth', name: 'Ethereum', current_price: 2500, price_change_percentage_24h: 1.8 },
+  { id: 'solana', symbol: 'sol', name: 'Solana', current_price: 180, price_change_percentage_24h: -0.5 },
+];
+
 export default function CryptoTracker({ lang }: CryptoTrackerProps) {
   const [data, setData] = useState<CryptoData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,10 +48,16 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
         );
         const result = await response.json();
         const dataArray = Array.isArray(result) ? result : Object.values(result);
-        setData(dataArray);
+        console.log('Datos en el Ticker:', dataArray);
+        
+        if (dataArray.length > 0) {
+          setData(dataArray);
+        } else {
+          setData(fallbackData);
+        }
       } catch (error) {
         console.error('Error fetching crypto data:', error);
-        setData([]);
+        setData(fallbackData);
       } finally {
         setLoading(false);
       }
@@ -57,41 +69,39 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
     return () => clearInterval(interval);
   }, []);
 
+  const displayData = loading || !data.length ? fallbackData : data.filter(c => c && c.id && c.current_price !== undefined);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full py-3 px-4 bg-white/5 backdrop-blur-md border-y border-white/5"
+      className="fixed top-[73px] left-0 right-0 z-50 w-full py-3 px-4 bg-zinc-900/80 backdrop-blur-md border-b border-white/10"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-center gap-6 md:gap-10 overflow-x-auto">
-        {loading || !data.length ? (
-          <span className="text-zinc-500 text-sm">Loading prices...</span>
-        ) : (
-          data.filter(c => c && c.id && c.current_price !== undefined).map((crypto) => {
-            const isPositive = (crypto.price_change_percentage_24h ?? 0) >= 0;
-            const price = crypto.current_price ?? 0;
-            const change = crypto.price_change_percentage_24h ?? 0;
-            return (
-              <motion.div
-                key={crypto.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-                className="flex items-center gap-2 whitespace-nowrap"
-              >
-                <span className="text-white font-bold text-lg">{cryptoLogos[crypto.id]}</span>
-                <span className="text-zinc-400 font-medium text-sm">{cryptoSymbols[crypto.id]}</span>
-                <span className="text-white font-mono">
-                  ${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </span>
-                <span className={`text-xs font-bold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-                  {isPositive ? '↑' : '↓'} {Math.abs(change).toFixed(2)}%
-                </span>
-              </motion.div>
-            );
-          })
-        )}
+        {displayData.map((crypto) => {
+          const isPositive = (crypto.price_change_percentage_24h ?? 0) >= 0;
+          const price = crypto.current_price ?? 0;
+          const change = crypto.price_change_percentage_24h ?? 0;
+          return (
+            <motion.div
+              key={crypto.id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-center gap-2 whitespace-nowrap"
+            >
+              <span className="text-white font-bold text-lg">{cryptoLogos[crypto.id]}</span>
+              <span className="text-white font-medium text-sm">{cryptoSymbols[crypto.id]}</span>
+              <span className="text-white font-mono">
+                ${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </span>
+              <span className={`text-xs font-bold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+                {isPositive ? '↑' : '↓'} {Math.abs(change).toFixed(2)}%
+              </span>
+            </motion.div>
+          );
+        })}
       </div>
     </motion.div>
   );

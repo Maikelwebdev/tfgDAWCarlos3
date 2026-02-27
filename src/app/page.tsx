@@ -85,7 +85,7 @@ export default function Home() {
 
       <CryptoTracker lang={lang} />
 
-      <section id="hero" className="relative z-10 max-w-7xl mx-auto px-8 pt-32 pb-24">
+      <section id="hero" className="relative z-10 max-w-7xl mx-auto px-8 pt-40 pb-24">
         <div className="mb-4 inline-flex items-center gap-3 px-4 py-2 rounded-full bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-xs text-zinc-400 font-mono">Gas: 15 gwei</span>
