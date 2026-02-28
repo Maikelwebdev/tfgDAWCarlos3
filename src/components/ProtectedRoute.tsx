@@ -15,7 +15,13 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) {
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      console.log('User not authenticated, redirecting to login');
+    }
+  }, [status]);
+
+  if (!isMounted || status === 'loading') {
     return (
       <div className="w-full flex items-center justify-center py-12">
         <div className="h-8 w-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
@@ -23,15 +29,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     );
   }
 
-  if (status === 'loading') {
-    return (
-      <div className="w-full flex items-center justify-center py-12">
-        <div className="h-8 w-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  if (!session) {
+  if (status === 'unauthenticated') {
     return (
       <div className="w-full flex items-center justify-center py-12">
         <div className="relative p-8 rounded-2xl bg-zinc-900/60 backdrop-blur-md border border-white/10 shadow-[0_0_40px_rgba(6,182,212,0.15)]">

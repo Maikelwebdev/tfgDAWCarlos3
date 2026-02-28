@@ -33,6 +33,10 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
 
   const t = translations[lang];
 
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/', redirect: true });
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/5">
       <div className="flex flex-wrap justify-between items-center p-4 md:p-6 max-w-7xl mx-auto gap-4">
@@ -51,7 +55,7 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
             {lang.toUpperCase()}
           </button>
           
-          {isMounted && session ? (
+          {isMounted && status === 'authenticated' && session && (
             <div className="flex items-center gap-3">
               {session.user?.image ? (
                 <img
@@ -65,19 +69,25 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
                 </div>
               )}
               <button
-                onClick={() => signOut({ callbackUrl: '/' })}
+                onClick={handleSignOut}
                 className="bg-zinc-800/80 hover:bg-zinc-700 border border-white/10 px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all text-zinc-300 hover:text-white"
               >
                 {t.signOut}
               </button>
             </div>
-          ) : (
+          )}
+          
+          {isMounted && status === 'unauthenticated' && (
             <button 
               onClick={() => signIn('google', { callbackUrl: '/' })}
               className="bg-white text-black px-4 md:px-6 py-2.5 rounded-full text-sm font-bold hover:scale-105 transition-all shadow-[0_0_15px_rgba(6,182,212,0.5)] hover:shadow-[0_0_25px_rgba(6,182,212,0.7)]"
             >
               {t.connectWallet}
             </button>
+          )}
+          
+          {isMounted && status === 'loading' && (
+            <div className="w-9 h-9 border-2 border-zinc-700 border-t-cyan-500 rounded-full animate-spin" />
           )}
         </div>
       </div>
