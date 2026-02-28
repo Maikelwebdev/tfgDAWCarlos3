@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSession, signIn } from 'next-auth/react';
 import { motion } from 'framer-motion';
 
 interface CryptoData {
@@ -39,6 +40,8 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
   const [data, setData] = useState<CryptoData[]>([]);
   const [loading, setLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
+  const [isUsingFallback, setIsUsingFallback] = useState(false);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     setIsMounted(true);
@@ -57,12 +60,15 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
         
         if (dataArray.length > 0) {
           setData(dataArray);
+          setIsUsingFallback(false);
         } else {
           setData(fallbackData);
+          setIsUsingFallback(true);
         }
       } catch (error) {
         console.error('Error fetching crypto data:', error);
         setData(fallbackData);
+        setIsUsingFallback(true);
       } finally {
         setLoading(false);
       }
@@ -86,6 +92,62 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
     );
   }
 
+  const isLoggedIn = status === 'authenticated' && session;
+
+  if (!isLoggedIn) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="fixed top-[73px] left-0 right-0 z-50 w-full py-3 px-4 bg-zinc-900/80 backdrop-blur-md border-b border-white/10"
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-6 md:gap-10 overflow-x-auto">
+          <div className="flex items-center gap-2 mr-2">
+            <div className="w-2 h-2 rounded-full bg-zinc-500" />
+            <span className="text-xs font-medium text-zinc-500">
+              OFFLINE
+            </span>
+          </div>
+          <div className="relative flex items-center gap-2 whitespace-nowrap blur-[8px] select-none opacity-50">
+            <span className="text-white font-bold text-lg">₿</span>
+            <span className="text-white font-medium text-sm">BTC</span>
+            <span className="text-white font-mono">$**,***</span>
+            <span className="text-white text-xs">↑ *.**%</span>
+          </div>
+          <div className="relative flex items-center gap-2 whitespace-nowrap blur-[8px] select-none opacity-50">
+            <span className="text-white font-bold text-lg">Ξ</span>
+            <span className="text-white font-medium text-sm">ETH</span>
+            <span className="text-white font-mono">$*,***</span>
+            <span className="text-white text-xs">↑ *.**%</span>
+          </div>
+          <div className="relative flex items-center gap-2 whitespace-nowrap blur-[8px] select-none opacity-50">
+            <span className="text-white font-bold text-lg">◎</span>
+            <span className="text-white font-medium text-sm">SOL</span>
+            <span className="text-white font-mono">$***</span>
+            <span className="text-white text-xs">↓ *.**%</span>
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center bg-zinc-900/60 backdrop-blur-sm">
+            <div className="flex items-center gap-3 px-6 py-3 bg-zinc-800/90 rounded-xl border border-white/10 shadow-xl">
+              <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              <span className="text-white text-sm font-medium">
+                Contenido exclusivo. Inicia sesión para ver datos en tiempo real.
+              </span>
+              <button
+                onClick={() => signIn('google', { callbackUrl: '/' })}
+                className="ml-2 px-4 py-2 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white text-sm font-bold rounded-lg transition-all"
+              >
+                {lang === 'es' ? 'Entrar' : 'Sign In'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
@@ -94,6 +156,12 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
       className="fixed top-[73px] left-0 right-0 z-50 w-full py-3 px-4 bg-zinc-900/80 backdrop-blur-md border-b border-white/10"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-center gap-6 md:gap-10 overflow-x-auto">
+        <div className="flex items-center gap-2 mr-2">
+          <div className={`w-2 h-2 rounded-full ${isUsingFallback ? 'bg-amber-500' : 'bg-emerald-500'} animate-pulse`} />
+          <span className={`text-xs font-medium ${isUsingFallback ? 'text-amber-500' : 'text-emerald-500'}`}>
+            {isUsingFallback ? 'ESTIMATED' : 'LIVE'}
+          </span>
+        </div>
         {displayData.map((crypto) => {
           const isPositive = (crypto.price_change_percentage_24h ?? 0) >= 0;
           const price = crypto.current_price ?? 0;
@@ -109,7 +177,7 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
               <span className="text-white font-bold text-lg">{cryptoLogos[crypto.id]}</span>
               <span className="text-white font-medium text-sm">{cryptoSymbols[crypto.id]}</span>
               <span className="text-white font-mono">
-                ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {price != null ? `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'N/A'}
               </span>
               <span className={`text-xs font-bold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
                 {isPositive ? '↑' : '↓'} {Math.abs(change).toFixed(2)}%

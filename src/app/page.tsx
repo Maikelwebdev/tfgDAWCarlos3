@@ -4,6 +4,10 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import CryptoTracker from '@/components/CryptoTracker';
+import Navbar from '@/components/Navbar';
+import CryptoSearch from '@/components/CryptoSearch';
+import PriceChart from '@/components/PriceChart';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 const InteractiveParticles = dynamic(() => import('@/components/InteractiveParticles'), {
   ssr: false,
@@ -23,6 +27,7 @@ const translations = {
     playgroundSubtitle: 'Experimentos con IA y Web3. Demostraciones de agentes inteligentes.',
     launchButton: 'Launch AI Agent Demo',
     connectWallet: 'Connect Wallet',
+    searchPlaceholder: 'Herramientas de Análisis',
   },
   en: {
     heroTitle: 'ARCHITECTING THE',
@@ -37,6 +42,7 @@ const translations = {
     playgroundSubtitle: 'Experiments with AI and Web3. Intelligent agent demonstrations.',
     launchButton: 'Launch AI Agent Demo',
     connectWallet: 'Connect Wallet',
+    searchPlaceholder: 'Analysis Tools',
   },
 };
 
@@ -60,28 +66,7 @@ export default function Home() {
         <InteractiveParticles />
       </div>
 
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/5">
-        <div className="flex flex-wrap justify-between items-center p-4 md:p-6 max-w-7xl mx-auto gap-4">
-          <div className="text-xl font-black tracking-tighter italic">MIGUEL<span className="text-cyan-400 font-bold">.DEV</span></div>
-          <div className="flex items-center gap-2 md:gap-4">
-            <a href="#services" className="px-3 md:px-4 py-2 text-sm text-zinc-400 hover:text-white transition-colors">
-              {t.navServices}
-            </a>
-            <a href="#playground" className="px-3 md:px-4 py-2 text-sm text-zinc-400 hover:text-white transition-colors">
-              {t.navPlayground}
-            </a>
-            <button
-              onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-              className="bg-white/10 backdrop-blur-md border border-white/10 hover:bg-white/20 px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all"
-            >
-              {lang.toUpperCase()}
-            </button>
-            <button className="bg-white text-black px-4 md:px-6 py-2.5 rounded-full text-sm font-bold hover:scale-105 transition-all shadow-[0_0_15px_rgba(6,182,212,0.5)] hover:shadow-[0_0_25px_rgba(6,182,212,0.7)]">
-              {t.connectWallet}
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navbar lang={lang} onLangChange={setLang} />
 
       <CryptoTracker lang={lang} />
 
@@ -168,6 +153,30 @@ export default function Home() {
               </button>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      <section id="tools" className="relative z-10 py-24">
+        <div className="max-w-7xl mx-auto px-8">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-3xl md:text-4xl font-bold mb-8"
+          >
+            {t.searchPlaceholder}
+          </motion.h2>
+          <ProtectedRoute>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
+                <CryptoSearch lang={lang} />
+              </div>
+              <div className="p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
+                <PriceChart cryptoId="bitcoin" lang={lang} />
+              </div>
+            </div>
+          </ProtectedRoute>
         </div>
       </section>
     </main>

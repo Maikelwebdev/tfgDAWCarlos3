@@ -1,7 +1,9 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach, beforeAll } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Home from '@/app/page';
 import CryptoTracker from '@/components/CryptoTracker';
+import CryptoSearch from '@/components/CryptoSearch';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import InteractiveParticles from '@/components/InteractiveParticles';
 
 vi.mock('@/components/InteractiveParticles', () => ({
@@ -58,10 +60,42 @@ describe('Home Page Integration', () => {
   });
 });
 
+vi.mock('next-auth/react', () => ({
+  useSession: vi.fn().mockReturnValue({
+    data: null,
+    status: 'unauthenticated',
+  }),
+  SessionProvider: ({ children }: { children: React.ReactNode }) => children,
+  signIn: vi.fn(),
+  signOut: vi.fn(),
+}));
+
+const mockUseSession = vi.hoisted(() => vi.fn());
+
+vi.mock('next-auth/react', async () => {
+  const actual = await vi.importActual('next-auth/react');
+  return {
+    ...actual,
+    useSession: mockUseSession,
+  };
+});
+
+beforeAll(() => {
+  mockUseSession.mockReturnValue({
+    data: null,
+    status: 'unauthenticated',
+  });
+});
+
 describe('CryptoTracker Tests', () => {
   let fetchMock: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
+    mockUseSession.mockReturnValue({
+      data: { user: { name: 'Test' } },
+      status: 'authenticated',
+    });
+    
     fetchMock = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => mockCryptoData,
@@ -71,6 +105,10 @@ describe('CryptoTracker Tests', () => {
 
   afterEach(() => {
     vi.unstubAllGlobals();
+    mockUseSession.mockReturnValue({
+      data: null,
+      status: 'unauthenticated',
+    });
   });
 
   it('muestra correctamente el precio de BTC y ETH desde la API mockeada', async () => {
@@ -127,6 +165,27 @@ describe('CryptoTracker Tests', () => {
       expect(screen.getByText('$120.00')).toBeInTheDocument();
     });
   });
+
+  it('intenta volver a pedir los datos después de 60 segundos con useFakeTimers', async () => {
+    vi.useFakeTimers();
+    
+    const fetchSpy = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => mockCryptoData,
+    });
+    vi.stubGlobal('fetch', fetchSpy);
+
+    render(<CryptoTracker lang="es" />);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+
+    vi.advanceTimersByTime(60000);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
 });
 
 describe('Idioma Persistente', () => {
@@ -180,5 +239,28 @@ describe('Smoke Test', () => {
     }).not.toThrow();
     
     consoleError.mockRestore();
+  });
+});
+
+describe('Protección de Rutas', () => {
+  it('el buscador de criptos NO es visible si el usuario es null (no está logueado)', () => {
+    render(
+      <ProtectedRoute>
+        <CryptoSearch lang="es" />
+      </ProtectedRoute>
+    );
+
+    expect(screen.queryByPlaceholderText(/Buscar criptomoneda/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/Solo para Usuarios Registrados/i)).toBeInTheDocument();
+  });
+
+  it('el botón de Login con Google está presente cuando no hay sesión', () => {
+    render(
+      <ProtectedRoute>
+        <CryptoSearch lang="es" />
+      </ProtectedRoute>
+    );
+
+    expect(screen.getByRole('button', { name: /Login con Google/i })).toBeInTheDocument();
   });
 });
