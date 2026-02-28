@@ -41,6 +41,7 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
   const [loading, setLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isUsingFallback, setIsUsingFallback] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -48,15 +49,29 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
   }, []);
 
   useEffect(() => {
+    let isCancelled = false;
+
     const fetchData = async () => {
       try {
         setLoading(true);
+        setError(null);
+        
         const response = await fetch(
           'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana&order=market_cap_desc&per_page=3&page=1&sparkline=false'
         );
+
+        if (!response.ok) {
+          if (response.status === 429) {
+            setError(lang === 'es' ? 'Rate limit. Usando datos de respaldo.' : 'Rate limit. Using fallback data.');
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const result = await response.json();
+        
+        if (isCancelled) return;
+        
         const dataArray = Array.isArray(result) ? result : Object.values(result);
-        console.log('Datos en el Ticker:', dataArray);
         
         if (dataArray.length > 0) {
           setData(dataArray);
@@ -66,18 +81,24 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
           setIsUsingFallback(true);
         }
       } catch (error) {
+        if (isCancelled) return;
         console.error('Error fetching crypto data:', error);
         setData(fallbackData);
         setIsUsingFallback(true);
       } finally {
-        setLoading(false);
+        if (!isCancelled) {
+          setLoading(false);
+        }
       }
     };
 
     fetchData();
     const interval = setInterval(fetchData, 60000);
 
-    return () => clearInterval(interval);
+    return () => {
+      isCancelled = true;
+      clearInterval(interval);
+    };
   }, []);
 
   const displayData = loading || !data.length ? fallbackData : data.filter(c => c && c.id && c.current_price !== undefined);
@@ -156,6 +177,11 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
       className="fixed top-[73px] left-0 right-0 z-50 w-full py-3 px-4 bg-zinc-900/80 backdrop-blur-md border-b border-white/10"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-center gap-6 md:gap-10 overflow-x-auto">
+        {error && (
+          <div className="mr-4 px-3 py-1 bg-amber-500/20 border border-amber-500/30 rounded-full">
+            <span className="text-amber-400 text-xs">{error}</span>
+          </div>
+        )}
         <div className="flex items-center gap-2 mr-2">
           <div className={`w-2 h-2 rounded-full ${isUsingFallback ? 'bg-amber-500' : 'bg-emerald-500'} animate-pulse`} />
           <span className={`text-xs font-medium ${isUsingFallback ? 'text-amber-500' : 'text-emerald-500'}`}>

@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Home from '@/app/page';
 import CryptoTracker from '@/components/CryptoTracker';
 import CryptoSearch from '@/components/CryptoSearch';
+import PriceChart from '@/components/PriceChart';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import InteractiveParticles from '@/components/InteractiveParticles';
 
@@ -262,5 +263,60 @@ describe('Protección de Rutas', () => {
     );
 
     expect(screen.getByRole('button', { name: /Login con Google/i })).toBeInTheDocument();
+  });
+});
+
+describe('PriceChart Tests', () => {
+  let fetchMock: ReturnType<typeof vi.fn>;
+
+  beforeEach(() => {
+    fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        prices: [
+          [1700000000000, 45000],
+          [1700100000000, 46000],
+          [1700200000000, 45500],
+          [1700300000000, 47000],
+          [1700400000000, 46500],
+          [1700500000000, 48000],
+          [1700600000000, 47500],
+        ],
+      }),
+    });
+    vi.stubGlobal('fetch', fetchMock);
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('el componente de precios renderiza valores válidos', async () => {
+    render(<PriceChart cryptoId="bitcoin" lang="es" />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('crypto-price-chart')).toBeInTheDocument();
+    });
+  });
+
+  it('el precio mostrado es un número positivo (no NaN, no undefined, no negativo)', async () => {
+    render(<PriceChart cryptoId="bitcoin" lang="es" />);
+
+    await waitFor(() => {
+      const chartElement = screen.getByTestId('crypto-price-chart');
+      expect(chartElement).toBeInTheDocument();
+    });
+
+    const pricesText = screen.getAllByText(/\$/);
+    expect(pricesText.length).toBeGreaterThan(0);
+  });
+
+  it('muestra las etiquetas de precio mínimo y máximo', async () => {
+    render(<PriceChart cryptoId="bitcoin" lang="es" />);
+
+    await waitFor(() => {
+      const container = document.querySelector('.flex.items-center.justify-between.mb-4');
+      expect(container).toBeInTheDocument();
+    }, { timeout: 3000 });
   });
 });

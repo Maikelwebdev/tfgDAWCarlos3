@@ -55,6 +55,7 @@ const services = [
 
 export default function Home() {
   const [lang, setLang] = useState<'es' | 'en'>('es');
+  const [selectedCrypto, setSelectedCrypto] = useState<string>('bitcoin');
   const t = translations[lang];
 
   return (
@@ -71,12 +72,6 @@ export default function Home() {
       <CryptoTracker lang={lang} />
 
       <section id="hero" className="relative z-10 max-w-7xl mx-auto px-8 pt-40 pb-24">
-        <div className="mb-4 inline-flex items-center gap-3 px-4 py-2 rounded-full bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs text-zinc-400 font-mono">Gas: 15 gwei</span>
-          <span className="text-zinc-600">|</span>
-          <span className="text-xs text-zinc-400 font-mono">ETH: $3,200</span>
-        </div>
         <div className="max-w-4xl">
           <h1 className="text-5xl md:text-8xl font-extrabold tracking-tighter mb-8 leading-tight">
             {t.heroTitle} <br /> 
@@ -170,10 +165,10 @@ export default function Home() {
           <ProtectedRoute>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
-                <CryptoSearch lang={lang} />
+                <CryptoSearch lang={lang} onSelect={setSelectedCrypto} />
               </div>
               <div className="p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
-                <PriceChart cryptoId="bitcoin" lang={lang} />
+                <PriceChart key={selectedCrypto} cryptoId={selectedCrypto} lang={lang} />
               </div>
             </div>
           </ProtectedRoute>
