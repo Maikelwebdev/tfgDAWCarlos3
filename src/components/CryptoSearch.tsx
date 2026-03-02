@@ -65,24 +65,43 @@ const SkeletonCard = () => (
   </Card>
 );
 
-const StatCard = ({ label, value, tooltip, testId }: { label: string; value: string; tooltip?: string; testId?: string }) => (
-  <Tooltip>
-    <TooltipTrigger asChild>
-      <div className="p-3 rounded-lg bg-zinc-800/50 animate-fade-in cursor-help">
-        <p className="text-zinc-500 text-xs flex items-center gap-1">
-          {label}
-          {tooltip && <Info className="w-3 h-3" />}
-        </p>
-        <p className="text-white text-sm font-medium">{value}</p>
-      </div>
-    </TooltipTrigger>
-    {tooltip && (
-      <TooltipContent className="bg-zinc-900 border-zinc-800 text-zinc-300 text-xs max-w-[200px]">
-        <p>{tooltip}</p>
-      </TooltipContent>
-    )}
-  </Tooltip>
-);
+const tooltipTexts: Record<string, Record<'es' | 'en', string>> = {
+  marketCap: {
+    es: 'Valor total de mercado. Se calcula multiplicando el precio actual por el suministro circulante.',
+    en: 'Total market value. Calculated by multiplying current price by circulating supply.',
+  },
+  volume: {
+    es: 'Cantidad total de la moneda que se ha intercambiado en las últimas 24 horas.',
+    en: 'Total amount of the coin traded in the last 24 hours.',
+  },
+  ath: {
+    es: 'Precio más alto alcanzado históricamente. Indica el techo previo del mercado.',
+    en: 'Highest price ever reached. Indicates the previous market ceiling.',
+  },
+};
+
+const StatCard = ({ label, value, tooltipKey, lang }: { label: string; value: string; tooltipKey?: keyof typeof tooltipTexts; lang: 'es' | 'en' }) => {
+  const tooltip = tooltipKey ? tooltipTexts[tooltipKey][lang] : undefined;
+  
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="p-3 rounded-lg bg-zinc-800/50 animate-fade-in cursor-help">
+          <p className="text-zinc-500 text-xs flex items-center gap-1">
+            {label}
+            {tooltip && <Info className="w-3 h-3" />}
+          </p>
+          <p className="text-white text-sm font-medium">{value}</p>
+        </div>
+      </TooltipTrigger>
+      {tooltip && (
+        <TooltipContent className="bg-zinc-900 border-zinc-800 text-zinc-300 text-xs max-w-[200px]">
+          <p>{tooltip}</p>
+        </TooltipContent>
+      )}
+    </Tooltip>
+  );
+};
 
 const EmptyState = ({ lang }: { lang: 'es' | 'en' }) => (
   <div className="mt-4 p-8 bg-zinc-900/60 border border-white/5 rounded-xl backdrop-blur-sm">
@@ -350,30 +369,35 @@ function CryptoDetailsCard({ crypto, isPositive, priceChange, lang, formatPrice,
           <StatCard 
             label={lang === 'es' ? 'Market Cap' : 'Market Cap'} 
             value={formatCompact(crypto.market_data?.market_cap?.usd)}
-            tooltip={lang === 'es' ? 'Valor total de mercado. Se calcula multiplicando el precio actual por el suministro circulante.' : 'Total market value. Calculated by multiplying current price by circulating supply.'}
+            tooltipKey="marketCap"
+            lang={lang}
           />
           <StatCard 
             label={lang === 'es' ? 'Volumen 24h' : 'Volume 24h'} 
             value={formatCompact(crypto.market_data?.total_volume?.usd)}
-            tooltip={lang === 'es' ? 'Cantidad total de la moneda que se ha intercambiado en las últimas 24 horas.' : 'Total amount of the coin traded in the last 24 hours.'}
+            tooltipKey="volume"
+            lang={lang}
           />
           <StatCard 
             label={lang === 'es' ? 'Máximo 24h' : 'High 24h'} 
             value={`$${formatPrice(crypto.market_data?.high_24h?.usd)}`}
+            lang={lang}
           />
           <StatCard 
             label={lang === 'es' ? 'Mínimo 24h' : 'Low 24h'} 
             value={`$${formatPrice(crypto.market_data?.low_24h?.usd)}`}
+            lang={lang}
           />
           <StatCard 
             label={lang === 'es' ? 'Máximo Histórico (ATH)' : 'All Time High (ATH)'} 
             value={crypto.market_data?.ath?.usd ? `$${formatPrice(crypto.market_data.ath.usd)}` : 'N/A'}
-            tooltip={lang === 'es' ? 'Precio más alto alcanzado históricamente. Indica el techo previo del mercado.' : 'Highest price ever reached. Indicates the previous market ceiling.'}
-            testId="ath-tooltip"
+            tooltipKey="ath"
+            lang={lang}
           />
           <StatCard 
             label={lang === 'es' ? 'Fecha ATH' : 'ATH Date'} 
             value={formatATHDate(crypto.market_data?.ath_date?.usd)}
+            lang={lang}
           />
         </div>
       </CardContent>

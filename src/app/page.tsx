@@ -7,7 +7,6 @@ import CryptoTracker from '@/components/CryptoTracker';
 import Navbar from '@/components/Navbar';
 import CryptoSearch from '@/components/CryptoSearch';
 import PriceChart from '@/components/PriceChart';
-import ProtectedRoute from '@/components/ProtectedRoute';
 import Footer from '@/components/layout/Footer';
 
 const InteractiveParticles = dynamic(() => import('@/components/InteractiveParticles'), {
@@ -163,16 +162,14 @@ export default function Home() {
           >
             {t.searchPlaceholder}
           </motion.h2>
-          <ProtectedRoute>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
-                <CryptoSearch lang={lang} onSelect={setSelectedCrypto} />
-              </div>
-              <div className="p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
-                <PriceChart key={selectedCrypto} cryptoId={selectedCrypto} lang={lang} />
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
+              <CryptoSearch lang={lang} onSelect={setSelectedCrypto} />
             </div>
-          </ProtectedRoute>
+            <div className="p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm">
+              <PriceChart key={selectedCrypto} cryptoId={selectedCrypto} lang={lang} />
+            </div>
+          </div>
         </div>
         </section>
 

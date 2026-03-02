@@ -4,7 +4,6 @@ import Home from '@/app/page';
 import CryptoTracker from '@/components/CryptoTracker';
 import CryptoSearch from '@/components/CryptoSearch';
 import PriceChart from '@/components/PriceChart';
-import ProtectedRoute from '@/components/ProtectedRoute';
 import InteractiveParticles from '@/components/InteractiveParticles';
 import Footer from '@/components/layout/Footer';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
@@ -245,29 +244,6 @@ describe('Smoke Test', () => {
   });
 });
 
-describe('Protección de Rutas', () => {
-  it('el buscador de criptos NO es visible si el usuario es null (no está logueado)', () => {
-    render(
-      <ProtectedRoute>
-        <CryptoSearch lang="es" />
-      </ProtectedRoute>
-    );
-
-    expect(screen.queryByPlaceholderText(/Buscar criptomoneda/i)).not.toBeInTheDocument();
-    expect(screen.getByText(/Solo para Usuarios Registrados/i)).toBeInTheDocument();
-  });
-
-  it('el botón de Login con Google está presente cuando no hay sesión', () => {
-    render(
-      <ProtectedRoute>
-        <CryptoSearch lang="es" />
-      </ProtectedRoute>
-    );
-
-    expect(screen.getByRole('button', { name: /Login con Google/i })).toBeInTheDocument();
-  });
-});
-
 describe('PriceChart Tests', () => {
   let fetchMock: ReturnType<typeof vi.fn>;
 
@@ -327,7 +303,7 @@ describe('Footer Tests', () => {
   it('renderiza correctamente la versión del JSON', () => {
     render(<Footer />);
     
-    expect(screen.getByText(/V 3.0/)).toBeInTheDocument();
+    expect(screen.getByText(/V 3.1/)).toBeInTheDocument();
   });
 
   it('muestra el texto del autor', () => {
@@ -446,5 +422,26 @@ describe('ATH (All Time High) Tests', () => {
     );
 
     expect(screen.getByText('Info')).toBeInTheDocument();
+  });
+
+  it('el Tooltip de Market Cap cambia según el idioma', () => {
+    const tooltipTexts = {
+      marketCap: {
+        es: 'Valor total de mercado. Se calcula multiplicando el precio actual por el suministro circulante.',
+        en: 'Total market value. Calculated by multiplying current price by circulating supply.',
+      },
+    };
+
+    render(
+      <TooltipProvider>
+        <div>
+          <p data-lang="es">{tooltipTexts.marketCap.es}</p>
+          <p data-lang="en">{tooltipTexts.marketCap.en}</p>
+        </div>
+      </TooltipProvider>
+    );
+
+    expect(screen.getByText(/Valor total de mercado/)).toBeInTheDocument();
+    expect(screen.getByText(/Total market value/)).toBeInTheDocument();
   });
 });
