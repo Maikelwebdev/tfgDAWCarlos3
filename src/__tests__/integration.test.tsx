@@ -303,7 +303,7 @@ describe('Footer Tests', () => {
   it('renderiza correctamente la versión del JSON', () => {
     render(<Footer />);
     
-    expect(screen.getByText(/V 3.2/)).toBeInTheDocument();
+    expect(screen.getByText(/V 3.3/)).toBeInTheDocument();
   });
 
   it('muestra el texto del autor', () => {

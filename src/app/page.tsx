@@ -105,21 +105,55 @@ export default function Home() {
         >
           {t.servicesTitle}
         </motion.h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`${service.colSpan} group relative p-6 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-sm hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]`}
-            >
-              <div className="text-3xl mb-4">{service.icon}</div>
-              <h3 className="text-xl font-bold text-white mb-2">{service.title}</h3>
-              <p className="text-zinc-400 text-sm">{service.description}</p>
-            </motion.div>
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0 }}
+            className="lg:col-span-2 group relative p-8 rounded-3xl bg-zinc-900/20 border border-white/10 backdrop-blur-xl hover:border-cyan-500/40 transition-all duration-300 hover:shadow-[0_0_40px_rgba(6,182,212,0.2)]"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-3xl" />
+            <div className="relative text-5xl mb-4 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]">🛡️</div>
+            <h3 className="text-2xl font-bold text-white mb-2">{services[0].title}</h3>
+            <p className="text-zinc-400">{services[0].description}</p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="group relative p-6 rounded-3xl bg-zinc-900/20 border border-white/10 backdrop-blur-xl hover:border-purple-500/40 transition-all duration-300 hover:shadow-[0_0_30px_rgba(168,85,247,0.2)]"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-3xl" />
+            <div className="relative text-4xl mb-4 drop-shadow-[0_0_12px_rgba(6,182,212,0.6)]">⚡</div>
+            <h3 className="text-lg font-bold text-white mb-2">{services[1].title}</h3>
+            <p className="text-zinc-400 text-sm">{services[1].description}</p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="group relative p-6 rounded-3xl bg-zinc-900/20 border border-white/10 backdrop-blur-xl hover:border-emerald-500/40 transition-all duration-300 hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-3xl" />
+            <div className="relative text-4xl mb-4 drop-shadow-[0_0_12px_rgba(16,185,129,0.6)]">📊</div>
+            <h3 className="text-lg font-bold text-white mb-2">{services[2].title}</h3>
+            <p className="text-zinc-400 text-sm">{services[2].description}</p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="lg:col-span-2 group relative p-8 rounded-3xl bg-zinc-900/20 border border-white/10 backdrop-blur-xl hover:border-purple-500/40 transition-all duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.2)]"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-3xl" />
+            <div className="relative text-5xl mb-4 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]">🤖</div>
+            <h3 className="text-2xl font-bold text-white mb-2">{services[3].title}</h3>
+            <p className="text-zinc-400">{services[3].description}</p>
+          </motion.div>
         </div>
       </section>
 
