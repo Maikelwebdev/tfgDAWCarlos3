@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useSession, signIn } from 'next-auth/react';
 import { motion } from 'framer-motion';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
 
 interface CryptoData {
   id: string;
@@ -57,7 +59,7 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
         setError(null);
         
         const response = await fetch(
-          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana&order=market_cap_desc&per_page=3&page=1&sparkline=false'
+          '/api/crypto?endpoint=coins/markets&vs_currency=usd&ids=bitcoin,ethereum,solana&order=market_cap_desc&per_page=3&page=1&sparkline=false'
         );
 
         if (!response.ok) {
@@ -68,6 +70,10 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
         }
 
         const result = await response.json();
+        
+        if (result.error) {
+          throw new Error(result.error);
+        }
         
         if (isCancelled) return;
         
@@ -83,6 +89,7 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
       } catch (error) {
         if (isCancelled) return;
         console.error('Error fetching crypto data:', error);
+        setError(lang === 'es' ? 'Error de conexión. Usando datos de respaldo.' : 'Connection error. Using fallback data.');
         setData(fallbackData);
         setIsUsingFallback(true);
       } finally {
@@ -178,9 +185,13 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-center gap-6 md:gap-10 overflow-x-auto">
         {error && (
-          <div className="mr-4 px-3 py-1 bg-amber-500/20 border border-amber-500/30 rounded-full">
-            <span className="text-amber-400 text-xs">{error}</span>
-          </div>
+          <Alert variant="destructive" className="mr-4 py-1 px-3 bg-amber-500/10 border-amber-500/30">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle className="text-amber-400 text-xs">Warning</AlertTitle>
+            <AlertDescription className="text-amber-400/90 text-xs">
+              {error}
+            </AlertDescription>
+          </Alert>
         )}
         <div className="flex items-center gap-2 mr-2">
           <div className={`w-2 h-2 rounded-full ${isUsingFallback ? 'bg-amber-500' : 'bg-emerald-500'} animate-pulse`} />

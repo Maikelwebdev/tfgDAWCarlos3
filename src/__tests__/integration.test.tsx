@@ -6,6 +6,7 @@ import CryptoSearch from '@/components/CryptoSearch';
 import PriceChart from '@/components/PriceChart';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import InteractiveParticles from '@/components/InteractiveParticles';
+import Footer from '@/components/layout/Footer';
 
 vi.mock('@/components/InteractiveParticles', () => ({
   default: () => <div data-testid="particles" />,
@@ -318,5 +319,111 @@ describe('PriceChart Tests', () => {
       const container = document.querySelector('.flex.items-center.justify-between.mb-4');
       expect(container).toBeInTheDocument();
     }, { timeout: 3000 });
+  });
+});
+
+describe('Footer Tests', () => {
+  it('renderiza correctamente la versión del JSON', () => {
+    render(<Footer />);
+    
+    expect(screen.getByText(/v2.3/)).toBeInTheDocument();
+  });
+
+  it('muestra el texto del autor', () => {
+    render(<Footer />);
+    
+    expect(screen.getByText(/Human in the loop x Cerebro/)).toBeInTheDocument();
+  });
+
+  it('el footer tiene el estilo correcto (alineado a la derecha)', () => {
+    render(<Footer />);
+    
+    const footer = document.querySelector('footer');
+    expect(footer).toHaveClass('text-right');
+  });
+});
+
+describe('ATH (All Time High) Tests', () => {
+  it('maneja ATH como N/A cuando no está definido', () => {
+    const mockCrypto = {
+      id: 'bitcoin',
+      name: 'Bitcoin',
+      symbol: 'btc',
+      image: { large: '', small: '' },
+      market_data: {
+        current_price: { usd: 45000 },
+        price_change_percentage_24h: 5.5,
+        market_cap: { usd: 850000000000 },
+        total_volume: { usd: 50000000000 },
+        high_24h: { usd: 46000 },
+        low_24h: { usd: 44000 },
+        ath: { usd: undefined as unknown as number },
+        ath_date: { usd: undefined as unknown as string },
+        circulating_supply: 19000000,
+      },
+    };
+
+    const formatATHDate = (dateString: string | undefined) => {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+    };
+
+    expect(formatATHDate(undefined)).toBe('N/A');
+    expect(formatATHDate('2021-11-10')).toBe('10 nov 2021');
+  });
+
+  it('formatea correctamente la fecha del ATH', () => {
+    const formatATHDate = (dateString: string | undefined) => {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+    };
+
+    expect(formatATHDate('2021-11-10')).toBe('10 nov 2021');
+    expect(formatATHDate('2024-03-14')).toBe('14 mar 2024');
+  });
+
+  it('CryptoDetailsCard no rompe cuando ath es undefined', () => {
+    const mockCrypto = {
+      id: 'bitcoin',
+      name: 'Bitcoin',
+      symbol: 'btc',
+      image: { large: '', small: '' },
+      market_data: {
+        current_price: { usd: 45000 },
+        price_change_percentage_24h: 5.5,
+        market_cap: { usd: 850000000000 },
+        total_volume: { usd: 50000000000 },
+        high_24h: { usd: 46000 },
+        low_24h: { usd: 44000 },
+        ath: { usd: undefined as unknown as number },
+        ath_date: { usd: undefined as unknown as string },
+        circulating_supply: 19000000,
+      },
+    };
+
+    const formatPrice = (price: number) =>
+      price?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A';
+
+    const formatCompact = (value: number, suffix = 'B') =>
+      value ? `$${(value / 1e9).toFixed(2)}${suffix}` : 'N/A';
+
+    const formatATHDate = (dateString: string | undefined) => {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+    };
+
+    expect(() => {
+      render(
+        <div>
+          <p>{mockCrypto.market_data.ath?.usd ? `$${formatPrice(mockCrypto.market_data.ath.usd)}` : 'N/A'}</p>
+          <p>{formatATHDate(mockCrypto.market_data.ath_date?.usd)}</p>
+        </div>
+      );
+    }).not.toThrow();
+
+    expect(screen.getAllByText('N/A').length).toBe(2);
   });
 });

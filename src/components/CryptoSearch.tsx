@@ -4,6 +4,10 @@ import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
 
 interface CryptoDetails {
   id: string;
@@ -18,6 +22,7 @@ interface CryptoDetails {
     high_24h: { usd: number };
     low_24h: { usd: number };
     ath: { usd: number };
+    ath_date: { usd: string };
     circulating_supply: number;
   };
 }
@@ -34,7 +39,7 @@ interface CryptoSearchProps {
 }
 
 const SkeletonCard = () => (
-  <Card className="mt-4">
+  <Card className="mt-4 bg-zinc-900 border-zinc-800">
     <CardContent className="pt-6">
       <div className="flex items-center gap-3 mb-4">
         <Skeleton className="w-8 h-8 rounded-full" />
@@ -67,7 +72,7 @@ const StatCard = ({ label, value }: { label: string; value: string }) => (
 );
 
 const EmptyState = ({ lang }: { lang: 'es' | 'en' }) => (
-  <div className="mt-4 p-8 bg-zinc-900/40 border border-white/5 rounded-xl backdrop-blur-sm">
+  <div className="mt-4 p-8 bg-zinc-900/60 border border-white/5 rounded-xl backdrop-blur-sm">
     <div className="flex flex-col items-center justify-center text-center space-y-3">
       <div className="w-12 h-12 rounded-full bg-zinc-800/50 flex items-center justify-center">
         <svg className="w-6 h-6 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -187,6 +192,12 @@ export default function CryptoSearch({ lang, onSelect }: CryptoSearchProps) {
   const formatCompact = (value: number, suffix = 'B') =>
     value ? `$${(value / 1e9).toFixed(2)}${suffix}` : 'N/A';
 
+  const formatATHDate = (dateString: string | undefined) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+
   if (!isMounted) {
     return (
       <div className="w-full">
@@ -224,6 +235,7 @@ export default function CryptoSearch({ lang, onSelect }: CryptoSearchProps) {
           lang={lang}
           formatPrice={formatPrice}
           formatCompact={formatCompact}
+          formatATHDate={formatATHDate}
         />
       )}
 
@@ -240,20 +252,20 @@ function SearchInput({ value, onChange, onClear, placeholder, showClear }: {
   showClear: boolean;
 }) {
   return (
-    <div className="relative">
-      <input
+    <div className="relative flex gap-2">
+      <Input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-4 py-3 pr-10 bg-zinc-900/80 border border-white/10 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+        className="bg-zinc-900/80 border-white/10 text-white placeholder:text-zinc-500 focus:border-cyan-500/50 focus:ring-cyan-500/50 pr-10"
       />
       {showClear && (
-        <button onClick={onClear} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <Button variant="outline" size="icon" onClick={onClear} className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 border-white/10 text-zinc-500 hover:text-white hover:bg-white/5">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
-        </button>
+        </Button>
       )}
     </div>
   );
@@ -261,9 +273,13 @@ function SearchInput({ value, onChange, onClear, placeholder, showClear }: {
 
 function ErrorMessage({ message }: { message: string }) {
   return (
-    <div className="mt-2 px-3 py-2 bg-amber-500/20 border border-amber-500/30 rounded-lg text-amber-400 text-xs">
-      {message}
-    </div>
+    <Alert variant="destructive" className="mt-2 bg-amber-500/10 border-amber-500/30">
+      <AlertTriangle className="h-4 w-4" />
+      <AlertTitle className="text-amber-400">Warning</AlertTitle>
+      <AlertDescription className="text-amber-400/90">
+        {message}
+      </AlertDescription>
+    </Alert>
   );
 }
 
@@ -284,16 +300,17 @@ function SearchResults({ results, onSelect }: { results: SearchResult[]; onSelec
   );
 }
 
-function CryptoDetailsCard({ crypto, isPositive, priceChange, lang, formatPrice, formatCompact }: {
+function CryptoDetailsCard({ crypto, isPositive, priceChange, lang, formatPrice, formatCompact, formatATHDate }: {
   crypto: CryptoDetails;
   isPositive: boolean;
   priceChange: string;
   lang: 'es' | 'en';
   formatPrice: (p: number) => string;
   formatCompact: (v: number, s?: string) => string;
+  formatATHDate: (d: string | undefined) => string;
 }) {
   return (
-    <Card className="mt-4">
+    <Card className="mt-4 bg-zinc-900 border-zinc-800">
       <CardContent className="pt-6">
         <div className="flex items-center gap-3 mb-4">
           {crypto.image?.small && (
@@ -307,12 +324,12 @@ function CryptoDetailsCard({ crypto, isPositive, priceChange, lang, formatPrice,
 
         <div className="mb-4">
           <p className="text-4xl font-bold text-white">${formatPrice(crypto.market_data?.current_price?.usd)}</p>
-          <div className="flex items-center gap-1 mt-1">
-            <Badge variant={isPositive ? "default" : "destructive"} className={isPositive ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/30" : "bg-rose-500/20 text-rose-400 border-rose-500/30 hover:bg-rose-500/30"}>
+          <div className="flex items-center gap-2 mt-2">
+            <Badge variant="secondary" className={isPositive ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}>
               {isPositive ? <ArrowUpIcon /> : <ArrowDownIcon />}
               {priceChange}%
             </Badge>
-            <span className="text-zinc-500 text-xs ml-1">24h</span>
+            <span className="text-zinc-500 text-xs">24h</span>
           </div>
         </div>
 
@@ -321,6 +338,8 @@ function CryptoDetailsCard({ crypto, isPositive, priceChange, lang, formatPrice,
           <StatCard label={lang === 'es' ? 'Volumen 24h' : 'Volume 24h'} value={formatCompact(crypto.market_data?.total_volume?.usd)} />
           <StatCard label={lang === 'es' ? 'Máximo 24h' : 'High 24h'} value={`$${formatPrice(crypto.market_data?.high_24h?.usd)}`} />
           <StatCard label={lang === 'es' ? 'Mínimo 24h' : 'Low 24h'} value={`$${formatPrice(crypto.market_data?.low_24h?.usd)}`} />
+          <StatCard label={lang === 'es' ? 'Máximo Histórico (ATH)' : 'All Time High (ATH)'} value={crypto.market_data?.ath?.usd ? `$${formatPrice(crypto.market_data.ath.usd)}` : 'N/A'} />
+          <StatCard label={lang === 'es' ? 'Fecha ATH' : 'ATH Date'} value={formatATHDate(crypto.market_data?.ath_date?.usd)} />
         </div>
       </CardContent>
     </Card>
