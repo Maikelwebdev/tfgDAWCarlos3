@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import CryptoSearch from '@/components/CryptoSearch';
 import PriceChart from '@/components/PriceChart';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import Footer from '@/components/layout/Footer';
 
 const InteractiveParticles = dynamic(() => import('@/components/InteractiveParticles'), {
   ssr: false,
@@ -173,7 +174,9 @@ export default function Home() {
             </div>
           </ProtectedRoute>
         </div>
-      </section>
+        </section>
+
+      <Footer />
     </main>
   );
 }
