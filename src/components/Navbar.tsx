@@ -40,7 +40,7 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/5">
       <div className="flex flex-wrap justify-between items-center p-4 md:p-6 max-w-7xl mx-auto gap-4">
-        <div className="text-xl font-black tracking-tighter italic">MIGUEL<span className="text-cyan-400 font-bold">.DEV</span></div>
+        <div className="text-xl font-black tracking-tighter italic">MIGUEL<span className="text-cyan-400 font-bold">DEVELOPER</span></div>
         <div className="flex items-center gap-2 md:gap-4">
           <a href="#services" className="px-3 md:px-4 py-2 text-sm text-zinc-400 hover:text-white transition-colors">
             {t.navServices}
