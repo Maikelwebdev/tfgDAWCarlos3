@@ -95,6 +95,7 @@ export default function Home() {
       </section>
 
       <section id="services" className="relative z-10 max-w-7xl mx-auto px-8 py-24">
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/10 via-transparent to-emerald-950/10 pointer-events-none" />
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -133,6 +134,7 @@ export default function Home() {
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.1),transparent_50%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.02)_1px,transparent_1px)] bg-[size:30px_30px]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-purple-500/5 to-emerald-500/5 pointer-events-none" />
             
             <div className="relative z-10 text-center">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono mb-6">
