@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import CryptoSearch from '@/components/CryptoSearch';
 import PriceChart from '@/components/PriceChart';
 import Footer from '@/components/layout/Footer';
+import Laboratory from '@/components/Laboratory';
 
 const InteractiveParticles = dynamic(() => import('@/components/InteractiveParticles'), {
   ssr: false,
@@ -146,6 +147,10 @@ export default function Home() {
                 <span>🚀</span>
                 {t.launchButton}
               </button>
+              
+              <div className="mt-12">
+                <Laboratory />
+              </div>
             </div>
           </motion.div>
         </div>
