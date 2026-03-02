@@ -7,6 +7,7 @@ import PriceChart from '@/components/PriceChart';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import InteractiveParticles from '@/components/InteractiveParticles';
 import Footer from '@/components/layout/Footer';
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 
 vi.mock('@/components/InteractiveParticles', () => ({
   default: () => <div data-testid="particles" />,
@@ -326,7 +327,7 @@ describe('Footer Tests', () => {
   it('renderiza correctamente la versión del JSON', () => {
     render(<Footer />);
     
-    expect(screen.getByText(/V 2.3/)).toBeInTheDocument();
+    expect(screen.getByText(/V 2.4/)).toBeInTheDocument();
   });
 
   it('muestra el texto del autor', () => {
@@ -425,5 +426,25 @@ describe('ATH (All Time High) Tests', () => {
     }).not.toThrow();
 
     expect(screen.getAllByText('N/A').length).toBe(2);
+  });
+
+  it('muestra el tooltip de ATH con la descripción correcta', () => {
+    render(
+      <TooltipProvider>
+        <div>
+          <p>All Time High (ATH)</p>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button>Info</button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-zinc-900 border-zinc-800">
+              <p>Highest price ever reached. Indicates the previous market ceiling.</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
+    );
+
+    expect(screen.getByText('Info')).toBeInTheDocument();
   });
 });
