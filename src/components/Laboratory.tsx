@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface ApiHealthData {
   status: 'checking' | 'operational' | 'error';
@@ -12,8 +13,8 @@ interface ApiHealthData {
 
 export default function Laboratory() {
   const [apiHealth, setApiHealth] = useState<ApiHealthData>({ status: 'checking', latency: null });
-  const [btcAmount, setBtcAmount] = useState<string>('');
-  const [satoshis, setSatoshis] = useState<string>('');
+  const [btc, setBtc] = useState<number>(0);
+  const [satoshis, setSatoshis] = useState<number>(0);
 
   useEffect(() => {
     const checkApiHealth = async () => {
@@ -41,23 +42,14 @@ export default function Laboratory() {
   }, []);
 
   const handleBtcChange = (value: string) => {
-    setBtcAmount(value);
-    const btc = parseFloat(value);
-    if (!isNaN(btc) && btc >= 0) {
-      setSatoshis((btc * 100000000).toLocaleString('en-US', { maximumFractionDigits: 0 }));
-    } else {
-      setSatoshis('');
-    }
+    const numBtc = parseFloat(value) || 0;
+    setBtc(numBtc);
+    setSatoshis(numBtc * 100000000);
   };
 
-  const handleSatoshisChange = (value: string) => {
-    setSatoshis(value);
-    const sat = parseFloat(value.replace(/,/g, ''));
-    if (!isNaN(sat) && sat >= 0) {
-      setBtcAmount((sat / 100000000).toFixed(8));
-    } else {
-      setBtcAmount('');
-    }
+  const handleClear = () => {
+    setBtc(0);
+    setSatoshis(0);
   };
 
   return (
@@ -128,13 +120,14 @@ export default function Laboratory() {
         <CardContent className="space-y-4">
           <div>
             <label className="text-zinc-500 text-xs mb-1 block">Bitcoin (BTC)</label>
-            <input
-              type="text"
-              inputMode="decimal"
-              value={btcAmount}
+            <Input
+              type="number"
+              step="0.00000001"
+              min="0"
+              value={btc || ''}
               onChange={(e) => handleBtcChange(e.target.value)}
               placeholder="0.00000000"
-              className="w-full bg-zinc-800/50 border border-zinc-700 rounded-md px-3 py-2 text-white font-mono focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="bg-zinc-800/50 border-zinc-700 text-white font-mono"
             />
           </div>
           <div className="flex justify-center">
@@ -146,19 +139,22 @@ export default function Laboratory() {
           </div>
           <div>
             <label className="text-zinc-500 text-xs mb-1 block">Satoshis (SAT)</label>
-            <input
+            <Input
               type="text"
-              inputMode="numeric"
-              value={satoshis}
-              onChange={(e) => handleSatoshisChange(e.target.value)}
+              readOnly
+              value={satoshis ? satoshis.toLocaleString('en-US') : '0'}
               placeholder="0"
-              className="w-full bg-zinc-800/50 border border-zinc-700 rounded-md px-3 py-2 text-white font-mono focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="bg-zinc-800/50 border-zinc-700 text-white font-mono cursor-default"
             />
           </div>
-          <div className="pt-2 text-center">
-            <Badge variant="outline" className="border-zinc-700 text-zinc-400">
-              1 BTC = 100,000,000 SAT
-            </Badge>
+          <div className="pt-2 flex justify-center">
+            <Button 
+              variant="outline" 
+              onClick={handleClear}
+              className="border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800"
+            >
+              Limpiar
+            </Button>
           </div>
         </CardContent>
       </Card>
