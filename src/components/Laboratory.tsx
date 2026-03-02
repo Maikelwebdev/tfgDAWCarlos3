@@ -108,14 +108,15 @@ export default function Laboratory() {
             Convierte Bitcoin a Satoshis (1 BTC = 100,000,000 Satoshis)
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
+        <CardContent className="space-y-4" style={{ position: 'relative', zIndex: 9999 }}>
+          <div style={{ position: 'relative', zIndex: 9999 }}>
             <label className="text-zinc-500 text-xs mb-1 block">Bitcoin (BTC)</label>
             <input
               type="number"
               placeholder="0.00000000"
               value={btcValue}
               onChange={(e) => setBtcValue(e.target.value)}
+              style={{ position: 'relative', zIndex: 9999, pointerEvents: 'auto' }}
               className="w-full h-10 px-3 rounded-md bg-zinc-800 border border-zinc-700 text-white font-mono focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
@@ -132,6 +133,7 @@ export default function Laboratory() {
               type="text"
               readOnly
               value={Number(btcValue) * 100000000}
+              style={{ position: 'relative', zIndex: 9999 }}
               className="w-full h-10 px-3 rounded-md bg-zinc-800 border border-zinc-700 text-white font-mono"
             />
           </div>
