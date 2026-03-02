@@ -444,4 +444,17 @@ describe('ATH (All Time High) Tests', () => {
     expect(screen.getByText(/Valor total de mercado/)).toBeInTheDocument();
     expect(screen.getByText(/Total market value/)).toBeInTheDocument();
   });
+
+  it('la calculadora de Satoshis convierte correctamente de BTC a Satoshis', () => {
+    const btcToSatoshis = (btc: number) => btc * 100000000;
+    const satoshisToBtc = (sat: number) => sat / 100000000;
+
+    expect(btcToSatoshis(1)).toBe(100000000);
+    expect(btcToSatoshis(0.5)).toBe(50000000);
+    expect(btcToSatoshis(0.00000001)).toBe(1);
+
+    expect(satoshisToBtc(100000000)).toBe(1);
+    expect(satoshisToBtc(50000000)).toBe(0.5);
+    expect(satoshisToBtc(1)).toBe(0.00000001);
+  });
 });

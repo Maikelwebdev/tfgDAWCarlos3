@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 interface ApiHealthData {
@@ -129,13 +128,13 @@ export default function Laboratory() {
         <CardContent className="space-y-4">
           <div>
             <label className="text-zinc-500 text-xs mb-1 block">Bitcoin (BTC)</label>
-            <Input
+            <input
               type="text"
               inputMode="decimal"
               value={btcAmount}
               onChange={(e) => handleBtcChange(e.target.value)}
               placeholder="0.00000000"
-              className="bg-zinc-800/50 border-zinc-700 text-white font-mono focus-visible:ring-cyan-500"
+              className="w-full bg-zinc-800/50 border border-zinc-700 rounded-md px-3 py-2 text-white font-mono focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <div className="flex justify-center">
@@ -147,13 +146,13 @@ export default function Laboratory() {
           </div>
           <div>
             <label className="text-zinc-500 text-xs mb-1 block">Satoshis (SAT)</label>
-            <Input
+            <input
               type="text"
               inputMode="numeric"
               value={satoshis}
               onChange={(e) => handleSatoshisChange(e.target.value)}
               placeholder="0"
-              className="bg-zinc-800/50 border-zinc-700 text-white font-mono focus-visible:ring-purple-500"
+              className="w-full bg-zinc-800/50 border border-zinc-700 rounded-md px-3 py-2 text-white font-mono focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
           <div className="pt-2 text-center">
