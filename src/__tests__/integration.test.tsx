@@ -327,7 +327,7 @@ describe('Footer Tests', () => {
   it('renderiza correctamente la versión del JSON', () => {
     render(<Footer />);
     
-    expect(screen.getByText(/V 2.4/)).toBeInTheDocument();
+    expect(screen.getByText(/V 3.0/)).toBeInTheDocument();
   });
 
   it('muestra el texto del autor', () => {
