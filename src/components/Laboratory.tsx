@@ -13,6 +13,7 @@ interface ApiHealthData {
 export default function Laboratory() {
   const [apiHealth, setApiHealth] = useState<ApiHealthData>({ status: 'checking', latency: null });
   const [btcValue, setBtcValue] = useState<string>("");
+  const [satValue, setSatValue] = useState<string>("");
 
   useEffect(() => {
     const checkApiHealth = async () => {
@@ -39,8 +40,29 @@ export default function Laboratory() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleBtcChange = (value: string) => {
+    setBtcValue(value);
+    const btc = parseFloat(value);
+    if (!isNaN(btc) && btc >= 0) {
+      setSatValue((btc * 100000000).toString());
+    } else {
+      setSatValue("");
+    }
+  };
+
+  const handleSatChange = (value: string) => {
+    setSatValue(value);
+    const sat = parseFloat(value.replace(/,/g, ''));
+    if (!isNaN(sat) && sat >= 0) {
+      setBtcValue((sat / 100000000).toString());
+    } else {
+      setBtcValue("");
+    }
+  };
+
   const handleClear = () => {
     setBtcValue("");
+    setSatValue("");
   };
 
   return (
@@ -115,7 +137,7 @@ export default function Laboratory() {
               type="number"
               placeholder="0.00000000"
               value={btcValue}
-              onChange={(e) => setBtcValue(e.target.value)}
+              onChange={(e) => handleBtcChange(e.target.value)}
               style={{ position: 'relative', zIndex: 9999, pointerEvents: 'auto' }}
               className="w-full h-10 px-3 rounded-md bg-zinc-800 border border-zinc-700 text-white font-mono focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
@@ -130,11 +152,12 @@ export default function Laboratory() {
           <div>
             <label className="text-zinc-500 text-xs mb-1 block">Satoshis (SAT)</label>
             <input
-              type="text"
-              readOnly
-              value={Number(btcValue) * 100000000}
-              style={{ position: 'relative', zIndex: 9999 }}
-              className="w-full h-10 px-3 rounded-md bg-zinc-800 border border-zinc-700 text-white font-mono"
+              type="number"
+              placeholder="0"
+              value={satValue}
+              onChange={(e) => handleSatChange(e.target.value)}
+              style={{ position: 'relative', zIndex: 9999, pointerEvents: 'auto' }}
+              className="w-full h-10 px-3 rounded-md bg-zinc-800 border border-zinc-700 text-white font-mono focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
           <div className="pt-2 flex justify-center">
