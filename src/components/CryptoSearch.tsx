@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -346,7 +347,13 @@ function CryptoDetailsCard({ crypto, isPositive, priceChange, lang, formatPrice,
       <CardContent className="pt-6">
         <div className="flex items-center gap-3 mb-4">
           {crypto.image?.small && (
-            <img src={crypto.image.small} alt={crypto.name} className="w-8 h-8 rounded-full" />
+            <Image 
+              src={crypto.image.small} 
+              alt={crypto.name} 
+              width={32} 
+              height={32}
+              className="w-8 h-8 rounded-full" 
+            />
           )}
           <div>
             <h3 className="text-white font-bold">{crypto.name}</h3>

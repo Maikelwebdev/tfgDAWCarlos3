@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSession, signIn } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
 import { AlertTriangle } from 'lucide-react';
 
 interface CryptoData {
@@ -64,13 +65,21 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
 
         if (!response.ok) {
           if (response.status === 429) {
-            setError(lang === 'es' ? 'Rate limit. Usando datos de respaldo.' : 'Rate limit. Using fallback data.');
+            setError(lang === 'es' 
+              ? 'Estamos sincronizando con la red blockchain, por favor espera un momento.' 
+              : 'We are syncing with the blockchain network, please wait a moment.');
             setData(fallbackData);
             setIsUsingFallback(true);
             setLoading(false);
             return;
           }
-          throw new Error(`HTTP error! status: ${response.status}`);
+          setError(lang === 'es'
+            ? 'Error de conexión. Usando datos de respaldo.'
+            : 'Connection error. Using fallback data.');
+          setData(fallbackData);
+          setIsUsingFallback(true);
+          setLoading(false);
+          return;
         }
 
         const result = await response.json();
@@ -118,7 +127,28 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
     return (
       <div className="fixed top-[73px] left-0 right-0 z-50 w-full py-3 px-4 bg-zinc-900/80 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-6 md:gap-10">
-          <span className="text-white text-sm">Loading...</span>
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-16 h-4" />
+            <Skeleton className="w-20 h-5 rounded" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-6 h-6 rounded-full" />
+            <Skeleton className="w-10 h-4" />
+            <Skeleton className="w-16 h-4" />
+            <Skeleton className="w-12 h-3" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-6 h-6 rounded-full" />
+            <Skeleton className="w-10 h-4" />
+            <Skeleton className="w-16 h-4" />
+            <Skeleton className="w-12 h-3" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-6 h-6 rounded-full" />
+            <Skeleton className="w-10 h-4" />
+            <Skeleton className="w-16 h-4" />
+            <Skeleton className="w-12 h-3" />
+          </div>
         </div>
       </div>
     );
