@@ -13,8 +13,7 @@ interface ApiHealthData {
 
 export default function Laboratory() {
   const [apiHealth, setApiHealth] = useState<ApiHealthData>({ status: 'checking', latency: null });
-  const [btc, setBtc] = useState<number>(0);
-  const [satoshis, setSatoshis] = useState<number>(0);
+  const [btcValue, setBtcValue] = useState<string>("");
 
   useEffect(() => {
     const checkApiHealth = async () => {
@@ -41,15 +40,8 @@ export default function Laboratory() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleBtcChange = (value: string) => {
-    const numBtc = parseFloat(value) || 0;
-    setBtc(numBtc);
-    setSatoshis(numBtc * 100000000);
-  };
-
   const handleClear = () => {
-    setBtc(0);
-    setSatoshis(0);
+    setBtcValue("");
   };
 
   return (
@@ -122,11 +114,9 @@ export default function Laboratory() {
             <label className="text-zinc-500 text-xs mb-1 block">Bitcoin (BTC)</label>
             <Input
               type="number"
-              step="0.00000001"
-              min="0"
-              value={btc || ''}
-              onChange={(e) => handleBtcChange(e.target.value)}
               placeholder="0.00000000"
+              value={btcValue}
+              onChange={(e) => setBtcValue(e.target.value)}
               className="bg-zinc-800/50 border-zinc-700 text-white font-mono"
             />
           </div>
@@ -142,9 +132,8 @@ export default function Laboratory() {
             <Input
               type="text"
               readOnly
-              value={satoshis ? satoshis.toLocaleString('en-US') : '0'}
-              placeholder="0"
-              className="bg-zinc-800/50 border-zinc-700 text-white font-mono cursor-default"
+              value={Number(btcValue) * 100000000}
+              className="bg-zinc-800/50 border-zinc-700 text-white font-mono"
             />
           </div>
           <div className="pt-2 flex justify-center">
