@@ -130,13 +130,12 @@ export default function Laboratory() {
           <div>
             <label className="text-zinc-500 text-xs mb-1 block">Bitcoin (BTC)</label>
             <Input
-              type="number"
-              step="0.00000001"
-              min="0"
+              type="text"
+              inputMode="decimal"
               value={btcAmount}
               onChange={(e) => handleBtcChange(e.target.value)}
               placeholder="0.00000000"
-              className="bg-zinc-800/50 border-zinc-700 text-white font-mono"
+              className="bg-zinc-800/50 border-zinc-700 text-white font-mono focus-visible:ring-cyan-500"
             />
           </div>
           <div className="flex justify-center">
@@ -150,10 +149,11 @@ export default function Laboratory() {
             <label className="text-zinc-500 text-xs mb-1 block">Satoshis (SAT)</label>
             <Input
               type="text"
+              inputMode="numeric"
               value={satoshis}
               onChange={(e) => handleSatoshisChange(e.target.value)}
               placeholder="0"
-              className="bg-zinc-800/50 border-zinc-700 text-white font-mono"
+              className="bg-zinc-800/50 border-zinc-700 text-white font-mono focus-visible:ring-purple-500"
             />
           </div>
           <div className="pt-2 text-center">
