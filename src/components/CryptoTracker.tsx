@@ -65,6 +65,10 @@ export default function CryptoTracker({ lang }: CryptoTrackerProps) {
         if (!response.ok) {
           if (response.status === 429) {
             setError(lang === 'es' ? 'Rate limit. Usando datos de respaldo.' : 'Rate limit. Using fallback data.');
+            setData(fallbackData);
+            setIsUsingFallback(true);
+            setLoading(false);
+            return;
           }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
