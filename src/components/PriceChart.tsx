@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface PriceChartProps {
   cryptoId: string;
@@ -33,7 +34,7 @@ export default function PriceChart({ cryptoId, lang }: PriceChartProps) {
       
       try {
         const response = await fetch(
-          `https://api.coingecko.com/api/v3/coins/${cryptoId}/market_chart?vs_currency=usd&days=7&interval=daily`
+          `/api/crypto?endpoint=coins/${cryptoId}/market_chart&vs_currency=usd&days=7&interval=daily`
         );
 
         if (!response.ok) {
@@ -131,7 +132,10 @@ export default function PriceChart({ cryptoId, lang }: PriceChartProps) {
       </div>
       
       {loading ? (
-        <div className="h-64 bg-zinc-800/50 rounded-lg animate-pulse" />
+        <div className="h-64 rounded-lg space-y-3">
+          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-full w-full" />
+        </div>
       ) : (
         <div className="h-64" data-testid="crypto-price-chart">
           <ResponsiveContainer width="100%" height="100%">

@@ -114,7 +114,7 @@ export default function CryptoSearch({ lang, onSelect }: CryptoSearchProps) {
     const searchCryptos = async () => {
       try {
         const response = await fetch(
-          `https://api.coingecko.com/api/v3/search?query=${searchTerm}`,
+          `/api/crypto?endpoint=search&query=${searchTerm}`,
           { signal: abortControllerRef.current?.signal }
         );
 
@@ -148,7 +148,7 @@ export default function CryptoSearch({ lang, onSelect }: CryptoSearchProps) {
     setError(null);
     try {
       const response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${cryptoId}?localization=false&tickers=false&community_data=false&developer_data=false`
+        `/api/crypto?endpoint=coins/${cryptoId}&localization=false&tickers=false&community_data=false&developer_data=false`
       );
 
       if (!response.ok) {
