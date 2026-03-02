@@ -1,6 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface CryptoDetails {
   id: string;
@@ -31,27 +34,29 @@ interface CryptoSearchProps {
 }
 
 const SkeletonCard = () => (
-  <div className="mt-4 p-4 bg-zinc-900/60 border border-white/10 rounded-xl backdrop-blur-sm">
-    <div className="flex items-center gap-3 mb-4">
-      <div className="w-8 h-8 rounded-full bg-zinc-800 animate-pulse" />
-      <div className="space-y-2">
-        <div className="w-24 h-4 bg-zinc-800 rounded animate-pulse" />
-        <div className="w-12 h-3 bg-zinc-800/50 rounded animate-pulse" />
-      </div>
-    </div>
-    <div className="mb-4 space-y-2">
-      <div className="w-40 h-10 bg-zinc-800 rounded animate-pulse" />
-      <div className="w-20 h-4 bg-zinc-800/50 rounded animate-pulse" />
-    </div>
-    <div className="grid grid-cols-2 gap-4">
-      {[1, 2, 3, 4].map((i) => (
-        <div key={i} className="p-3 rounded-lg bg-zinc-800/30 space-y-2">
-          <div className="w-16 h-3 bg-zinc-800/50 rounded animate-pulse" />
-          <div className="w-24 h-4 bg-zinc-800 rounded animate-pulse" />
+  <Card className="mt-4">
+    <CardContent className="pt-6">
+      <div className="flex items-center gap-3 mb-4">
+        <Skeleton className="w-8 h-8 rounded-full" />
+        <div className="space-y-2">
+          <Skeleton className="w-24 h-4" />
+          <Skeleton className="w-12 h-3" />
         </div>
-      ))}
-    </div>
-  </div>
+      </div>
+      <div className="mb-4 space-y-2">
+        <Skeleton className="w-40 h-10" />
+        <Skeleton className="w-20 h-4" />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="p-3 rounded-lg bg-zinc-800/30 space-y-2">
+            <Skeleton className="w-16 h-3" />
+            <Skeleton className="w-24 h-4" />
+          </div>
+        ))}
+      </div>
+    </CardContent>
+  </Card>
 );
 
 const StatCard = ({ label, value }: { label: string; value: string }) => (
@@ -185,7 +190,7 @@ export default function CryptoSearch({ lang, onSelect }: CryptoSearchProps) {
   if (!isMounted) {
     return (
       <div className="w-full">
-        <div className="h-10 bg-zinc-800/50 rounded-lg animate-pulse" />
+        <Skeleton className="h-10 w-full" />
       </div>
     );
   }
@@ -288,33 +293,37 @@ function CryptoDetailsCard({ crypto, isPositive, priceChange, lang, formatPrice,
   formatCompact: (v: number, s?: string) => string;
 }) {
   return (
-    <div className="mt-4 p-4 bg-zinc-900/60 border border-white/10 rounded-xl backdrop-blur-sm animate-fade-in">
-      <div className="flex items-center gap-3 mb-4">
-        {crypto.image?.small && (
-          <img src={crypto.image.small} alt={crypto.name} className="w-8 h-8 rounded-full" />
-        )}
-        <div>
-          <h3 className="text-white font-bold">{crypto.name}</h3>
-          <span className="text-zinc-400 text-sm uppercase">{crypto.symbol}</span>
+    <Card className="mt-4">
+      <CardContent className="pt-6">
+        <div className="flex items-center gap-3 mb-4">
+          {crypto.image?.small && (
+            <img src={crypto.image.small} alt={crypto.name} className="w-8 h-8 rounded-full" />
+          )}
+          <div>
+            <h3 className="text-white font-bold">{crypto.name}</h3>
+            <span className="text-zinc-400 text-sm uppercase">{crypto.symbol}</span>
+          </div>
         </div>
-      </div>
 
-      <div className="mb-4">
-        <p className="text-4xl font-bold text-white">${formatPrice(crypto.market_data?.current_price?.usd)}</p>
-        <span className={`inline-flex items-center gap-1 text-sm font-medium mt-1 ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
-          {isPositive ? <ArrowUpIcon /> : <ArrowDownIcon />}
-          {priceChange}%
-          <span className="text-zinc-500 text-xs ml-1">24h</span>
-        </span>
-      </div>
+        <div className="mb-4">
+          <p className="text-4xl font-bold text-white">${formatPrice(crypto.market_data?.current_price?.usd)}</p>
+          <div className="flex items-center gap-1 mt-1">
+            <Badge variant={isPositive ? "default" : "destructive"} className={isPositive ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/30" : "bg-rose-500/20 text-rose-400 border-rose-500/30 hover:bg-rose-500/30"}>
+              {isPositive ? <ArrowUpIcon /> : <ArrowDownIcon />}
+              {priceChange}%
+            </Badge>
+            <span className="text-zinc-500 text-xs ml-1">24h</span>
+          </div>
+        </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <StatCard label={lang === 'es' ? 'Market Cap' : 'Market Cap'} value={formatCompact(crypto.market_data?.market_cap?.usd)} />
-        <StatCard label={lang === 'es' ? 'Volumen 24h' : 'Volume 24h'} value={formatCompact(crypto.market_data?.total_volume?.usd)} />
-        <StatCard label={lang === 'es' ? 'Máximo 24h' : 'High 24h'} value={`$${formatPrice(crypto.market_data?.high_24h?.usd)}`} />
-        <StatCard label={lang === 'es' ? 'Mínimo 24h' : 'Low 24h'} value={`$${formatPrice(crypto.market_data?.low_24h?.usd)}`} />
-      </div>
-    </div>
+        <div className="grid grid-cols-2 gap-4">
+          <StatCard label={lang === 'es' ? 'Market Cap' : 'Market Cap'} value={formatCompact(crypto.market_data?.market_cap?.usd)} />
+          <StatCard label={lang === 'es' ? 'Volumen 24h' : 'Volume 24h'} value={formatCompact(crypto.market_data?.total_volume?.usd)} />
+          <StatCard label={lang === 'es' ? 'Máximo 24h' : 'High 24h'} value={`$${formatPrice(crypto.market_data?.high_24h?.usd)}`} />
+          <StatCard label={lang === 'es' ? 'Mínimo 24h' : 'Low 24h'} value={`$${formatPrice(crypto.market_data?.low_24h?.usd)}`} />
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
