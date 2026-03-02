@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 
 interface ApiHealthData {
   status: 'checking' | 'operational' | 'error';
@@ -112,12 +111,12 @@ export default function Laboratory() {
         <CardContent className="space-y-4">
           <div>
             <label className="text-zinc-500 text-xs mb-1 block">Bitcoin (BTC)</label>
-            <Input
+            <input
               type="number"
               placeholder="0.00000000"
               value={btcValue}
               onChange={(e) => setBtcValue(e.target.value)}
-              className="bg-zinc-800/50 border-zinc-700 text-white font-mono"
+              className="w-full h-10 px-3 rounded-md bg-zinc-800 border border-zinc-700 text-white font-mono focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <div className="flex justify-center">
@@ -129,11 +128,11 @@ export default function Laboratory() {
           </div>
           <div>
             <label className="text-zinc-500 text-xs mb-1 block">Satoshis (SAT)</label>
-            <Input
+            <input
               type="text"
               readOnly
               value={Number(btcValue) * 100000000}
-              className="bg-zinc-800/50 border-zinc-700 text-white font-mono"
+              className="w-full h-10 px-3 rounded-md bg-zinc-800 border border-zinc-700 text-white font-mono"
             />
           </div>
           <div className="pt-2 flex justify-center">
